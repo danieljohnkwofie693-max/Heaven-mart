@@ -6,6 +6,7 @@ let supabaseClient = null;
 let products = [];
 
 document.addEventListener("DOMContentLoaded", initializeStore);
+console.log("Heaven's Mart app.js loaded");
 
 function initializeStore() {
   if (!config || !config.url || !config.anonKey) {
