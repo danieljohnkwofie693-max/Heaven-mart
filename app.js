@@ -594,9 +594,7 @@ async function loadMyProducts() {
 /* =========================================
    DISPLAY PRODUCTS
 ========================================= */
-
-function renderProducts(list) {
-  const container = document.getElementById("products-grid");
+const container = document.getElementById("product-grid");
 
   if (!container) {
     return;
