@@ -46,3 +46,74 @@ footer{display:flex;align-items:center;justify-content:space-between;gap:20px;pa
 #seller-workspace hr{border:0;border-top:1px solid var(--line);margin:22px 0}
 #admin-moderation[hidden],#seller-workspace[hidden],#seller-auth[hidden],#seller-display-name-wrap[hidden]{display:none!important}
 .form-message.error{color:#9c3028}
+/* Heaven's Mart — Mobile and Design Improvements */
+
+button,
+.button,
+.contact-product {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #f3a45e;
+  outline-offset: 3px;
+}
+
+.product-card img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.product-card img:not([src]),
+.product-card img[src=""] {
+  display: none;
+}
+
+.product-card {
+  min-width: 0;
+}
+
+.product-info {
+  overflow-wrap: anywhere;
+}
+
+.contact-product {
+  min-height: 42px;
+}
+
+@media (max-width: 560px) {
+  .product-card img {
+    height: 140px;
+  }
+
+  .hero-actions {
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .floating-card {
+    min-width: 145px;
+    padding: 9px;
+  }
+
+  .admin-dialog {
+    width: 96vw;
+    max-height: 90vh;
+    padding: 18px;
+  }
+
+  .my-product-row {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .my-product-row button {
+    min-height: 40px;
+  }
+}
