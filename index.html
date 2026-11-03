@@ -2,1105 +2,1115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Heaven's Mart | Ghana Marketplace</title>
-
-<style>
-:root {
-  --navy: #09264A;
-  --blue: #145DA0;
-  --gold: #F4C542;
-  --white: #FFFFFF;
-  --background: #F4F6FA;
-  --text: #263238;
-  --border: #E1E6ED;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background: var(--background);
-  color: var(--text);
-}
-
-button, input, select, textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-/* LOGIN SCREEN */
-
-.login-screen {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  background: linear-gradient(135deg, #071D3B, #145DA0);
-}
-
-.login-card {
-  background: white;
-  width: 100%;
-  max-width: 420px;
-  padding: 35px 28px;
-  border-radius: 16px;
-  box-shadow: 0 12px 35px rgba(0,0,0,.2);
-}
-
-.login-logo {
-  text-align: center;
-  margin-bottom: 28px;
-}
-
-.logo-symbol {
-  width: 70px;
-  height: 70px;
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--navy);
-  color: var(--gold);
-  border-radius: 16px;
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.login-logo h1 {
-  color: var(--navy);
-  font-size: 22px;
-}
-
-.login-logo p {
-  color: #A17C16;
-  margin-top: 7px;
-  font-size: 13px;
-}
-
-.login-card h2 {
-  text-align: center;
-  color: var(--navy);
-  margin-bottom: 8px;
-}
-
-.login-description {
-  text-align: center;
-  color: #777;
-  font-size: 14px;
-  margin-bottom: 22px;
-}
-
-.login-card label {
-  display: block;
-  margin: 14px 0 7px;
-  color: var(--navy);
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.login-card input {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  outline: none;
-}
-
-.login-card input:focus {
-  border-color: var(--blue);
-}
-
-.login-submit {
-  width: 100%;
-  padding: 14px;
-  margin-top: 22px;
-  background: var(--gold);
-  color: var(--navy);
-  border: none;
-  border-radius: 7px;
-  font-weight: bold;
-}
-
-.login-submit:hover {
-  background: #E5B52F;
-}
-
-.login-submit:disabled {
-  opacity: .6;
-  cursor: not-allowed;
-}
-
-#customer-auth-message {
-  margin-top: 15px;
-  text-align: center;
-  font-size: 13px;
-  overflow-wrap: anywhere;
-}
-
-#forgot-password,
-#switch-auth-mode {
-  border: none;
-  background: none;
-  color: var(--blue);
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-#forgot-password {
-  display: block;
-  margin-left: auto;
-}
-
-.register-text {
-  text-align: center;
-  margin-top: 22px;
-  font-size: 14px;
-}
-
-/* TOP NAVIGATION */
-
-.top-nav {
-  background: var(--navy);
-  padding: 15px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.logo {
-  color: var(--gold);
-  font-size: 22px;
-  font-weight: bold;
-  white-space: nowrap;
-}
-
-.hamburger {
-  background: none;
-  border: none;
-  color: var(--gold);
-  font-size: 28px;
-}
-
-.search {
-  display: flex;
-  flex: 1;
-  max-width: 600px;
-}
-
-.search input {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 5px 0 0 5px;
-  outline: none;
-}
-
-.search button {
-  padding: 12px 20px;
-  background: var(--gold);
-  color: var(--navy);
-  border: none;
-  border-radius: 0 5px 5px 0;
-  font-weight: bold;
-}
-
-/* NAVIGATION */
-
-.second-nav,
-.third-nav {
-  padding: 14px 5%;
-  display: flex;
-  justify-content: center;
-  gap: 35px;
-  white-space: nowrap;
-}
-
-.second-nav {
-  background: white;
-  border-bottom: 1px solid var(--border);
-}
-
-.third-nav {
-  background: #EAF0F7;
-  gap: 40px;
-}
-
-.second-nav a,
-.third-nav a {
-  text-decoration: none;
-  color: var(--navy);
-  font-size: 14px;
-  font-weight: bold;
-}
-
-/* HAMBURGER MENU */
-
-#main-nav {
-  position: fixed;
-  top: 0;
-  left: -300px;
-  width: 280px;
-  height: 100%;
-  background: white;
-  z-index: 1001;
-  padding: 25px;
-  overflow-y: auto;
-  transition: .3s;
-  box-shadow: 3px 0 15px rgba(0,0,0,.1);
-}
-
-#main-nav.open {
-  left: 0;
-}
-
-#main-nav h3 {
-  color: var(--navy);
-  margin-bottom: 25px;
-}
-
-#main-nav a {
-  display: block;
-  padding: 15px 5px;
-  text-decoration: none;
-  color: var(--navy);
-  border-bottom: 1px solid var(--border);
-}
-
-.menu-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 1000;
-}
-
-/* MAIN CONTENT */
-
-.container {
-  width: 90%;
-  max-width: 1200px;
-  margin: 25px auto;
-}
-
-.hero {
-  background: linear-gradient(120deg, var(--navy), var(--blue));
-  color: white;
-  padding: 55px 35px;
-  border-radius: 10px;
-  margin-bottom: 30px;
-}
-
-.hero h1 {
-  color: var(--gold);
-  font-size: 34px;
-  margin-bottom: 12px;
-}
-
-.hero p {
-  line-height: 1.7;
-  margin-bottom: 20px;
-}
-
-.hero button {
-  background: var(--gold);
-  color: var(--navy);
-  border: none;
-  padding: 13px 25px;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-/* CATEGORIES */
-
-.section-title {
-  color: var(--navy);
-  margin-bottom: 18px;
-}
-
-.categories {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  margin-bottom: 35px;
-}
-
-.category {
-  background: white;
-  padding: 25px 15px;
-  text-align: center;
-  border-radius: 8px;
-  border-bottom: 3px solid var(--gold);
-  font-weight: bold;
-}
-
-/* PRODUCT FILTERS */
-
-.product-filters {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.product-filters input,
-.product-filters select {
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: white;
-  min-width: 0;
-}
-
-.product-filters input {
-  flex: 1;
-}
-
-/* PRODUCTS */
-
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
-}
-
-.product-card {
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  transition: .2s;
-}
-
-.product-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,.08);
-}
-
-.product-image {
-  height: 160px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.product-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.product-placeholder {
-  font-size: 55px;
-}
-
-.product-category {
-  color: var(--blue);
-  font-size: 12px;
-}
-
-.product-card h3 {
-  margin: 9px 0;
-  font-size: 15px;
-}
-
-.product-description {
-  font-size: 13px;
-  color: #777;
-  margin-bottom: 10px;
-}
-
-.product-price {
-  display: block;
-  color: var(--navy);
-  margin: 12px 0;
-  font-size: 17px;
-}
-
-.button {
-  border: none;
-  padding: 11px 13px;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.button-primary {
-  background: var(--gold);
-  color: var(--navy);
-}
-
-.button-secondary {
-  background: var(--blue);
-  color: white;
-}
-
-.button-danger {
-  background: #C0392B;
-  color: white;
-}
-
-.whatsapp-order {
-  width: 100%;
-}
-
-/* SELLER DASHBOARD */
-
-.dashboard {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  margin-top: 35px;
-}
-
-.dashboard h2,
-.dashboard h3 {
-  color: var(--navy);
-  margin-bottom: 15px;
-}
-
-.dashboard input,
-.dashboard select,
-.dashboard textarea {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin: 10px 0;
-}
-
-.dashboard button {
-  margin: 8px 5px 8px 0;
-}
-
-.seller-product {
-  border: 1px solid var(--border);
-  padding: 15px;
-  border-radius: 7px;
-  margin: 12px 0;
-}
-
-.empty-state {
-  color: #777;
-  padding: 15px;
-}
-
-.message {
-  margin: 10px 0;
-  font-size: 14px;
-}
-
-/* REVIEWS */
-
-.review-section {
-  margin-top: 40px;
-}
-
-.review-form {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 20px;
-}
-
-.review-form input,
-.review-form textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  margin: 10px 0;
-}
-
-.review-stars {
-  color: #E5A900;
-  margin: 8px 0;
-}
-
-.review-card {
-  background: white;
-  padding: 18px;
-  margin-top: 12px;
-  border-radius: 8px;
-}
-
-[data-rating] {
-  background: none;
-  border: none;
-  color: #AAA;
-  font-size: 25px;
-}
-
-[data-rating].selected {
-  color: #E5A900;
-}
-
-/* FOOTER */
-
-footer {
-  background: var(--navy);
-  color: white;
-  padding: 30px 5%;
-  text-align: center;
-  margin-top: 45px;
-  line-height: 1.8;
-}
-
-footer h3 {
-  color: var(--gold);
-}
-
-/* MOBILE RESPONSIVENESS */
-
-@media(max-width: 850px) {
-  .product-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media(max-width: 768px) {
-  .top-nav {
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    font-size: 18px;
-  }
-
-  .search {
-    order: 3;
-    flex-basis: 100%;
-    max-width: none;
-  }
-
-  .second-nav,
-  .third-nav {
-    justify-content: flex-start;
-    overflow-x: auto;
-    gap: 20px;
-    white-space: nowrap;
-  }
-
-  .product-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .hero h1 {
-    font-size: 26px;
-  }
-}
-
-@media(max-width: 420px) {
-  .categories {
-    grid-template-columns: 1fr;
-  }
-
-  .product-filters {
-    flex-direction: column;
-  }
-
-  .login-card {
-    padding: 28px 20px;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Heaven's Mart - Shop smart and live better. Your Ghanaian online marketplace.">
+  <title>Heaven's Mart | Shop Smart. Live Better.</title>
+
+  <style>
+    :root {
+      --navy: #09264A;
+      --blue: #145DA0;
+      --gold: #F4C542;
+      --white: #FFFFFF;
+      --background: #F4F6FA;
+      --text: #263445;
+      --muted: #687789;
+      --border: #E0E5EC;
+      --green: #176B50;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button, a {
+      cursor: pointer;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* ANNOUNCEMENT */
+
+    .announcement {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 9px;
+      font-size: 13px;
+    }
+
+    /* HEADER AND LOGO */
+
+    header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+    }
+
+    .logo-symbol {
+      width: 52px;
+      height: 52px;
+      background: var(--navy);
+      color: var(--gold);
+      border: 3px solid var(--gold);
+      border-radius: 14px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      font-weight: 900;
+      box-shadow: 0 3px 8px rgba(9, 38, 74, 0.18);
+    }
+
+    .logo-name {
+      color: var(--navy);
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1.2;
+    }
+
+    .logo-slogan {
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 23px;
+    }
+
+    nav a {
+      color: var(--navy);
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    nav a:hover {
+      color: var(--blue);
+    }
+
+    .menu-toggle {
+      display: none;
+      border: none;
+      background: var(--navy);
+      color: white;
+      padding: 9px 13px;
+      border-radius: 6px;
+      font-size: 20px;
+    }
+
+    .menu-overlay {
+      display: none;
+    }
+
+    /* SEARCH */
+
+    .search-section {
+      background: var(--navy);
+      padding: 18px 0;
+    }
+
+    .search-form {
+      display: flex;
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .search-form input {
+      flex: 1;
+      min-width: 0;
+      border: none;
+      outline: none;
+      padding: 14px;
+    }
+
+    .search-form button {
+      border: none;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 0 22px;
+      font-weight: bold;
+    }
+
+    /* HERO */
+
+    .hero {
+      background: linear-gradient(120deg, var(--navy), var(--blue));
+      color: white;
+      padding: 65px 0;
+    }
+
+    .hero-content {
+      max-width: 750px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 50px);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: 17px;
+      max-width: 600px;
+      margin-bottom: 25px;
+    }
+
+    .hero-button {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 13px 25px;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    /* GENERAL SECTIONS */
+
+    section.content-section {
+      padding: 50px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: 29px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* CATEGORY */
+
+    .category-filter {
+      display: block;
+      max-width: 300px;
+      width: 100%;
+      margin: 0 auto 25px;
+      padding: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+    }
+
+    /* PRODUCTS */
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+    }
+
+    .product-card img,
+    .product-placeholder {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      background: #E9EDF3;
+    }
+
+    .product-placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--muted);
+    }
+
+    .product-details {
+      padding: 15px;
+    }
+
+    .product-category {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .product-details h3 {
+      color: var(--navy);
+      margin: 7px 0;
+      font-size: 17px;
+    }
+
+    .product-details p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .product-details strong {
+      display: block;
+      color: var(--green);
+      font-size: 18px;
+      margin-bottom: 13px;
+    }
+
+    .contact-seller,
+    .review-product-button {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      margin-top: 8px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .contact-seller {
+      background: var(--navy);
+      color: white;
+    }
+
+    .review-product-button {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* DATABASE STATUS */
+
+    #database-status {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    /* LOGIN */
+
+    .login-section {
+      min-height: 75vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 45px 15px;
+      background: linear-gradient(135deg, #EAF0F8, #FFFFFF);
+    }
+
+    .login-card {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      padding: 35px;
+      border-radius: 13px;
+      box-shadow: 0 8px 30px rgba(9, 38, 74, 0.10);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-logo .logo-symbol {
+      margin: auto;
+    }
+
+    .login-card h2 {
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .login-card > p {
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      color: var(--navy);
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      outline: none;
+      background: white;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--blue);
+    }
+
+    .primary-button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 6px;
+      background: var(--navy);
+      color: white;
+      font-weight: bold;
+    }
+
+    .primary-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .auth-switch {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .auth-switch button,
+    .forgot-button {
+      border: none;
+      background: none;
+      color: var(--blue);
+      font-weight: bold;
+    }
+
+    .forgot-button {
+      display: block;
+      margin: 12px auto 0;
+      font-size: 13px;
+    }
+
+    .message {
+      display: block;
+      margin-top: 12px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* SELLER DASHBOARD */
+
+    .dashboard-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .dashboard-box h3 {
+      color: var(--navy);
+      margin-bottom: 17px;
+    }
+
+    .seller-product {
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 15px;
+      margin: 12px 0;
+      background: #FAFBFD;
+    }
+
+    .seller-product h4 {
+      color: var(--navy);
+    }
+
+    .delete-product-button {
+      background: #B42318;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      margin-top: 8px;
+    }
+
+    .secondary-button {
+      padding: 10px 15px;
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    /* REVIEWS */
+
+    .rating-stars {
+      display: flex;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .rating-stars button {
+      border: none;
+      background: none;
+      color: #B7BDC5;
+      font-size: 28px;
+    }
+
+    .rating-stars button.active {
+      color: #E6A700;
+    }
+
+    .review-card {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 17px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
+    .review-card h4 {
+      color: var(--navy);
+    }
+
+    .review-card p:nth-child(2) {
+      color: #E6A700;
+    }
+
+    /* FOOTER */
+
+    footer {
+      background: var(--navy);
+      color: white;
+      padding: 35px 0;
+      text-align: center;
+    }
+
+    footer h3 {
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    footer p {
+      font-size: 13px;
+      margin: 5px 0;
+    }
+
+    /* RESPONSIVE DESIGN */
+
+    @media (max-width: 900px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      nav {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .header-content {
+        min-height: 72px;
+      }
+
+      .logo-symbol {
+        width: 44px;
+        height: 44px;
+        font-size: 25px;
+      }
+
+      .logo-name {
+        font-size: 17px;
+      }
+
+      .logo-slogan {
+        font-size: 9px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-overlay.active {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.3);
+        z-index: -1;
+      }
+
+      .hero {
+        padding: 45px 0;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-card {
+        padding: 25px 20px;
+      }
+
+      .search-form button {
+        padding: 0 13px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- CUSTOMER LOGIN -->
-
-<section id="login-screen" class="login-screen">
-
-  <div class="login-card">
-
-    <div class="login-logo">
-      <div class="logo-symbol">H</div>
-      <h1>HEAVEN'S MART</h1>
-      <p>Shop Smart. Live Better.</p>
-    </div>
-
-    <h2 id="login-heading">Welcome Back!</h2>
-
-    <p class="login-description" id="login-description">
-      Sign in to access your marketplace.
-    </p>
-
-    <form id="customer-auth-form">
-
-      <div id="customer-name-wrap" hidden>
-        <label for="customer-name">Full name</label>
-        <input id="customer-name"
-          type="text"
-          placeholder="Enter your full name">
-      </div>
-
-      <label for="customer-email">Email address</label>
-      <input id="customer-email"
-        type="email"
-        placeholder="Enter your email"
-        required>
-
-      <label for="customer-password">Password</label>
-      <input id="customer-password"
-        type="password"
-        placeholder="Enter your password"
-        minlength="8"
-        required>
-
-      <button class="login-submit"
-        type="submit"
-        id="customer-auth-submit">
-        LOGIN
-      </button>
-
-    </form>
-
-    <p id="customer-auth-message" role="status"></p>
-
-    <button type="button" id="forgot-password">
-      Forgot password?
-    </button>
-
-    <p class="register-text">
-      <span id="account-prompt">New to Heaven's Mart?</span>
-      <button type="button" id="switch-auth-mode">
-        Create an account
-      </button>
-    </p>
-
+  <!-- ANNOUNCEMENT -->
+  <div class="announcement">
+    Serving customers across Ghana • Direct seller contact
   </div>
-</section>
 
-<!-- MARKETPLACE -->
+  <!-- HEADER -->
+  <header>
+    <div class="container header-content">
 
-<div id="app-shell" hidden>
+      <a href="#" class="logo">
+        <span class="logo-symbol">H</span>
+        <span>
+          <span class="logo-name">HEAVEN'S MART</span>
+          <span class="logo-slogan">SHOP SMART. LIVE BETTER.</span>
+        </span>
+      </a>
 
-  <!-- TOP NAVIGATION -->
+      <button class="menu-toggle" id="menu-toggle" type="button">
+        ☰
+      </button>
 
-  <header class="top-nav">
+      <nav id="main-nav">
+        <a href="#">Home</a>
+        <a href="#products">Products</a>
+        <a href="#seller">Become a Seller</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#about">About Us</a>
+      </nav>
 
-    <button class="hamburger"
-      id="menu-toggle"
-      type="button"
-      aria-label="Open menu"
-      aria-expanded="false">
-      ☰
-    </button>
+      <div class="menu-overlay" id="menu-overlay"></div>
 
-    <div class="logo">H HEAVEN'S MART</div>
-
-    <form class="search" id="search-form">
-
-      <input type="search"
-        id="top-search-input"
-        placeholder="Search products, brands and categories...">
-
-      <button type="submit">Search</button>
-
-    </form>
-
+    </div>
   </header>
 
-  <!-- SECOND NAVIGATION -->
+  <!-- TOP SEARCH -->
+  <div class="search-section">
+    <div class="container">
+      <form class="search-form" id="search-form">
+        <input
+          type="search"
+          id="top-search-input"
+          placeholder="Search products..."
+        >
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </div>
 
-  <nav class="second-nav">
-    <a href="#home">Home</a>
-    <a href="#categories">Categories</a>
-    <a href="#deals">Today's Deals</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <!-- LOGIN SCREEN -->
+  <section class="login-section" id="login-screen">
+    <div class="login-card">
 
-  <!-- THIRD NAVIGATION -->
+      <div class="login-logo">
+        <div class="logo-symbol">H</div>
+        <h3 class="logo-name">HEAVEN'S MART</h3>
+        <p class="logo-slogan">SHOP SMART. LIVE BETTER.</p>
+      </div>
 
-  <nav class="third-nav">
-    <a href="#account">My Account</a>
-    <a href="#seller-dashboard">Sell on Heaven's Mart</a>
-    <a href="#products">Products</a>
-  </nav>
+      <h2 id="login-heading">Welcome Back!</h2>
 
-  <!-- HAMBURGER MENU -->
-
-  <nav id="main-nav">
-
-    <h3>HEAVEN'S MART</h3>
-
-    <a href="#home">Home</a>
-    <a href="#categories">All Categories</a>
-    <a href="#products">All Products</a>
-    <a href="#deals">Today's Deals</a>
-    <a href="#account">My Account</a>
-    <a href="#seller-dashboard">Seller Dashboard</a>
-    <a href="#reviews">Customer Reviews</a>
-    <a href="#contact">Contact Us</a>
-
-    <button type="button"
-      class="button button-secondary"
-      id="customer-logout"
-      style="margin-top:20px;">
-      Logout
-    </button>
-
-  </nav>
-
-  <div class="menu-overlay" id="menu-overlay" hidden></div>
-
-  <!-- MAIN CONTENT -->
-
-  <main class="container" id="home">
-
-    <section class="hero" id="deals">
-
-      <h1>Welcome to Heaven's Mart</h1>
-
-      <p>
-        Shop your everyday essentials in Ghana.
-        Discover cleaning products, phones, accessories
-        and stationery at affordable prices.
+      <p id="login-description">
+        Sign in to access your marketplace.
       </p>
 
-      <button type="button"
-        onclick="document.getElementById('products').scrollIntoView()">
-        SHOP NOW
-      </button>
+      <form id="customer-auth-form">
 
-    </section>
+        <div class="form-group" id="customer-name-wrap" hidden>
+          <label for="customer-name">Full Name</label>
+          <input
+            type="text"
+            id="customer-name"
+            placeholder="Enter your full name"
+          >
+        </div>
 
-    <!-- CATEGORIES -->
-
-    <section id="categories">
-
-      <h2 class="section-title">Shop by Category</h2>
-
-      <div class="categories">
-
-        <div class="category">Cleaning Products</div>
-        <div class="category">Phones & Accessories</div>
-        <div class="category">Stationery</div>
-
-      </div>
-
-    </section>
-
-    <!-- PRODUCTS -->
-
-    <section id="products">
-
-      <h2 class="section-title">Featured Products</h2>
-
-      <div class="product-filters">
-
-        <input type="search"
-          id="product-search"
-          placeholder="Find a product...">
-
-        <select id="category-filter">
-          <option value="">All categories</option>
-        </select>
-
-      </div>
-
-      <p id="database-status" class="message">
-        Connecting to Heaven's Mart...
-      </p>
-
-      <div class="product-grid" id="product-grid">
-        <p>Loading products...</p>
-      </div>
-
-    </section>
-
-    <!-- SELLER DASHBOARD -->
-
-    <section id="seller-dashboard" class="dashboard">
-
-      <h2>Seller Dashboard</h2>
-
-      <div id="seller-auth">
-
-        <h3>Seller Login / Registration</h3>
-
-        <form id="seller-auth-form">
-
-          <label for="auth-mode">Account option</label>
-
-          <select id="auth-mode">
-            <option value="login">Seller Login</option>
-            <option value="signup">Create Seller Account</option>
-          </select>
-
-          <div id="seller-display-name-wrap" hidden>
-            <label for="seller-display-name">Display name</label>
-            <input id="seller-display-name"
-              type="text"
-              placeholder="Your business name">
-          </div>
-
-          <label for="seller-email">Email</label>
-          <input id="seller-email"
+        <div class="form-group">
+          <label for="customer-email">Email Address</label>
+          <input
             type="email"
-            placeholder="Seller email"
-            required>
+            id="customer-email"
+            placeholder="Enter your email"
+            required
+          >
+        </div>
 
-          <label for="seller-password">Password</label>
-          <input id="seller-password"
+        <div class="form-group">
+          <label for="customer-password">Password</label>
+          <input
             type="password"
-            placeholder="Password"
-            required>
-
-          <button class="button button-primary"
-            type="submit"
-            id="seller-auth-submit">
-            Log in
-          </button>
-
-        </form>
-
-        <p id="auth-message" class="message"></p>
-
-      </div>
-
-      <div id="seller-workspace" hidden>
-
-        <h3>Your Seller Profile</h3>
-
-        <form id="seller-profile-form">
-
-          <label for="seller-display-name-edit">
-            Display name
-          </label>
-
-          <input id="seller-display-name-edit"
-            type="text"
-            placeholder="Your display name"
-            required>
-
-          <label for="seller-whatsapp">
-            WhatsApp number
-          </label>
-
-          <input id="seller-whatsapp"
-            type="tel"
-            placeholder="233XXXXXXXXX"
-            required>
-
-          <button class="button button-primary" type="submit">
-            Save Profile
-          </button>
-
-        </form>
-
-        <p id="seller-profile-message" class="message"></p>
-
-        <hr style="margin:20px 0;border:0;border-top:1px solid #ddd;">
-
-        <h3>Add a Product</h3>
-
-        <form id="product-form">
-
-          <input id="new-product-name"
-            type="text"
-            placeholder="Product name"
-            required>
-
-          <select id="new-product-category" required>
-            <option value="">Choose category</option>
-            <option value="Cleaning Products">Cleaning Products</option>
-            <option value="Phones & Accessories">Phones & Accessories</option>
-            <option value="Stationery">Stationery</option>
-          </select>
-
-          <input id="new-product-price"
-            type="number"
-            min="0.01"
-            step="0.01"
-            placeholder="Price in GHS"
-            required>
-
-          <textarea id="new-product-description"
-            placeholder="Product description"></textarea>
-
-          <input id="new-product-image"
-            type="url"
-            placeholder="Product image URL">
-
-          <button class="button button-primary" type="submit">
-            Add Product
-          </button>
-
-        </form>
-
-        <p id="seller-product-message" class="message"></p>
-
-        <hr style="margin:20px 0;border:0;border-top:1px solid #ddd;">
-
-        <h3>My Products</h3>
-
-        <div id="my-products">
-          <p>No products yet.</p>
+            id="customer-password"
+            placeholder="Enter your password"
+            required
+            minlength="6"
+          >
         </div>
 
-        <button type="button"
-          class="button button-danger"
-          id="seller-logout">
-          Seller Logout
+        <button
+          type="submit"
+          class="primary-button"
+          id="customer-auth-submit"
+        >
+          LOGIN
         </button>
-
-      </div>
-
-    </section>
-
-    <!-- CUSTOMER REVIEWS -->
-
-    <section id="reviews" class="review-section">
-
-      <h2 class="section-title">Customer Reviews</h2>
-
-      <div id="reviews-list">
-        <p>No approved reviews yet.</p>
-      </div>
-
-      <form id="review-form" class="review-form">
-
-        <h3>Share Your Experience</h3>
-
-        <input id="review-name"
-          type="text"
-          placeholder="Your name"
-          required>
-
-        <input id="review-rating"
-          type="hidden"
-          value="0">
-
-        <p>Choose your rating:</p>
-
-        <div>
-          <button type="button" data-rating="1">★</button>
-          <button type="button" data-rating="2">★</button>
-          <button type="button" data-rating="3">★</button>
-          <button type="button" data-rating="4">★</button>
-          <button type="button" data-rating="5">★</button>
-        </div>
-
-        <textarea id="review-comment"
-          placeholder="Write your review..."
-          required></textarea>
-
-        <button class="button button-primary" type="submit">
-          Submit Review
-        </button>
-
-        <p id="review-message" class="message"></p>
 
       </form>
 
+      <button
+        type="button"
+        class="forgot-button"
+        id="forgot-password"
+      >
+        Forgot Password?
+      </button>
+
+      <div class="auth-switch">
+        <span id="account-prompt">New to Heaven's Mart?</span>
+        <button type="button" id="switch-auth-mode">
+          Create an account
+        </button>
+      </div>
+
+      <p class="message" id="customer-auth-message"></p>
+
+    </div>
+  </section>
+
+  <!-- MAIN MARKETPLACE -->
+  <div id="app-shell" hidden>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-content">
+
+        <h1>
+          Welcome to <span>Heaven's Mart</span>
+        </h1>
+
+        <p>
+          Discover everyday essentials, phones, accessories and stationery
+          from sellers across Ghana. Shop smart and live better.
+        </p>
+
+        <a href="#products" class="hero-button">
+          Explore Products
+        </a>
+
+      </div>
     </section>
 
-  </main>
+    <!-- PRODUCTS -->
+    <section class="content-section" id="products">
+      <div class="container">
+
+        <div class="section-heading">
+          <h2>Explore Our Products</h2>
+          <p>Find what you need at Heaven's Mart.</p>
+        </div>
+
+        <input
+          type="search"
+          id="product-search"
+          class="category-filter"
+          placeholder="Search products..."
+        >
+
+        <select id="category-filter" class="category-filter">
+          <option value="all">All Categories</option>
+          <option value="Cleaning Products">Cleaning Products</option>
+          <option value="Phones and Accessories">Phones and Accessories</option>
+          <option value="Stationery">Stationery</option>
+        </select>
+
+        <div class="product-grid" id="product-grid">
+          <p>Loading products...</p>
+        </div>
+
+        <p id="database-status"></p>
+
+      </div>
+    </section>
+
+    <!-- SELLER SECTION -->
+    <section class="content-section" id="seller">
+      <div class="container">
+
+        <div class="section-heading">
+          <h2>Seller Dashboard</h2>
+          <p>Manage your products and seller information.</p>
+        </div>
+
+        <div class="dashboard-box" id="seller-auth">
+
+          <h3>Seller Login</h3>
+
+          <form id="seller-auth-form">
+
+            <div class="form-group" id="seller-display-name-wrap">
+              <label for="seller-display-name">Display Name</label>
+              <input
+                type="text"
+                id="seller-display-name"
+                placeholder="Your business name"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="seller-email">Email Address</label>
+              <input
+                type="email"
+                id="seller-email"
+                placeholder="Seller email"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="seller-password">Password</label>
+              <input
+                type="password"
+                id="seller-password"
+                placeholder="Password"
+                required
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="primary-button"
+              id="seller-auth-submit"
+            >
+              LOGIN
+            </button>
+
+          </form>
+
+          <p class="message" id="auth-message"></p>
+
+          <p style="font-size:13px; margin-top:12px;">
+            Seller accounts must be approved and created by the administrator.
+          </p>
+
+          <button type="button" id="auth-mode" class="secondary-button" style="margin-top:12px;">
+            Seller account information
+          </button>
+
+        </div>
+
+        <div class="dashboard-box" id="seller-workspace">
+
+          <h3>Update Seller Profile</h3>
+
+          <form id="seller-profile-form">
+
+            <div class="form-group">
+              <label for="seller-display-name-edit">Business Name</label>
+              <input
+                type="text"
+                id="seller-display-name-edit"
+                placeholder="Your business name"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="seller-whatsapp">WhatsApp Number</label>
+              <input
+                type="tel"
+                id="seller-whatsapp"
+                placeholder="Example: 233XXXXXXXXX"
+              >
+            </div>
+
+            <button type="submit" class="primary-button">
+              SAVE PROFILE
+            </button>
+
+            <p class="message" id="seller-profile-message"></p>
+
+          </form>
+
+          <hr style="margin:25px 0; border:0; border-top:1px solid #E0E5EC;">
+
+          <h3>Add a New Product</h3>
+
+          <form id="product-form">
+
+            <div class="form-group">
+              <label for="new-product-name">Product Name</label>
+              <input
+                type="text"
+                id="new-product-name"
+                placeholder="Product name"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="new-product-category">Category</label>
+              <select id="new-product-category" required>
+                <option value="">Choose category</option>
+                <option value="Cleaning Products">Cleaning Products</option>
+                <option value="Phones and Accessories">Phones and Accessories</option>
+                <option value="Stationery">Stationery</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="new-product-price">Price (GHS)</label>
+              <input
+                type="number"
+                id="new-product-price"
+                min="0.01"
+                step="0.01"
+                placeholder="Enter price"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="new-product-description">Description</label>
+              <textarea
+                id="new-product-description"
+                rows="4"
+                placeholder="Describe your product"
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="new-product-image">Image URL</label>
+              <input
+                type="url"
+                id="new-product-image"
+                placeholder="Paste product image URL"
+              >
+            </div>
+
+            <button type="submit" class="primary-button">
+              ADD PRODUCT
+            </button>
+
+            <p class="message" id="seller-product-message"></p>
+
+          </form>
+
+          <hr style="margin:25px 0; border:0; border-top:1px solid #E0E5EC;">
+
+          <h3>My Products</h3>
+          <div id="my-products">
+            <p>Your products will appear here.</p>
+          </div>
+
+          <button
+            type="button"
+            id="seller-logout"
+            class="secondary-button"
+          >
+            LOG OUT
+          </button>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="content-section" id="reviews">
+      <div class="container">
+
+        <div class="section-heading">
+          <h2>Customer Reviews</h2>
+          <p>Share your experience with Heaven's Mart.</p>
+        </div>
+
+        <div class="dashboard-box">
+
+          <form id="review-form">
+
+            <div class="form-group">
+              <label for="review-name">Your Name</label>
+              <input
+                type="text"
+                id="review-name"
+                placeholder="Enter your name"
+              >
+            </div>
+
+            <div class="form-group">
+              <label>Your Rating</label>
+
+              <div class="rating-stars">
+                <button type="button" data-rating="1">★</button>
+                <button type="button" data-rating="2">★</button>
+                <button type="button" data-rating="3">★</button>
+                <button type="button" data-rating="4">★</button>
+                <button type="button" data-rating="5" class="active">★</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="review-comment">Your Review</label>
+              <textarea
+                id="review-comment"
+                rows="4"
+                placeholder="Write your review..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="primary-button">
+              SUBMIT REVIEW
+            </button>
+
+            <p class="message" id="review-message"></p>
+
+          </form>
+
+        </div>
+
+        <h3 style="color:var(--navy); margin:25px 0 15px;">
+          What Customers Say
+        </h3>
+
+        <div id="reviews-list">
+          <p>Loading reviews...</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="content-section" id="about">
+      <div class="container">
+
+        <div class="section-heading">
+          <h2>About Heaven's Mart</h2>
+          <p>Shop Smart. Live Better.</p>
+        </div>
+
+        <div class="dashboard-box">
+          <p>
+            Heaven's Mart is a Ghana-focused online marketplace designed
+            to connect customers with sellers of everyday essentials.
+            Browse products, contact sellers directly through WhatsApp
+            and share your shopping experience through customer reviews.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
 
   <!-- FOOTER -->
+  <footer>
+    <div class="container">
 
-  <footer id="contact">
+      <h3>HEAVEN'S MART</h3>
 
-    <h3>HEAVEN'S MART</h3>
+      <p>Shop Smart. Live Better.</p>
+      <p>Serving customers across Ghana.</p>
 
-    <p>Shop Smart. Live Better.</p>
-    <p>Everyday Essentials in Ghana.</p>
-    <p>Contact sellers directly through WhatsApp.</p>
+      <p>
+        &copy; <span id="year"></span> Heaven's Mart.
+        All rights reserved.
+      </p>
 
-    <p>
-      &copy; <span id="year"></span>
-      Heaven's Mart. All rights reserved.
-    </p>
-
+    </div>
   </footer>
 
-</div>
-
-<!-- SCRIPTS -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="app.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-
-  /* HAMBURGER MENU */
-
-  const menuButton = document.getElementById("menu-toggle");
-  const menu = document.getElementById("main-nav");
-  const overlay = document.getElementById("menu-overlay");
-
-  function closeMenu() {
-    menu.classList.remove("open");
-    overlay.hidden = true;
-    menuButton.setAttribute("aria-expanded", "false");
-  }
-
-  menuButton.addEventListener("click", function() {
-    const isOpen = menu.classList.toggle("open");
-
-    overlay.hidden = !isOpen;
-    menuButton.setAttribute("aria-expanded", String(isOpen));
-  });
-
-  overlay.addEventListener("click", closeMenu);
-
-  menu.querySelectorAll("a").forEach(function(link) {
-    link.addEventListener("click", closeMenu);
-  });
-
-  /* TOP SEARCH */
-
-  document.getElementById("search-form")
-    .addEventListener("submit", function(event) {
-
-      event.preventDefault();
-
-      const topSearch = document.getElementById("top-search-input");
-      const productSearch = document.getElementById("product-search");
-
-      productSearch.value = topSearch.value;
-
-      productSearch.dispatchEvent(
-        new Event("input", { bubbles: true })
-      );
-
-      document.getElementById("products").scrollIntoView({
-        behavior: "smooth"
-      });
-
-    });
-
-  /* CUSTOMER LOGOUT */
-
-  document.getElementById("customer-logout")
-    .addEventListener("click", async function() {
-
-      if (typeof handleCustomerLogout === "function") {
-        await handleCustomerLogout();
-      }
-
-    });
-
-});
-</script>
+  <!-- JAVASCRIPT FILES -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
 
 </body>
 </html>
