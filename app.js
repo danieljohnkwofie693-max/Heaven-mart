@@ -1,147 +1,524 @@
+
 /* =========================================
-   HEAVEN'S MART - MAIN JAVASCRIPT
+   HEAVEN'S MART
    Ghana Marketplace
+   Supabase Application
 ========================================= */
 
 let supabaseClient = null;
 let currentUser = null;
+let currentProfile = null;
 let products = [];
 let reviews = [];
-
+let customerAuthMode = "login";
 
 /* =========================================
-   INITIALIZE THE WEBSITE
+   INITIALIZE APPLICATION
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const year = document.getElementById("year");
-
-  if (year) {
-    year.textContent = new Date().getFullYear();
-  }
-
-  setupNavigation();
+  setCurrentYear();
+  setupCustomerAuth();
   setupSearchAndCategories();
+  setupSellerDashboard();
   setupReviewForm();
-  setupDashboard();
 
   const config = window.HEAVENS_MART_CONFIG;
 
-  if (!config || !config.url || !config.anonKey || !window.supabase) {
-    showDatabaseStatus(
-      "Database configuration is missing. Check config.js and the Supabase library."
+  if (
+    !config ||
+    !config.url ||
+    !config.anonKey ||
+    !window.supabase
+  ) {
+    showCustomerMessage(
+      "Supabase configuration is missing. Check config.js.",
+      true
     );
-
-    console.error("Missing Supabase configuration or Supabase library.");
     return;
   }
 
-  try {
-    supabaseClient = window.supabase.createClient(
-      config.url,
-      config.anonKey
-    );
+  supabaseClient = window.supabase.createClient(
+    config.url,
+    config.anonKey
+  );
 
-    showDatabaseStatus("Connecting to Heaven's Mart...");
+  const { data, error } = await supabaseClient.auth.getSession();
 
-    const { data, error } = await supabaseClient.auth.getSession();
+  if (error) {
+    showCustomerMessage(error.message, true);
+    return;
+  }
 
-    if (error) throw error;
+  currentUser = data.session?.user || null;
 
-    currentUser = data.session?.user || null;
+  await updateAccessGate();
 
-    await updateDashboard();
-
-    supabaseClient.auth.onAuthStateChange((_event, session) => {
+  supabaseClient.auth.onAuthStateChange(
+    async (event, session) => {
       currentUser = session?.user || null;
 
-      setTimeout(() => {
-        updateDashboard();
-      }, 0);
-    });
-
-    await loadProducts();
-    await loadReviews();
-
-  } catch (error) {
-    console.error("Initialization error:", error);
-
-    showDatabaseStatus(
-      "Could not connect to the database. Check your Supabase settings."
-    );
-  }
+      // Refresh access after login, logout or token changes.
+      await updateAccessGate();
+    }
+  );
 });
 
 
 /* =========================================
-   NAVIGATION
+   CUSTOMER LOGIN AND REGISTRATION
 ========================================= */
 
-function setupNavigation() {
-  const dialog = document.getElementById("admin-dialog");
-  const openButton = document.getElementById("open-admin");
-  const closeButton = document.getElementById("close-admin");
-  const menuButton = document.getElementById("menu-toggle");
-  const nav = document.getElementById("main-nav");
+function setupCustomerAuth() {
+  const form = document.getElementById("customer-auth-form");
+  const switchButton = document.getElementById("switch-auth-mode");
+  const forgotButton = document.getElementById("forgot-password");
 
-  if (openButton && dialog) {
-    openButton.addEventListener("click", () => {
-      if (typeof dialog.showModal === "function") {
-        dialog.showModal();
+  if (form) {
+    form.addEventListener("submit", handleCustomerAuth);
+  }
+
+  if (switchButton) {
+    switchButton.addEventListener("click", () => {
+      customerAuthMode =
+        customerAuthMode === "login" ? "signup" : "login";
+
+      updateCustomerAuthForm();
+    });
+  }
+
+  if (forgotButton) {
+    forgotButton.addEventListener("click", resetCustomerPassword);
+  }
+
+  updateCustomerAuthForm();
+}
+
+
+function updateCustomerAuthForm() {
+  const signup = customerAuthMode === "signup";
+
+  document.getElementById("login-heading").textContent =
+    signup ? "Create Your Account" : "Welcome Back!";
+
+  document.getElementById("login-description").textContent =
+    signup
+      ? "Register to start shopping at Heaven's Mart."
+      : "Sign in to access your marketplace.";
+
+  document.getElementById("customer-name-wrap").hidden = !signup;
+
+  document.getElementById("customer-name").required = signup;
+
+  document.getElementById("customer-auth-submit").textContent =
+    signup ? "CREATE ACCOUNT" : "LOGIN";
+
+  document.getElementById("account-prompt").textContent =
+    signup ? "Already have an account?" : "New to Heaven's Mart?";
+
+  document.getElementById("switch-auth-mode").textContent =
+    signup ? "Login here" : "Create an account";
+
+  document.getElementById("forgot-password").hidden = signup;
+
+  showCustomerMessage("");
+}
+
+
+async function handleCustomerAuth(event) {
+  event.preventDefault();
+
+  if (!supabaseClient) {
+    showCustomerMessage("The database is not connected.", true);
+    return;
+  }
+
+  const email = document
+    .getElementById("customer-email")
+    .value.trim();
+
+  const password = document
+    .getElementById("customer-password")
+    .value;
+
+  const name = document
+    .getElementById("customer-name")
+    .value.trim();
+
+  const button = document.getElementById("customer-auth-submit");
+
+  button.disabled = true;
+  button.textContent = "Please wait...";
+
+  try {
+    if (customerAuthMode === "signup") {
+      if (!name) {
+        throw new Error("Please enter your full name.");
+      }
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              display_name: name,
+              account_type: "customer"
+            },
+            emailRedirectTo: window.location.origin
+          }
+        });
+
+      if (error) throw error;
+
+      if (data.session) {
+        showCustomerMessage("Account created successfully.");
       } else {
-        dialog.setAttribute("open", "");
+        showCustomerMessage(
+          "Account created. Please check your email to confirm your account."
+        );
       }
-    });
-  }
 
-  if (closeButton && dialog) {
-    closeButton.addEventListener("click", () => {
-      if (typeof dialog.close === "function") {
-        dialog.close();
-      } else {
-        dialog.removeAttribute("open");
-      }
-    });
-  }
+    } else {
+      const { error } =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
 
-  if (dialog) {
-    dialog.addEventListener("click", (event) => {
-      if (event.target === dialog) {
-        if (typeof dialog.close === "function") {
-          dialog.close();
-        } else {
-          dialog.removeAttribute("open");
-        }
-      }
-    });
-  }
+      if (error) throw error;
 
-  if (menuButton && nav) {
-    menuButton.addEventListener("click", () => {
-      const isOpen = nav.classList.toggle("open");
-      menuButton.setAttribute("aria-expanded", String(isOpen));
-    });
+      showCustomerMessage("Login successful.");
+    }
 
-    nav.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        nav.classList.remove("open");
-        menuButton.setAttribute("aria-expanded", "false");
-      });
-    });
+  } catch (error) {
+    showCustomerMessage(error.message, true);
+
+  } finally {
+    button.disabled = false;
+
+    button.textContent =
+      customerAuthMode === "signup"
+        ? "CREATE ACCOUNT"
+        : "LOGIN";
   }
 }
 
 
 /* =========================================
-   DATABASE STATUS
+   CUSTOMER PASSWORD RESET
 ========================================= */
 
-function showDatabaseStatus(message) {
-  const element = document.getElementById("database-status");
+async function resetCustomerPassword() {
+  if (!supabaseClient) return;
 
-  if (element) {
-    element.textContent = message;
+  const email = document
+    .getElementById("customer-email")
+    .value.trim();
+
+  if (!email) {
+    showCustomerMessage(
+      "Enter your email address first.",
+      true
+    );
+    return;
   }
+
+  try {
+    const { error } =
+      await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin
+      });
+
+    if (error) throw error;
+
+    showCustomerMessage(
+      "If the account exists, a password reset email will be sent."
+    );
+
+  } catch (error) {
+    showCustomerMessage(error.message, true);
+  }
+}
+
+
+/* =========================================
+   CUSTOMER LOGOUT
+========================================= */
+
+async function handleCustomerLogout() {
+  if (!supabaseClient) return;
+
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    alert(error.message);
+  }
+}
+
+
+/* =========================================
+   MARKETPLACE ACCESS CONTROL
+========================================= */
+
+async function updateAccessGate() {
+  const loginScreen = document.getElementById("login-screen");
+  const appShell = document.getElementById("app-shell");
+
+  if (!currentUser) {
+    currentProfile = null;
+
+    loginScreen.hidden = false;
+    appShell.hidden = true;
+
+    return;
+  }
+
+  loginScreen.hidden = true;
+  appShell.hidden = false;
+
+  await loadProducts();
+  await loadReviews();
+  await updateDashboard();
+}
+
+
+/* =========================================
+   PRODUCT SEARCH AND CATEGORIES
+========================================= */
+
+function setupSearchAndCategories() {
+  const search = document.getElementById("product-search");
+  const category = document.getElementById("category-filter");
+
+  if (search) {
+    search.addEventListener("input", filterProducts);
+  }
+
+  if (category) {
+    category.addEventListener("change", filterProducts);
+  }
+}
+
+
+function filterProducts() {
+  const searchTerm = document
+    .getElementById("product-search")
+    .value.toLowerCase()
+    .trim();
+
+  const selectedCategory = document
+    .getElementById("category-filter")
+    .value;
+
+  const filtered = products.filter(product => {
+    const matchesSearch =
+      (product.name || "").toLowerCase().includes(searchTerm) ||
+      (product.description || "").toLowerCase().includes(searchTerm) ||
+      (product.category || "").toLowerCase().includes(searchTerm);
+
+    const matchesCategory =
+      !selectedCategory ||
+      product.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  renderProducts(filtered);
+}
+
+
+function populateCategories() {
+  const select = document.getElementById("category-filter");
+
+  if (!select) return;
+
+  const selected = select.value;
+
+  const categories = [
+    ...new Set(
+      products
+        .map(product => product.category)
+        .filter(Boolean)
+    )
+  ];
+
+  select.innerHTML =
+    '<option value="">All categories</option>';
+
+  categories.forEach(category => {
+    const option = document.createElement("option");
+
+    option.value = category;
+    option.textContent = category;
+
+    select.appendChild(option);
+  });
+
+  select.value = categories.includes(selected) ? selected : "";
+}
+
+
+/* =========================================
+   LOAD PRODUCTS
+========================================= */
+
+async function loadProducts() {
+  if (!supabaseClient || !currentUser) return;
+
+  const grid = document.getElementById("product-grid");
+  const status = document.getElementById("database-status");
+
+  grid.innerHTML = "<p>Loading products...</p>";
+
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select(`
+      id,
+      name,
+      description,
+      price,
+      category,
+      image_url,
+      seller_id,
+      profiles (
+        whatsapp_number
+      )
+    `)
+    .eq("is_active", true)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    grid.innerHTML = "<p>Unable to load products.</p>";
+
+    if (status) status.textContent = error.message;
+
+    console.error("Product loading error:", error);
+    return;
+  }
+
+  products = data || [];
+
+  if (status) {
+    status.textContent =
+      products.length + " products available";
+  }
+
+  populateCategories();
+  renderProducts(products);
+}
+
+
+/* =========================================
+   DISPLAY PRODUCTS
+========================================= */
+
+function renderProducts(items) {
+  const grid = document.getElementById("product-grid");
+
+  if (!grid) return;
+
+  if (!items.length) {
+    grid.innerHTML =
+      '<p class="empty-state">No products found.</p>';
+    return;
+  }
+
+  grid.innerHTML = items.map(product => {
+    const image = product.image_url
+      ? `<img src="${escapeHTML(product.image_url)}"
+           alt="${escapeHTML(product.name)}"
+           loading="lazy"
+           onerror="this.style.display='none'">`
+      : '<div class="product-placeholder">🛍️</div>';
+
+    return `
+      <article class="product-card">
+
+        <div class="product-image">
+          ${image}
+        </div>
+
+        <span class="product-category">
+          ${escapeHTML(product.category || "General")}
+        </span>
+
+        <h3>${escapeHTML(product.name)}</h3>
+
+        <p class="product-description">
+          ${escapeHTML(product.description || "")}
+        </p>
+
+        <strong class="product-price">
+          ${formatPrice(product.price)}
+        </strong>
+
+        <button
+          class="button button-primary whatsapp-order"
+          data-product-id="${escapeHTML(product.id)}">
+          Contact Seller
+        </button>
+
+      </article>
+    `;
+  }).join("");
+
+  grid.querySelectorAll("[data-product-id]").forEach(button => {
+    button.addEventListener("click", () => {
+      contactSeller(button.dataset.productId);
+    });
+  });
+}
+
+
+/* =========================================
+   CONTACT SELLER ON WHATSAPP
+========================================= */
+
+async function contactSeller(productId) {
+  const product = products.find(
+    item => String(item.id) === String(productId)
+  );
+
+  if (!product) return;
+
+  const number = product.profiles?.whatsapp_number;
+
+  if (!number) {
+    alert("The seller has not added a WhatsApp number yet.");
+    return;
+  }
+
+  const whatsappNumber = normalizeWhatsAppNumber(number);
+
+  if (!whatsappNumber) {
+    alert("The seller's WhatsApp number is invalid.");
+    return;
+  }
+
+  const message = encodeURIComponent(
+    `Hello, I am interested in ${product.name} on Heaven's Mart.`
+  );
+
+  const url =
+    `https://wa.me/${whatsappNumber}?text=${message}`;
+
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+
+function normalizeWhatsAppNumber(number) {
+  let value = String(number).replace(/\D/g, "");
+
+  if (value.startsWith("0")) {
+    value = "233" + value.slice(1);
+  }
+
+  if (value.startsWith("233")) {
+    return value;
+  }
+
+  return "";
 }
 
 
@@ -149,327 +526,198 @@ function showDatabaseStatus(message) {
    SELLER DASHBOARD
 ========================================= */
 
-function setupDashboard() {
+function setupSellerDashboard() {
   const authForm = document.getElementById("seller-auth-form");
-  const authMode = document.getElementById("auth-mode");
-  const logoutButton = document.getElementById("seller-logout");
-  const profileForm = document.getElementById("seller-profile-form");
-  const productForm = document.getElementById("product-form");
-
-  if (authMode) {
-    authMode.addEventListener("change", () => {
-      const isSignup = authMode.value === "signup";
-
-      const nameWrap = document.getElementById(
-        "seller-display-name-wrap"
-      );
-
-      const submitButton = document.getElementById(
-        "seller-auth-submit"
-      );
-
-      if (nameWrap) {
-        nameWrap.hidden = !isSignup;
-      }
-
-      if (submitButton) {
-        submitButton.textContent = isSignup
-          ? "Create seller account"
-          : "Log in";
-      }
-
-      showMessage("auth-message", "");
-    });
-  }
+  const mode = document.getElementById("auth-mode");
 
   if (authForm) {
-    authForm.addEventListener("submit", handleSellerAuth);
+    authForm.addEventListener("submit", handleSellerLogin);
   }
 
-  if (logoutButton) {
-    logoutButton.addEventListener("click", handleSellerLogout);
-  }
+  if (mode) {
+    mode.addEventListener("change", () => {
+      const signup = mode.value === "signup";
 
-  if (profileForm) {
-    profileForm.addEventListener("submit", saveSellerProfile);
-  }
+      document.getElementById(
+        "seller-display-name-wrap"
+      ).hidden = !signup;
 
-  if (productForm) {
-    productForm.addEventListener("submit", addProduct);
-  }
-}
+      const button =
+        document.getElementById("seller-auth-submit");
 
-
-async function handleSellerAuth(event) {
-  event.preventDefault();
-
-  if (!supabaseClient) {
-    showMessage(
-      "auth-message",
-      "The database is not connected. Check config.js."
-    );
-
-    return;
-  }
-
-  const mode = document.getElementById("auth-mode")?.value;
-
-  const name = document
-    .getElementById("seller-display-name")?.value.trim();
-
-  const email = document
-    .getElementById("seller-email")?.value.trim();
-
-  const password = document
-    .getElementById("seller-password")?.value;
-
-  if (!email || !password) {
-    showMessage("auth-message", "Enter your email and password.");
-    return;
-  }
-
-  if (mode === "signup") {
-    if (!name) {
-      showMessage("auth-message", "Enter your display name.");
-      return;
-    }
-
-    if (password.length < 6) {
-      showMessage(
-        "auth-message",
-        "Your password must contain at least 6 characters."
-      );
-
-      return;
-    }
-
-    showMessage("auth-message", "Creating your seller account...");
-
-    const { data, error } = await supabaseClient.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          display_name: name
-        }
-      }
+      button.textContent = signup
+        ? "Seller accounts require approval"
+        : "Log in";
     });
-
-    if (error) {
-      showMessage("auth-message", error.message);
-      return;
-    }
-
-    if (data.session) {
-      currentUser = data.session.user;
-
-      const profileResult = await ensureSellerProfile(name);
-
-      if (!profileResult) {
-        showMessage(
-          "auth-message",
-          "Your account was created, but your seller profile could not be saved. Check the profiles table permissions in Supabase."
-        );
-
-        return;
-      }
-
-      await updateDashboard();
-
-      showMessage("auth-message", "Your seller account is ready.");
-
-    } else {
-      showMessage(
-        "auth-message",
-        "Account created. Check your email to confirm your account, then log in."
-      );
-    }
-
-    return;
   }
 
-  showMessage("auth-message", "Logging in...");
+  document
+    .getElementById("seller-profile-form")
+    ?.addEventListener("submit", saveSellerProfile);
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  document
+    .getElementById("product-form")
+    ?.addEventListener("submit", addProduct);
 
-  if (error) {
-    showMessage("auth-message", error.message);
-    return;
-  }
-
-  currentUser = data.user;
-
-  const profileResult = await ensureSellerProfile(
-    currentUser.user_metadata?.display_name || ""
-  );
-
-  if (!profileResult) {
-    showMessage(
-      "auth-message",
-      "You are logged in, but your seller profile could not be saved. Check the profiles table permissions in Supabase."
-    );
-
-    return;
-  }
-
-  await updateDashboard();
-
-  showMessage("auth-message", "Login successful.");
-}
-
-
-async function ensureSellerProfile(displayName) {
-  if (!supabaseClient || !currentUser) {
-    return false;
-  }
-
-  const { data: existingProfile, error: selectError } =
-    await supabaseClient
-      .from("profiles")
-      .select("id, display_name, whatsapp_number, role")
-      .eq("id", currentUser.id)
-      .maybeSingle();
-
-  if (selectError) {
-    console.error("Profile lookup error:", selectError);
-    return false;
-  }
-
-  if (existingProfile) {
-    return true;
-  }
-
-  const { error: insertError } = await supabaseClient
-    .from("profiles")
-    .insert({
-      id: currentUser.id,
-      display_name:
-        displayName ||
-        currentUser.user_metadata?.display_name ||
-        "Seller",
-      role: "seller"
-    });
-
-  if (insertError) {
-    console.error("Profile creation error:", insertError);
-    return false;
-  }
-
-  return true;
-}
-
-
-async function handleSellerLogout() {
-  if (!supabaseClient) return;
-
-  const { error } = await supabaseClient.auth.signOut();
-
-  if (error) {
-    showMessage("auth-message", error.message);
-    return;
-  }
-
-  currentUser = null;
-
-  await updateDashboard();
-
-  showMessage("auth-message", "You have logged out.");
-}
-
-
-async function updateDashboard() {
-  const authSection = document.getElementById("seller-auth");
-  const workspace = document.getElementById("seller-workspace");
-
-  if (authSection) {
-    authSection.hidden = Boolean(currentUser);
-  }
-
-  if (workspace) {
-    workspace.hidden = !currentUser;
-  }
-
-  if (!currentUser || !supabaseClient) {
-    renderMyProducts([]);
-    return;
-  }
-
-  const { data: profile, error } = await supabaseClient
-    .from("profiles")
-    .select("display_name, whatsapp_number, role")
-    .eq("id", currentUser.id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Loading profile error:", error);
-  }
-
-  const displayNameInput = document.getElementById(
-    "seller-display-name-edit"
-  );
-
-  const whatsappInput = document.getElementById("seller-whatsapp");
-
-  if (displayNameInput) {
-    displayNameInput.value = profile?.display_name || "";
-  }
-
-  if (whatsappInput) {
-    whatsappInput.value = profile?.whatsapp_number || "";
-  }
-
-  await loadMyProducts();
+  document
+    .getElementById("seller-logout")
+    ?.addEventListener("click", handleSellerLogout);
 }
 
 
 /* =========================================
-   SELLER PROFILE
+   SELLER LOGIN
+========================================= */
+
+async function handleSellerLogin(event) {
+  event.preventDefault();
+
+  if (!supabaseClient) return;
+
+  const mode = document.getElementById("auth-mode").value;
+
+  if (mode === "signup") {
+    showSellerMessage(
+      "Seller accounts must be approved and created through the administrator.",
+      true
+    );
+    return;
+  }
+
+  const email = document
+    .getElementById("seller-email")
+    .value.trim();
+
+  const password = document
+    .getElementById("seller-password")
+    .value;
+
+  const button = document.getElementById("seller-auth-submit");
+
+  button.disabled = true;
+  button.textContent = "Checking...";
+
+  try {
+    const { error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) throw error;
+
+    const { data: profile, error: profileError } =
+      await supabaseClient
+        .from("profiles")
+        .select("id, display_name, whatsapp_number, role")
+        .eq("id", currentUser?.id)
+        .maybeSingle();
+
+    if (profileError) throw profileError;
+
+    if (!profile || profile.role !== "seller") {
+      await supabaseClient.auth.signOut();
+
+      throw new Error(
+        "This account is not approved as a seller."
+      );
+    }
+
+    showSellerMessage("Seller login successful.");
+
+  } catch (error) {
+    showSellerMessage(error.message, true);
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Log in";
+  }
+}
+
+
+/* =========================================
+   UPDATE DASHBOARD
+========================================= */
+
+async function updateDashboard() {
+  if (!currentUser || !supabaseClient) return;
+
+  const { data, error } = await supabaseClient
+    .from("profiles")
+    .select("id, display_name, whatsapp_number, role")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Profile error:", error);
+    return;
+  }
+
+  currentProfile = data;
+
+  const sellerAuth = document.getElementById("seller-auth");
+  const sellerWorkspace =
+    document.getElementById("seller-workspace");
+
+  const isSeller = data?.role === "seller";
+
+  sellerAuth.hidden = isSeller;
+  sellerWorkspace.hidden = !isSeller;
+
+  if (isSeller) {
+    document.getElementById("seller-display-name-edit").value =
+      data.display_name || "";
+
+    document.getElementById("seller-whatsapp").value =
+      data.whatsapp_number || "";
+
+    await loadMyProducts();
+  }
+}
+
+
+/* =========================================
+   SAVE SELLER PROFILE
 ========================================= */
 
 async function saveSellerProfile(event) {
   event.preventDefault();
 
-  if (!supabaseClient || !currentUser) {
-    showMessage("seller-profile-message", "Please log in first.");
+  if (!currentUser || currentProfile?.role !== "seller") {
+    showProfileMessage("Seller access is required.", true);
     return;
   }
 
   const displayName = document
-    .getElementById("seller-display-name-edit")?.value.trim();
+    .getElementById("seller-display-name-edit")
+    .value.trim();
 
-  const whatsappNumber = document
-    .getElementById("seller-whatsapp")?.value.trim();
+  const whatsapp = document
+    .getElementById("seller-whatsapp")
+    .value.trim();
 
-  if (!displayName || !whatsappNumber) {
-    showMessage(
-      "seller-profile-message",
-      "Enter your display name and WhatsApp number."
+  if (!displayName || !normalizeWhatsAppNumber(whatsapp)) {
+    showProfileMessage(
+      "Enter a display name and valid Ghana WhatsApp number.",
+      true
     );
-
     return;
   }
-
-  showMessage("seller-profile-message", "Saving your profile...");
 
   const { error } = await supabaseClient
     .from("profiles")
     .update({
       display_name: displayName,
-      whatsapp_number: whatsappNumber
+      whatsapp_number: normalizeWhatsAppNumber(whatsapp)
     })
     .eq("id", currentUser.id);
 
   if (error) {
-    console.error("Profile update error:", error);
-    showMessage("seller-profile-message", error.message);
+    showProfileMessage(error.message, true);
     return;
   }
 
-  showMessage("seller-profile-message", "Profile saved successfully.");
-
+  showProfileMessage("Profile updated successfully.");
   await loadProducts();
 }
 
@@ -481,60 +729,56 @@ async function saveSellerProfile(event) {
 async function addProduct(event) {
   event.preventDefault();
 
-  if (!supabaseClient || !currentUser) {
-    showMessage("seller-product-message", "Please log in first.");
+  if (!currentUser || currentProfile?.role !== "seller") {
+    showProductMessage("Seller access is required.", true);
     return;
   }
 
   const name = document
-    .getElementById("new-product-name")?.value.trim();
+    .getElementById("new-product-name")
+    .value.trim();
 
   const category = document
-    .getElementById("new-product-category")?.value;
+    .getElementById("new-product-category")
+    .value;
 
   const price = Number(
-    document.getElementById("new-product-price")?.value
+    document.getElementById("new-product-price").value
   );
 
   const description = document
-    .getElementById("new-product-description")?.value.trim();
+    .getElementById("new-product-description")
+    .value.trim();
 
   const imageUrl = document
-    .getElementById("new-product-image")?.value.trim();
+    .getElementById("new-product-image")
+    .value.trim();
 
   if (!name || !category || !Number.isFinite(price) || price <= 0) {
-    showMessage(
-      "seller-product-message",
-      "Enter a product name, category, and valid price."
-    );
-
+    showProductMessage("Enter valid product details.", true);
     return;
   }
 
-  showMessage("seller-product-message", "Adding your product...");
-
-  const { error } = await supabaseClient.from("products").insert({
-    seller_id: currentUser.id,
-    name,
-    category,
-    price,
-    description: description || "",
-    image_url: imageUrl || null,
-    is_active: true
-  });
+  const { error } = await supabaseClient
+    .from("products")
+    .insert({
+      name,
+      category,
+      price,
+      description,
+      image_url: imageUrl || null,
+      seller_id: currentUser.id,
+      is_active: true
+    });
 
   if (error) {
-    console.error("Add product error:", error);
-    showMessage("seller-product-message", error.message);
+    showProductMessage(error.message, true);
     return;
   }
 
-  document.getElementById("product-form")?.reset();
+  showProductMessage("Product added successfully.");
 
-  showMessage(
-    "seller-product-message",
-    "Product added successfully."
-  );
+  document.getElementById("product-form").reset();
 
   await loadProducts();
   await loadMyProducts();
@@ -542,55 +786,13 @@ async function addProduct(event) {
 
 
 /* =========================================
-   LOAD PRODUCTS
+   LOAD SELLER PRODUCTS
 ========================================= */
 
-async function loadProducts() {
-  if (!supabaseClient) {
-    console.error("Supabase client is missing.");
-    showDatabaseStatus("Database is not connected.");
-    return;
-  }
-
-  showDatabaseStatus("Loading products...");
-
-  console.log("Loading products from Supabase...");
-
-  const { data, error } = await supabaseClient
-    .from("products")
-    .select("*")
-    .eq("is_active", true)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("PRODUCT ERROR:", error);
-
-    showDatabaseStatus(
-      "Product loading failed: " + error.message
-    );
-
-    return;
-  }
-
-  products = data || [];
-
-  console.log("Products received:", products);
-  console.log("Number of products:", products.length);
-
-  showDatabaseStatus(
-    products.length + " products loaded successfully."
-  );
-
-  renderProducts(products);
-  populateCategories(products);
-}
-
-
 async function loadMyProducts() {
-  if (!supabaseClient || !currentUser) {
-    renderMyProducts([]);
-    return;
-  }
+  if (!currentUser || currentProfile?.role !== "seller") return;
+
+  const container = document.getElementById("my-products");
 
   const { data, error } = await supabaseClient
     .from("products")
@@ -599,229 +801,85 @@ async function loadMyProducts() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Loading seller products error:", error);
-
-    showMessage("seller-product-message", error.message);
-
-    renderMyProducts([]);
+    container.textContent = error.message;
     return;
   }
 
-  renderMyProducts(data || []);
-}
-
-
-/* =========================================
-   DISPLAY PRODUCTS
-========================================= */
-
-function renderProducts(list) {
-  const container = document.getElementById("product-grid");
-
-  if (!container) {
-    console.error("Product container #product-grid was not found.");
+  if (!data || !data.length) {
+    container.innerHTML = "<p>No products yet.</p>";
     return;
   }
 
-  if (!list || list.length === 0) {
-    container.innerHTML = `
-      <p class="empty-state">
-        No products found. Please check again later.
-      </p>
-    `;
+  container.innerHTML = data.map(product => `
+    <div class="seller-product">
 
-    return;
-  }
+      <h4>${escapeHTML(product.name)}</h4>
 
-  container.innerHTML = list.map((product) => {
-    const image = product.image_url
-      ? `
-        <img
-          src="${escapeHTML(product.image_url)}"
-          alt="${escapeHTML(product.name)}"
-          loading="lazy"
-          onerror="this.style.display='none'"
-        >
-      `
-      : `
-        <div class="product-placeholder" aria-hidden="true">
-          🛍️
-        </div>
-      `;
+      <p>${formatPrice(product.price)}</p>
 
-    return `
-      <article class="product-card">
-        <div class="product-image">
-          ${image}
-        </div>
-
-        <div class="product-info">
-          <span class="product-category">
-            ${escapeHTML(product.category || "Other")}
-          </span>
-
-          <h3>${escapeHTML(product.name)}</h3>
-
-          <p class="product-description">
-            ${escapeHTML(product.description || "")}
-          </p>
-
-          <strong class="product-price">
-            ${formatPrice(product.price)}
-          </strong>
-
-          <button
-            type="button"
-            class="button button-primary whatsapp-order"
-            data-product-id="${escapeHTML(product.id)}">
-            Contact seller on WhatsApp
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
-
-  container.querySelectorAll(".whatsapp-order").forEach((button) => {
-    button.addEventListener("click", () => {
-      contactSeller(button.dataset.productId);
-    });
-  });
-}
-
-
-async function contactSeller(productId) {
-  if (!supabaseClient) {
-    alert("The database is not connected yet.");
-    return;
-  }
-
-  const product = products.find(
-    (item) => String(item.id) === String(productId)
-  );
-
-  if (!product) {
-    alert("This product is no longer available.");
-    return;
-  }
-
-  const { data: profile, error } = await supabaseClient
-    .from("profiles")
-    .select("display_name, whatsapp_number")
-    .eq("id", product.seller_id)
-    .maybeSingle();
-
-  if (error) {
-    console.error("Seller contact error:", error);
-    alert("Could not load seller contact details.");
-    return;
-  }
-
-  const phone = normalizeWhatsAppNumber(profile?.whatsapp_number);
-
-  if (!phone) {
-    alert("This seller has not added a valid WhatsApp number yet.");
-    return;
-  }
-
-  const message =
-    `Hello ${profile?.display_name || "seller"}, I am interested in "${product.name}" listed on Heaven's Mart. Is it available?`;
-
-  const whatsappUrl =
-    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-
-  window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-}
-
-
-/* =========================================
-   SELLER PRODUCT MANAGEMENT
-========================================= */
-
-function renderMyProducts(list) {
-  const container = document.getElementById("my-products");
-
-  if (!container) return;
-
-  if (!list.length) {
-    container.innerHTML = `
-      <p class="empty-state">
-        You have not added any products yet.
-      </p>
-    `;
-
-    return;
-  }
-
-  container.innerHTML = list.map((product) => `
-    <article class="seller-product">
-      <div>
-        <h3>${escapeHTML(product.name)}</h3>
-        <p>${formatPrice(product.price)}</p>
-        <p>Status: ${product.is_active ? "Active" : "Hidden"}</p>
-      </div>
+      <p>${product.is_active ? "Active" : "Hidden"}</p>
 
       <button
-        type="button"
-        class="button button-secondary toggle-product"
-        data-product-id="${escapeHTML(product.id)}"
-        data-active="${String(product.is_active)}">
-        ${product.is_active ? "Hide product" : "Show product"}
+        class="button button-secondary"
+        data-toggle-product="${escapeHTML(product.id)}"
+        data-active="${product.is_active}">
+        ${product.is_active ? "Hide" : "Show"}
       </button>
 
       <button
-        type="button"
-        class="button button-danger delete-product"
-        data-product-id="${escapeHTML(product.id)}">
+        class="button button-danger"
+        data-delete-product="${escapeHTML(product.id)}">
         Delete
       </button>
-    </article>
+
+    </div>
   `).join("");
 
-  container.querySelectorAll(".toggle-product").forEach((button) => {
-    button.addEventListener("click", () => {
-      toggleProduct(
-        button.dataset.productId,
-        button.dataset.active === "true"
-      );
+  container.querySelectorAll("[data-toggle-product]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        toggleProduct(
+          button.dataset.toggleProduct,
+          button.dataset.active === "true"
+        );
+      });
     });
-  });
 
-  container.querySelectorAll(".delete-product").forEach((button) => {
-    button.addEventListener("click", () => {
-      deleteProduct(button.dataset.productId);
+  container.querySelectorAll("[data-delete-product]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        deleteProduct(button.dataset.deleteProduct);
+      });
     });
-  });
 }
 
 
-async function toggleProduct(productId, currentlyActive) {
-  if (!supabaseClient || !currentUser) return;
+/* =========================================
+   SHOW OR HIDE PRODUCT
+========================================= */
 
+async function toggleProduct(id, currentlyActive) {
   const { error } = await supabaseClient
     .from("products")
-    .update({
-      is_active: !currentlyActive
-    })
-    .eq("id", productId)
+    .update({ is_active: !currentlyActive })
+    .eq("id", id)
     .eq("seller_id", currentUser.id);
 
   if (error) {
-    console.error("Toggle product error:", error);
-
-    showMessage("seller-product-message", error.message);
+    alert(error.message);
     return;
   }
 
   await loadProducts();
   await loadMyProducts();
-
-  showMessage("seller-product-message", "Product status updated.");
 }
 
 
-async function deleteProduct(productId) {
-  if (!supabaseClient || !currentUser) return;
+/* =========================================
+   DELETE PRODUCT
+========================================= */
 
+async function deleteProduct(id) {
   if (!confirm("Are you sure you want to delete this product?")) {
     return;
   }
@@ -829,89 +887,25 @@ async function deleteProduct(productId) {
   const { error } = await supabaseClient
     .from("products")
     .delete()
-    .eq("id", productId)
+    .eq("id", id)
     .eq("seller_id", currentUser.id);
 
   if (error) {
-    console.error("Delete product error:", error);
-
-    showMessage("seller-product-message", error.message);
+    alert(error.message);
     return;
   }
 
   await loadProducts();
   await loadMyProducts();
-
-  showMessage("seller-product-message", "Product deleted.");
 }
 
 
 /* =========================================
-   SEARCH AND CATEGORY FILTERS
+   SELLER LOGOUT
 ========================================= */
 
-function setupSearchAndCategories() {
-  const searchInput = document.getElementById("product-search");
-  const categorySelect = document.getElementById("category-filter");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", filterProducts);
-  }
-
-  if (categorySelect) {
-    categorySelect.addEventListener("change", filterProducts);
-  }
-}
-
-
-function filterProducts() {
-  const search = (
-    document.getElementById("product-search")?.value || ""
-  ).toLowerCase().trim();
-
-  const category =
-    document.getElementById("category-filter")?.value || "";
-
-  const filtered = products.filter((product) => {
-    const matchesSearch =
-      (product.name || "").toLowerCase().includes(search) ||
-      (product.description || "").toLowerCase().includes(search);
-
-    const matchesCategory =
-      !category || product.category === category;
-
-    return matchesSearch && matchesCategory;
-  });
-
-  renderProducts(filtered);
-}
-
-
-function populateCategories(list) {
-  const select = document.getElementById("category-filter");
-
-  if (!select) return;
-
-  const selectedValue = select.value;
-
-  const categories = [...new Set(
-    list.map((product) => product.category).filter(Boolean)
-  )].sort();
-
-  select.innerHTML = `<option value="">All categories</option>`;
-
-  categories.forEach((category) => {
-    const option = document.createElement("option");
-
-    option.value = category;
-    option.textContent = category;
-
-    select.appendChild(option);
-  });
-
-  if (categories.includes(selectedValue)) {
-    select.value = selectedValue;
-  }
+async function handleSellerLogout() {
+  await handleCustomerLogout();
 }
 
 
@@ -921,193 +915,217 @@ function populateCategories(list) {
 
 function setupReviewForm() {
   const form = document.getElementById("review-form");
-  const stars = document.querySelectorAll("[data-rating]");
-  const ratingInput = document.getElementById("review-rating");
-
-  stars.forEach((star) => {
-    star.addEventListener("click", () => {
-      const rating = Number(star.dataset.rating);
-
-      if (ratingInput) {
-        ratingInput.value = String(rating);
-      }
-
-      stars.forEach((item) => {
-        const selected = Number(item.dataset.rating) <= rating;
-
-        item.classList.toggle("selected", selected);
-        item.setAttribute("aria-pressed", String(selected));
-      });
-    });
-  });
 
   if (form) {
     form.addEventListener("submit", submitReview);
   }
+
+  document.querySelectorAll("[data-rating]").forEach(button => {
+    button.addEventListener("click", () => {
+      const rating = Number(button.dataset.rating);
+
+      document.getElementById("review-rating").value = rating;
+
+      document.querySelectorAll("[data-rating]").forEach(star => {
+        star.classList.toggle(
+          "selected",
+          Number(star.dataset.rating) <= rating
+        );
+      });
+    });
+  });
 }
 
 
 async function submitReview(event) {
   event.preventDefault();
 
-  if (!supabaseClient) {
-    showMessage("review-message", "The database is not connected.");
+  if (!currentUser) {
+    showReviewMessage("Please log in first.", true);
     return;
   }
 
   const name = document
-    .getElementById("review-name")?.value.trim();
+    .getElementById("review-name")
+    .value.trim();
 
   const rating = Number(
-    document.getElementById("review-rating")?.value
+    document.getElementById("review-rating").value
   );
 
   const comment = document
-    .getElementById("review-comment")?.value.trim();
+    .getElementById("review-comment")
+    .value.trim();
 
-  if (!name || !comment || rating < 1 || rating > 5) {
-    showMessage(
-      "review-message",
-      "Enter your name, select a rating, and write a review."
+  if (!name || rating < 1 || rating > 5 || !comment) {
+    showReviewMessage(
+      "Enter your name, choose a rating and write a review.",
+      true
     );
-
     return;
   }
 
-  const { error } = await supabaseClient.from("reviews").insert({
-    customer_name: name,
-    rating,
-    comment,
-    status: "pending"
-  });
+  const { error } = await supabaseClient
+    .from("reviews")
+    .insert({
+      user_id: currentUser.id,
+      name,
+      rating,
+      comment,
+      status: "pending"
+    });
 
   if (error) {
-    console.error("Review submission error:", error);
-
-    showMessage("review-message", error.message);
+    showReviewMessage(error.message, true);
     return;
   }
 
-  document.getElementById("review-form")?.reset();
-
-  document.querySelectorAll("[data-rating]").forEach((star) => {
-    star.classList.remove("selected");
-    star.setAttribute("aria-pressed", "false");
-  });
-
-  showMessage(
-    "review-message",
+  showReviewMessage(
     "Thank you! Your review has been submitted for approval."
   );
 
-  await loadReviews();
+  document.getElementById("review-form").reset();
+  document.getElementById("review-rating").value = "0";
+
+  document.querySelectorAll("[data-rating]").forEach(star => {
+    star.classList.remove("selected");
+  });
 }
 
 
+/* =========================================
+   LOAD APPROVED REVIEWS
+========================================= */
+
 async function loadReviews() {
-  if (!supabaseClient) return;
+  if (!supabaseClient || !currentUser) return;
+
+  const container = document.getElementById("reviews-list");
 
   const { data, error } = await supabaseClient
     .from("reviews")
-    .select("*")
+    .select("name, rating, comment, created_at")
     .eq("status", "approved")
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Loading reviews error:", error);
+    container.textContent = "Unable to load reviews.";
+    console.error("Review error:", error);
     return;
   }
 
   reviews = data || [];
 
-  renderReviews(reviews);
-}
-
-
-function renderReviews(list) {
-  const container = document.getElementById("reviews-list");
-
-  if (!container) return;
-
-  if (!list.length) {
-    container.innerHTML = `
-      <p class="empty-state">
-        No approved reviews yet. Be the first to share your experience!
-      </p>
-    `;
-
+  if (!reviews.length) {
+    container.innerHTML = "<p>No approved reviews yet.</p>";
     return;
   }
 
-  container.innerHTML = list.map((review) => `
-    <article class="review-card">
-      <h3>${escapeHTML(review.customer_name)}</h3>
+  container.innerHTML = reviews.map(review => `
+    <div class="review-card">
 
-      <p class="review-stars" aria-label="${Number(review.rating)} out of 5 stars">
-        ${"★".repeat(Number(review.rating))}${"☆".repeat(5 - Number(review.rating))}
+      <h4>${escapeHTML(review.name)}</h4>
+
+      <p class="review-stars">
+        ${"★".repeat(Math.min(5, Math.max(0, Number(review.rating))))}
       </p>
 
       <p>${escapeHTML(review.comment)}</p>
-    </article>
+
+    </div>
   `).join("");
 }
 
 
 /* =========================================
-   GENERAL HELPERS
+   HELPER FUNCTIONS
 ========================================= */
 
-function showMessage(elementId, message) {
-  const element = document.getElementById(elementId);
+function formatPrice(price) {
+  const amount = Number(price);
 
-  if (element) {
-    element.textContent = message;
-  }
-}
-
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, (character) => {
-    const entities = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    };
-
-    return entities[character];
-  });
-}
-
-
-function formatPrice(value) {
-  const amount = Number(value);
-
-  if (!Number.isFinite(amount)) {
-    return "Price unavailable";
-  }
+  if (!Number.isFinite(amount)) return "Price unavailable";
 
   return new Intl.NumberFormat("en-GH", {
     style: "currency",
-    currency: "GHS",
-    maximumFractionDigits: 2
+    currency: "GHS"
   }).format(amount);
 }
 
 
-function normalizeWhatsAppNumber(value) {
-  let phone = String(value || "").replace(/\D/g, "");
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => {
+    const characters = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    };
 
-  // Convert Ghana local format 0XXXXXXXXX to 233XXXXXXXXX.
-  if (phone.startsWith("0") && phone.length === 10) {
-    phone = "233" + phone.slice(1);
+    return characters[character];
+  });
+}
+
+
+function setCurrentYear() {
+  const year = document.getElementById("year");
+
+  if (year) {
+    year.textContent = new Date().getFullYear();
   }
+}
 
-  // Accept Ghana international format 233XXXXXXXXX.
-  if (phone.startsWith("233") && phone.length === 12) {
-    return phone;
-  }
 
-  return "";
+function showCustomerMessage(message, isError = false) {
+  const element =
+    document.getElementById("customer-auth-message");
+
+  if (!element) return;
+
+  element.textContent = message;
+  element.style.color = isError ? "#C0392B" : "#176B50";
+}
+
+
+function showSellerMessage(message, isError = false) {
+  const element = document.getElementById("auth-message");
+
+  if (!element) return;
+
+  element.textContent = message;
+  element.style.color = isError ? "#C0392B" : "#176B50";
+}
+
+
+function showProfileMessage(message, isError = false) {
+  const element =
+    document.getElementById("seller-profile-message");
+
+  if (!element) return;
+
+  element.textContent = message;
+  element.style.color = isError ? "#C0392B" : "#176B50";
+}
+
+
+function showProductMessage(message, isError = false) {
+  const element =
+    document.getElementById("seller-product-message");
+
+  if (!element) return;
+
+  element.textContent = message;
+  element.style.color = isError ? "#C0392B" : "#176B50";
+}
+
+
+function showReviewMessage(message, isError = false) {
+  const element =
+    document.getElementById("review-message");
+
+  if (!element) return;
+
+  element.textContent = message;
+  element.style.color = isError ? "#C0392B" : "#176B50";
 }
