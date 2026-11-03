@@ -42,9 +42,7 @@ button {
   cursor: pointer;
 }
 
-/* =================================
-   LOGIN SCREEN
-================================= */
+/* LOGIN SCREEN */
 
 .login-screen {
   min-height: 100vh;
@@ -174,9 +172,7 @@ button {
   font-size: 14px;
 }
 
-/* =================================
-   TOP NAVIGATION
-================================= */
+/* TOP NAVIGATION */
 
 .top-nav {
   background: var(--navy);
@@ -224,17 +220,25 @@ button {
   font-weight: bold;
 }
 
-/* =================================
-   SECOND NAVIGATION
-================================= */
+/* NAVIGATION */
 
-.second-nav {
-  background: white;
+.second-nav,
+.third-nav {
   padding: 14px 5%;
   display: flex;
   justify-content: center;
   gap: 35px;
+  white-space: nowrap;
+}
+
+.second-nav {
+  background: white;
   border-bottom: 1px solid var(--border);
+}
+
+.third-nav {
+  background: #EAF0F7;
+  gap: 40px;
 }
 
 .second-nav a,
@@ -245,21 +249,7 @@ button {
   font-weight: bold;
 }
 
-/* =================================
-   THIRD NAVIGATION
-================================= */
-
-.third-nav {
-  background: #EAF0F7;
-  padding: 12px 5%;
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-}
-
-/* =================================
-   HAMBURGER MENU
-================================= */
+/* HAMBURGER MENU */
 
 #main-nav {
   position: fixed;
@@ -299,9 +289,7 @@ button {
   z-index: 1000;
 }
 
-/* =================================
-   MAIN CONTENT
-================================= */
+/* MAIN CONTENT */
 
 .container {
   width: 90%;
@@ -337,9 +325,7 @@ button {
   font-weight: bold;
 }
 
-/* =================================
-   CATEGORIES
-================================= */
+/* CATEGORIES */
 
 .section-title {
   color: var(--navy);
@@ -362,9 +348,7 @@ button {
   font-weight: bold;
 }
 
-/* =================================
-   PRODUCT FILTERS
-================================= */
+/* PRODUCT FILTERS */
 
 .product-filters {
   display: flex;
@@ -385,9 +369,7 @@ button {
   flex: 1;
 }
 
-/* =================================
-   PRODUCTS
-================================= */
+/* PRODUCTS */
 
 .product-grid {
   display: grid;
@@ -475,9 +457,7 @@ button {
   width: 100%;
 }
 
-/* =================================
-   SELLER DASHBOARD
-================================= */
+/* SELLER DASHBOARD */
 
 .dashboard {
   background: white;
@@ -524,9 +504,7 @@ button {
   font-size: 14px;
 }
 
-/* =================================
-   REVIEWS
-================================= */
+/* REVIEWS */
 
 .review-section {
   margin-top: 40px;
@@ -571,9 +549,7 @@ button {
   color: #E5A900;
 }
 
-/* =================================
-   FOOTER
-================================= */
+/* FOOTER */
 
 footer {
   background: var(--navy);
@@ -588,9 +564,7 @@ footer h3 {
   color: var(--gold);
 }
 
-/* =================================
-   MOBILE RESPONSIVENESS
-================================= */
+/* MOBILE RESPONSIVENESS */
 
 @media(max-width: 850px) {
   .product-grid {
@@ -648,9 +622,7 @@ footer h3 {
 
 <body>
 
-<!-- =================================
-     CUSTOMER LOGIN
-================================= -->
+<!-- CUSTOMER LOGIN -->
 
 <section id="login-screen" class="login-screen">
 
@@ -672,21 +644,27 @@ footer h3 {
 
       <div id="customer-name-wrap" hidden>
         <label for="customer-name">Full name</label>
-        <input id="customer-name" type="text"
+        <input id="customer-name"
+          type="text"
           placeholder="Enter your full name">
       </div>
 
       <label for="customer-email">Email address</label>
-      <input id="customer-email" type="email"
-        placeholder="Enter your email" required>
+      <input id="customer-email"
+        type="email"
+        placeholder="Enter your email"
+        required>
 
       <label for="customer-password">Password</label>
-      <input id="customer-password" type="password"
+      <input id="customer-password"
+        type="password"
         placeholder="Enter your password"
-        minlength="8" required>
+        minlength="8"
+        required>
 
       <button class="login-submit"
-        type="submit" id="customer-auth-submit">
+        type="submit"
+        id="customer-auth-submit">
         LOGIN
       </button>
 
@@ -706,22 +684,19 @@ footer h3 {
     </p>
 
   </div>
-
 </section>
 
-
-<!-- =================================
-     MARKETPLACE
-     Hidden until customer login
-================================= -->
+<!-- MARKETPLACE -->
 
 <div id="app-shell" hidden>
 
   <!-- TOP NAVIGATION -->
+
   <header class="top-nav">
 
     <button class="hamburger"
       id="menu-toggle"
+      type="button"
       aria-label="Open menu"
       aria-expanded="false">
       ☰
@@ -730,17 +705,19 @@ footer h3 {
     <div class="logo">H HEAVEN'S MART</div>
 
     <form class="search" id="search-form">
+
       <input type="search"
-        id="product-search"
+        id="top-search-input"
         placeholder="Search products, brands and categories...">
 
       <button type="submit">Search</button>
+
     </form>
 
   </header>
 
-
   <!-- SECOND NAVIGATION -->
+
   <nav class="second-nav">
     <a href="#home">Home</a>
     <a href="#categories">Categories</a>
@@ -748,16 +725,16 @@ footer h3 {
     <a href="#contact">Contact</a>
   </nav>
 
-
   <!-- THIRD NAVIGATION -->
+
   <nav class="third-nav">
     <a href="#account">My Account</a>
     <a href="#seller-dashboard">Sell on Heaven's Mart</a>
     <a href="#products">Products</a>
   </nav>
 
-
   <!-- HAMBURGER MENU -->
+
   <nav id="main-nav">
 
     <h3>HEAVEN'S MART</h3>
@@ -782,11 +759,12 @@ footer h3 {
 
   <div class="menu-overlay" id="menu-overlay" hidden></div>
 
-
   <!-- MAIN CONTENT -->
+
   <main class="container" id="home">
 
     <section class="hero" id="deals">
+
       <h1>Welcome to Heaven's Mart</h1>
 
       <p>
@@ -799,10 +777,11 @@ footer h3 {
         onclick="document.getElementById('products').scrollIntoView()">
         SHOP NOW
       </button>
+
     </section>
 
-
     <!-- CATEGORIES -->
+
     <section id="categories">
 
       <h2 class="section-title">Shop by Category</h2>
@@ -810,17 +789,15 @@ footer h3 {
       <div class="categories">
 
         <div class="category">Cleaning Products</div>
-
         <div class="category">Phones & Accessories</div>
-
         <div class="category">Stationery</div>
 
       </div>
 
     </section>
 
-
     <!-- PRODUCTS -->
+
     <section id="products">
 
       <h2 class="section-title">Featured Products</h2>
@@ -847,8 +824,8 @@ footer h3 {
 
     </section>
 
-
     <!-- SELLER DASHBOARD -->
+
     <section id="seller-dashboard" class="dashboard">
 
       <h2>Seller Dashboard</h2>
@@ -886,7 +863,8 @@ footer h3 {
             required>
 
           <button class="button button-primary"
-            type="submit" id="seller-auth-submit">
+            type="submit"
+            id="seller-auth-submit">
             Log in
           </button>
 
@@ -895,7 +873,6 @@ footer h3 {
         <p id="auth-message" class="message"></p>
 
       </div>
-
 
       <div id="seller-workspace" hidden>
 
@@ -987,8 +964,8 @@ footer h3 {
 
     </section>
 
-
     <!-- CUSTOMER REVIEWS -->
+
     <section id="reviews" class="review-section">
 
       <h2 class="section-title">Customer Reviews</h2>
@@ -1036,16 +1013,14 @@ footer h3 {
 
   </main>
 
-
   <!-- FOOTER -->
+
   <footer id="contact">
 
     <h3>HEAVEN'S MART</h3>
 
     <p>Shop Smart. Live Better.</p>
-
     <p>Everyday Essentials in Ghana.</p>
-
     <p>Contact sellers directly through WhatsApp.</p>
 
     <p>
@@ -1057,21 +1032,16 @@ footer h3 {
 
 </div>
 
-
-<!-- =================================
-     SCRIPTS
-================================= -->
+<!-- SCRIPTS -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="config.js"></script>
-
 <script src="app.js"></script>
 
 <script>
-/* HAMBURGER MENU */
-
 document.addEventListener("DOMContentLoaded", function() {
+
+  /* HAMBURGER MENU */
 
   const menuButton = document.getElementById("menu-toggle");
   const menu = document.getElementById("main-nav");
@@ -1084,10 +1054,10 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   menuButton.addEventListener("click", function() {
-    const open = menu.classList.toggle("open");
+    const isOpen = menu.classList.toggle("open");
 
-    overlay.hidden = !open;
-    menuButton.setAttribute("aria-expanded", String(open));
+    overlay.hidden = !isOpen;
+    menuButton.setAttribute("aria-expanded", String(isOpen));
   });
 
   overlay.addEventListener("click", closeMenu);
@@ -1096,27 +1066,37 @@ document.addEventListener("DOMContentLoaded", function() {
     link.addEventListener("click", closeMenu);
   });
 
-  /* Search button uses the app.js search input */
+  /* TOP SEARCH */
+
   document.getElementById("search-form")
     .addEventListener("submit", function(event) {
+
       event.preventDefault();
 
-      document.getElementById("product-search")
-        .dispatchEvent(new Event("input"));
-      
-      document.getElementById("products").scrollIntoView();
+      const topSearch = document.getElementById("top-search-input");
+      const productSearch = document.getElementById("product-search");
+
+      productSearch.value = topSearch.value;
+
+      productSearch.dispatchEvent(
+        new Event("input", { bubbles: true })
+      );
+
+      document.getElementById("products").scrollIntoView({
+        behavior: "smooth"
+      });
+
     });
 
-  /* Customer logout */
+  /* CUSTOMER LOGOUT */
+
   document.getElementById("customer-logout")
     .addEventListener("click", async function() {
 
-      if (window.supabase && window.HEAVENS_MART_CONFIG) {
-        // The actual logout is handled by the main app.js client.
-        if (typeof handleCustomerLogout === "function") {
-          await handleCustomerLogout();
-        }
+      if (typeof handleCustomerLogout === "function") {
+        await handleCustomerLogout();
       }
+
     });
 
 });
