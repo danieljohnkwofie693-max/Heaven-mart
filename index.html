@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,11 +19,7 @@
       --green: #176B50;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
@@ -33,25 +28,15 @@
       line-height: 1.6;
     }
 
-    button, input, select, textarea {
-      font: inherit;
-    }
-
-    button, a {
-      cursor: pointer;
-    }
-
-    a {
-      text-decoration: none;
-    }
+    button, input, select, textarea { font: inherit; }
+    button, a { cursor: pointer; }
+    a { text-decoration: none; }
 
     .container {
       width: 92%;
       max-width: 1200px;
       margin: auto;
     }
-
-    /* ANNOUNCEMENT */
 
     .announcement {
       background: var(--navy);
@@ -60,8 +45,6 @@
       padding: 9px;
       font-size: 13px;
     }
-
-    /* HEADER AND LOGO */
 
     header {
       background: white;
@@ -102,6 +85,7 @@
     }
 
     .logo-name {
+      display: block;
       color: var(--navy);
       font-size: 21px;
       font-weight: 900;
@@ -109,6 +93,7 @@
     }
 
     .logo-slogan {
+      display: block;
       color: var(--blue);
       font-size: 10px;
       font-weight: bold;
@@ -119,18 +104,17 @@
     nav {
       display: flex;
       align-items: center;
-      gap: 23px;
+      gap: 20px;
     }
 
     nav a {
       color: var(--navy);
       font-weight: bold;
       font-size: 14px;
+      transition: color .2s ease;
     }
 
-    nav a:hover {
-      color: var(--blue);
-    }
+    nav a:hover { color: var(--blue); }
 
     .menu-toggle {
       display: none;
@@ -142,11 +126,7 @@
       font-size: 20px;
     }
 
-    .menu-overlay {
-      display: none;
-    }
-
-    /* SEARCH */
+    .menu-overlay { display: none; }
 
     .search-section {
       background: var(--navy);
@@ -178,17 +158,13 @@
       font-weight: bold;
     }
 
-    /* HERO */
-
     .hero {
       background: linear-gradient(120deg, var(--navy), var(--blue));
       color: white;
-      padding: 65px 0;
+      padding: 55px 0;
     }
 
-    .hero-content {
-      max-width: 750px;
-    }
+    .hero-content { max-width: 750px; }
 
     .hero h1 {
       font-size: clamp(32px, 5vw, 50px);
@@ -196,9 +172,7 @@
       margin-bottom: 18px;
     }
 
-    .hero h1 span {
-      color: var(--gold);
-    }
+    .hero h1 span { color: var(--gold); }
 
     .hero p {
       font-size: 17px;
@@ -215,11 +189,7 @@
       font-weight: bold;
     }
 
-    /* GENERAL SECTIONS */
-
-    section.content-section {
-      padding: 50px 0;
-    }
+    section.content-section { padding: 50px 0; }
 
     .section-heading {
       text-align: center;
@@ -236,24 +206,20 @@
       margin-top: 5px;
     }
 
-    /* CATEGORY */
-
     .category-filter {
       display: block;
-      max-width: 300px;
+      max-width: 420px;
       width: 100%;
-      margin: 0 auto 25px;
+      margin: 0 auto 18px;
       padding: 12px;
       background: white;
       border: 1px solid var(--border);
       border-radius: 7px;
     }
 
-    /* PRODUCTS */
-
     .product-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 20px;
     }
 
@@ -265,8 +231,7 @@
       box-shadow: 0 3px 12px rgba(0,0,0,0.04);
     }
 
-    .product-card img,
-    .product-placeholder {
+    .product-card img, .product-placeholder {
       width: 100%;
       height: 190px;
       object-fit: cover;
@@ -280,9 +245,7 @@
       color: var(--muted);
     }
 
-    .product-details {
-      padding: 15px;
-    }
+    .product-details { padding: 15px; }
 
     .product-category {
       color: var(--blue);
@@ -310,8 +273,7 @@
       margin-bottom: 13px;
     }
 
-    .contact-seller,
-    .review-product-button {
+    .contact-seller, .review-product-button {
       display: block;
       width: 100%;
       text-align: center;
@@ -323,17 +285,8 @@
       font-size: 13px;
     }
 
-    .contact-seller {
-      background: var(--navy);
-      color: white;
-    }
-
-    .review-product-button {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    /* DATABASE STATUS */
+    .contact-seller { background: var(--navy); color: white; }
+    .review-product-button { background: var(--gold); color: var(--navy); }
 
     #database-status {
       text-align: center;
@@ -341,8 +294,6 @@
       margin-top: 20px;
       font-size: 13px;
     }
-
-    /* LOGIN */
 
     .login-section {
       min-height: 75vh;
@@ -362,14 +313,8 @@
       box-shadow: 0 8px 30px rgba(9, 38, 74, 0.10);
     }
 
-    .login-logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .login-logo .logo-symbol {
-      margin: auto;
-    }
+    .login-logo { text-align: center; margin-bottom: 20px; }
+    .login-logo .logo-symbol { margin: auto; }
 
     .login-card h2 {
       color: var(--navy);
@@ -384,9 +329,7 @@
       font-size: 14px;
     }
 
-    .form-group {
-      margin-bottom: 15px;
-    }
+    .form-group { margin-bottom: 15px; }
 
     .form-group label {
       display: block;
@@ -396,9 +339,7 @@
       margin-bottom: 6px;
     }
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid var(--border);
@@ -407,11 +348,8 @@
       background: white;
     }
 
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--blue);
-    }
+    .form-group input:focus, .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--blue); }
 
     .primary-button {
       width: 100%;
@@ -423,10 +361,7 @@
       font-weight: bold;
     }
 
-    .primary-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    .primary-button:disabled { opacity: .6; cursor: not-allowed; }
 
     .auth-switch {
       text-align: center;
@@ -434,8 +369,7 @@
       font-size: 13px;
     }
 
-    .auth-switch button,
-    .forgot-button {
+    .auth-switch button, .forgot-button {
       border: none;
       background: none;
       color: var(--blue);
@@ -455,8 +389,6 @@
       text-align: center;
     }
 
-    /* SELLER DASHBOARD */
-
     .dashboard-box {
       background: white;
       border: 1px solid var(--border);
@@ -465,10 +397,7 @@
       margin-bottom: 25px;
     }
 
-    .dashboard-box h3 {
-      color: var(--navy);
-      margin-bottom: 17px;
-    }
+    .dashboard-box h3 { color: var(--navy); margin-bottom: 17px; }
 
     .seller-product {
       border: 1px solid var(--border);
@@ -478,9 +407,7 @@
       background: #FAFBFD;
     }
 
-    .seller-product h4 {
-      color: var(--navy);
-    }
+    .seller-product h4 { color: var(--navy); }
 
     .delete-product-button {
       background: #B42318;
@@ -500,13 +427,7 @@
       font-weight: bold;
     }
 
-    /* REVIEWS */
-
-    .rating-stars {
-      display: flex;
-      gap: 8px;
-      margin: 10px 0;
-    }
+    .rating-stars { display: flex; gap: 8px; margin: 10px 0; }
 
     .rating-stars button {
       border: none;
@@ -515,9 +436,7 @@
       font-size: 28px;
     }
 
-    .rating-stars button.active {
-      color: #E6A700;
-    }
+    .rating-stars button.active { color: #E6A700; }
 
     .review-card {
       background: white;
@@ -527,15 +446,8 @@
       margin-bottom: 12px;
     }
 
-    .review-card h4 {
-      color: var(--navy);
-    }
-
-    .review-card p:nth-child(2) {
-      color: #E6A700;
-    }
-
-    /* FOOTER */
+    .review-card h4 { color: var(--navy); }
+    .review-card p:nth-child(2) { color: #E6A700; }
 
     footer {
       background: var(--navy);
@@ -544,50 +456,38 @@
       text-align: center;
     }
 
-    footer h3 {
-      color: var(--gold);
-      margin-bottom: 8px;
+    footer h3 { color: var(--gold); margin-bottom: 8px; }
+    footer p { font-size: 13px; margin: 5px 0; }
+
+    /* Shop appears first inside the marketplace. */
+    #app-shell {
+      display: flex;
+      flex-direction: column;
     }
 
-    footer p {
-      font-size: 13px;
-      margin: 5px 0;
-    }
+    #app-shell[hidden] { display: none !important; }
 
-    /* RESPONSIVE DESIGN */
+    #products { order: 1; }
+    .hero { order: 2; }
+    #seller { order: 3; }
+    #reviews { order: 4; }
+    #about { order: 5; }
+
+    /* Used when a navigation link opens one section in a new tab. */
+    #app-shell.single-section > section[hidden] { display: none !important; }
 
     @media (max-width: 900px) {
-      .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      nav {
-        gap: 12px;
-      }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      nav { gap: 12px; }
     }
 
     @media (max-width: 650px) {
-      .header-content {
-        min-height: 72px;
-      }
+      .header-content { min-height: 72px; }
+      .logo-symbol { width: 44px; height: 44px; font-size: 25px; }
+      .logo-name { font-size: 17px; }
+      .logo-slogan { font-size: 9px; }
 
-      .logo-symbol {
-        width: 44px;
-        height: 44px;
-        font-size: 25px;
-      }
-
-      .logo-name {
-        font-size: 17px;
-      }
-
-      .logo-slogan {
-        font-size: 9px;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
+      .menu-toggle { display: block; }
 
       nav {
         display: none;
@@ -602,9 +502,7 @@
         box-shadow: 0 5px 12px rgba(0,0,0,0.1);
       }
 
-      nav.active {
-        display: flex;
-      }
+      nav.active { display: flex; }
 
       .menu-overlay.active {
         display: block;
@@ -614,41 +512,23 @@
         z-index: -1;
       }
 
-      .hero {
-        padding: 45px 0;
-      }
-
-      .hero p {
-        font-size: 15px;
-      }
-
-      .product-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .login-card {
-        padding: 25px 20px;
-      }
-
-      .search-form button {
-        padding: 0 13px;
-      }
+      .hero { padding: 40px 0; }
+      .hero p { font-size: 15px; }
+      .product-grid { grid-template-columns: 1fr; }
+      .login-card { padding: 25px 20px; }
+      .search-form button { padding: 0 13px; }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- ANNOUNCEMENT -->
   <div class="announcement">
     Serving customers across Ghana • Direct seller contact
   </div>
 
-  <!-- HEADER -->
   <header>
     <div class="container header-content">
-
-      <a href="#" class="logo">
+      <a href="?section=home" class="logo">
         <span class="logo-symbol">H</span>
         <span>
           <span class="logo-name">HEAVEN'S MART</span>
@@ -656,41 +536,35 @@
         </span>
       </a>
 
-      <button class="menu-toggle" id="menu-toggle" type="button">
+      <button class="menu-toggle" id="menu-toggle" type="button"
+              aria-label="Open navigation menu" aria-expanded="false">
         ☰
       </button>
 
-  <nav id="main-nav">
-  <a href="?section=home" target="_blank">Home</a>
-  <a href="?section=products" target="_blank">Shop</a>
-  <a href="?section=seller" target="_blank">Seller Dashboard</a>
-  <a href="?section=reviews" target="_blank">Reviews</a>
-  <a href="?section=about" target="_blank">About Us</a>
-</nav>
+      <nav id="main-nav">
+        <a href="?section=home" target="_blank" rel="noopener">Home</a>
+        <a href="?section=products" target="_blank" rel="noopener">Shop</a>
+        <a href="?section=seller" target="_blank" rel="noopener">Seller Dashboard</a>
+        <a href="?section=reviews" target="_blank" rel="noopener">Reviews</a>
+        <a href="?section=about" target="_blank" rel="noopener">About Us</a>
+      </nav>
 
       <div class="menu-overlay" id="menu-overlay"></div>
-
     </div>
   </header>
 
-  <!-- TOP SEARCH -->
   <div class="search-section">
     <div class="container">
       <form class="search-form" id="search-form">
-        <input
-          type="search"
-          id="top-search-input"
-          placeholder="Search products..."
-        >
+        <input type="search" id="top-search-input" placeholder="Search products..." aria-label="Search products">
         <button type="submit">Search</button>
       </form>
     </div>
   </div>
 
-  <!-- LOGIN SCREEN -->
+  <!-- CUSTOMER LOGIN: IDs are retained for app.js. -->
   <section class="login-section" id="login-screen">
     <div class="login-card">
-
       <div class="login-logo">
         <div class="logo-symbol">H</div>
         <h3 class="logo-name">HEAVEN'S MART</h3>
@@ -698,113 +572,53 @@
       </div>
 
       <h2 id="login-heading">Welcome Back!</h2>
-
-      <p id="login-description">
-        Sign in to access your marketplace.
-      </p>
+      <p id="login-description">Sign in to access your marketplace.</p>
 
       <form id="customer-auth-form">
-
         <div class="form-group" id="customer-name-wrap" hidden>
           <label for="customer-name">Full Name</label>
-          <input
-            type="text"
-            id="customer-name"
-            placeholder="Enter your full name"
-          >
+          <input type="text" id="customer-name" placeholder="Enter your full name">
         </div>
 
         <div class="form-group">
           <label for="customer-email">Email Address</label>
-          <input
-            type="email"
-            id="customer-email"
-            placeholder="Enter your email"
-            required
-          >
+          <input type="email" id="customer-email" placeholder="Enter your email" required>
         </div>
 
         <div class="form-group">
           <label for="customer-password">Password</label>
-          <input
-            type="password"
-            id="customer-password"
-            placeholder="Enter your password"
-            required
-            minlength="6"
-          >
+          <input type="password" id="customer-password" placeholder="Enter your password" required minlength="6">
         </div>
 
-        <button
-          type="submit"
-          class="primary-button"
-          id="customer-auth-submit"
-        >
-          LOGIN
-        </button>
-
+        <button type="submit" class="primary-button" id="customer-auth-submit">LOGIN</button>
       </form>
 
-      <button
-        type="button"
-        class="forgot-button"
-        id="forgot-password"
-      >
-        Forgot Password?
-      </button>
+      <button type="button" class="forgot-button" id="forgot-password">Forgot Password?</button>
 
       <div class="auth-switch">
         <span id="account-prompt">New to Heaven's Mart?</span>
-        <button type="button" id="switch-auth-mode">
-          Create an account
-        </button>
+        <button type="button" id="switch-auth-mode">Create an account</button>
       </div>
 
       <p class="message" id="customer-auth-message"></p>
-
     </div>
   </section>
 
   <!-- MAIN MARKETPLACE -->
   <div id="app-shell" hidden>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-content">
-
-        <h1>
-          Welcome to <span>Heaven's Mart</span>
-        </h1>
-
-        <p>
-          Discover everyday essentials, phones, accessories and stationery
-          from sellers across Ghana. Shop smart and live better.
-        </p>
-
-        <a href="#products" class="hero-button">
-          Explore Products
-        </a>
-
-      </div>
-    </section>
-
-    <!-- PRODUCTS -->
+    <!-- SHOP IS FIRST SO PRODUCTS APPEAR BEFORE THE HERO. -->
     <section class="content-section" id="products">
       <div class="container">
-
         <div class="section-heading">
           <h2>Explore Our Products</h2>
           <p>Find what you need at Heaven's Mart.</p>
         </div>
 
-        <input
-          type="search"
-          id="product-search"
-          class="category-filter"
-          placeholder="Search products..."
-        >
+        <input type="search" id="product-search" class="category-filter"
+               placeholder="Search products..." aria-label="Search products">
 
-        <select id="category-filter" class="category-filter">
+        <select id="category-filter" class="category-filter" aria-label="Filter products by category">
           <option value="all">All Categories</option>
           <option value="Cleaning Products">Cleaning Products</option>
           <option value="Phones and Accessories">Phones and Accessories</option>
@@ -814,124 +628,84 @@
         <div class="product-grid" id="product-grid">
           <p>Loading products...</p>
         </div>
-
         <p id="database-status"></p>
-
       </div>
     </section>
 
-    <!-- SELLER SECTION -->
+    <section class="hero" id="home">
+      <div class="container hero-content">
+        <h1>Welcome to <span>Heaven's Mart</span></h1>
+        <p>
+          Discover everyday essentials, phones, accessories and stationery
+          from sellers across Ghana. Shop smart and live better.
+        </p>
+        <a href="?section=products" target="_blank" rel="noopener" class="hero-button">
+          Explore Products
+        </a>
+      </div>
+    </section>
+
     <section class="content-section" id="seller">
       <div class="container">
-
         <div class="section-heading">
           <h2>Seller Dashboard</h2>
           <p>Manage your products and seller information.</p>
         </div>
 
         <div class="dashboard-box" id="seller-auth">
-
           <h3>Seller Login</h3>
-
           <form id="seller-auth-form">
-
             <div class="form-group" id="seller-display-name-wrap">
               <label for="seller-display-name">Display Name</label>
-              <input
-                type="text"
-                id="seller-display-name"
-                placeholder="Your business name"
-              >
+              <input type="text" id="seller-display-name" placeholder="Your business name">
             </div>
 
             <div class="form-group">
               <label for="seller-email">Email Address</label>
-              <input
-                type="email"
-                id="seller-email"
-                placeholder="Seller email"
-                required
-              >
+              <input type="email" id="seller-email" placeholder="Seller email" required>
             </div>
 
             <div class="form-group">
               <label for="seller-password">Password</label>
-              <input
-                type="password"
-                id="seller-password"
-                placeholder="Password"
-                required
-              >
+              <input type="password" id="seller-password" placeholder="Password" required>
             </div>
 
-            <button
-              type="submit"
-              class="primary-button"
-              id="seller-auth-submit"
-            >
-              LOGIN
-            </button>
-
+            <button type="submit" class="primary-button" id="seller-auth-submit">LOGIN</button>
           </form>
 
           <p class="message" id="auth-message"></p>
-
           <p style="font-size:13px; margin-top:12px;">
             Seller accounts must be approved and created by the administrator.
           </p>
-
           <button type="button" id="auth-mode" class="secondary-button" style="margin-top:12px;">
             Seller account information
           </button>
-
         </div>
 
         <div class="dashboard-box" id="seller-workspace">
-
           <h3>Update Seller Profile</h3>
-
           <form id="seller-profile-form">
-
             <div class="form-group">
               <label for="seller-display-name-edit">Business Name</label>
-              <input
-                type="text"
-                id="seller-display-name-edit"
-                placeholder="Your business name"
-              >
+              <input type="text" id="seller-display-name-edit" placeholder="Your business name">
             </div>
 
             <div class="form-group">
               <label for="seller-whatsapp">WhatsApp Number</label>
-              <input
-                type="tel"
-                id="seller-whatsapp"
-                placeholder="Example: 233XXXXXXXXX"
-              >
+              <input type="tel" id="seller-whatsapp" placeholder="Example: 233XXXXXXXXX">
             </div>
 
-            <button type="submit" class="primary-button">
-              SAVE PROFILE
-            </button>
-
+            <button type="submit" class="primary-button">SAVE PROFILE</button>
             <p class="message" id="seller-profile-message"></p>
-
           </form>
 
           <hr style="margin:25px 0; border:0; border-top:1px solid #E0E5EC;">
 
           <h3>Add a New Product</h3>
-
           <form id="product-form">
-
             <div class="form-group">
               <label for="new-product-name">Product Name</label>
-              <input
-                type="text"
-                id="new-product-name"
-                placeholder="Product name"
-                required
-              >
+              <input type="text" id="new-product-name" placeholder="Product name" required>
             </div>
 
             <div class="form-group">
@@ -946,131 +720,77 @@
 
             <div class="form-group">
               <label for="new-product-price">Price (GHS)</label>
-              <input
-                type="number"
-                id="new-product-price"
-                min="0.01"
-                step="0.01"
-                placeholder="Enter price"
-                required
-              >
+              <input type="number" id="new-product-price" min="0.01" step="0.01"
+                     placeholder="Enter price" required>
             </div>
 
             <div class="form-group">
               <label for="new-product-description">Description</label>
-              <textarea
-                id="new-product-description"
-                rows="4"
-                placeholder="Describe your product"
-              ></textarea>
+              <textarea id="new-product-description" rows="4"
+                        placeholder="Describe your product"></textarea>
             </div>
 
             <div class="form-group">
               <label for="new-product-image">Image URL</label>
-              <input
-                type="url"
-                id="new-product-image"
-                placeholder="Paste product image URL"
-              >
+              <input type="url" id="new-product-image" placeholder="Paste product image URL">
             </div>
 
-            <button type="submit" class="primary-button">
-              ADD PRODUCT
-            </button>
-
+            <button type="submit" class="primary-button">ADD PRODUCT</button>
             <p class="message" id="seller-product-message"></p>
-
           </form>
 
           <hr style="margin:25px 0; border:0; border-top:1px solid #E0E5EC;">
 
           <h3>My Products</h3>
-          <div id="my-products">
-            <p>Your products will appear here.</p>
-          </div>
+          <div id="my-products"><p>Your products will appear here.</p></div>
 
-          <button
-            type="button"
-            id="seller-logout"
-            class="secondary-button"
-          >
-            LOG OUT
-          </button>
-
+          <button type="button" id="seller-logout" class="secondary-button">LOG OUT</button>
         </div>
-
       </div>
     </section>
 
-    <!-- REVIEWS -->
     <section class="content-section" id="reviews">
       <div class="container">
-
         <div class="section-heading">
           <h2>Customer Reviews</h2>
           <p>Share your experience with Heaven's Mart.</p>
         </div>
 
         <div class="dashboard-box">
-
           <form id="review-form">
-
             <div class="form-group">
               <label for="review-name">Your Name</label>
-              <input
-                type="text"
-                id="review-name"
-                placeholder="Enter your name"
-              >
+              <input type="text" id="review-name" placeholder="Enter your name">
             </div>
 
             <div class="form-group">
               <label>Your Rating</label>
-
               <div class="rating-stars">
-                <button type="button" data-rating="1">★</button>
-                <button type="button" data-rating="2">★</button>
-                <button type="button" data-rating="3">★</button>
-                <button type="button" data-rating="4">★</button>
-                <button type="button" data-rating="5" class="active">★</button>
+                <button type="button" data-rating="1" aria-label="1 star">★</button>
+                <button type="button" data-rating="2" aria-label="2 stars">★</button>
+                <button type="button" data-rating="3" aria-label="3 stars">★</button>
+                <button type="button" data-rating="4" aria-label="4 stars">★</button>
+                <button type="button" data-rating="5" class="active" aria-label="5 stars">★</button>
               </div>
             </div>
 
             <div class="form-group">
               <label for="review-comment">Your Review</label>
-              <textarea
-                id="review-comment"
-                rows="4"
-                placeholder="Write your review..."
-                required
-              ></textarea>
+              <textarea id="review-comment" rows="4" placeholder="Write your review..." required></textarea>
             </div>
 
-            <button type="submit" class="primary-button">
-              SUBMIT REVIEW
-            </button>
-
+            <button type="submit" class="primary-button">SUBMIT REVIEW</button>
             <p class="message" id="review-message"></p>
-
           </form>
-
         </div>
 
-        <h3 style="color:var(--navy); margin:25px 0 15px;">
-          What Customers Say
-        </h3>
-
-        <div id="reviews-list">
-          <p>Loading reviews...</p>
-        </div>
-
+        <h3 style="color:var(--navy); margin:25px 0 15px;">What Customers Say</h3>
+        <div id="reviews-list"><p>Loading reviews...</p></div>
       </div>
     </section>
 
-    <!-- ABOUT -->
     <section class="content-section" id="about">
       <div class="container">
-
         <div class="section-heading">
           <h2>About Heaven's Mart</h2>
           <p>Shop Smart. Live Better.</p>
@@ -1084,33 +804,97 @@
             and share your shopping experience through customer reviews.
           </p>
         </div>
-
       </div>
     </section>
-
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
-
       <h3>HEAVEN'S MART</h3>
-
       <p>Shop Smart. Live Better.</p>
       <p>Serving customers across Ghana.</p>
-
-      <p>
-        &copy; <span id="year"></span> Heaven's Mart.
-        All rights reserved.
-      </p>
-
+      <p>&copy; <span id="year"></span> Heaven's Mart. All rights reserved.</p>
     </div>
   </footer>
 
-  <!-- JAVASCRIPT FILES -->
+  <!-- Keep these files: they connect the page to your existing Supabase project. -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="app.js"></script>
 
+  <!-- Navigation menu and separate-section tab handling. -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const menuButton = document.getElementById("menu-toggle");
+      const nav = document.getElementById("main-nav");
+      const overlay = document.getElementById("menu-overlay");
+
+      function closeMenu() {
+        if (nav) nav.classList.remove("active");
+        if (overlay) overlay.classList.remove("active");
+        if (menuButton) menuButton.setAttribute("aria-expanded", "false");
+      }
+
+      if (menuButton && nav) {
+        menuButton.addEventListener("click", function () {
+          const isOpen = nav.classList.toggle("active");
+          if (overlay) overlay.classList.toggle("active", isOpen);
+          menuButton.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        nav.querySelectorAll("a").forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+      }
+
+      if (overlay) overlay.addEventListener("click", closeMenu);
+
+      const sectionNames = {
+        products: "products",
+        seller: "seller",
+        reviews: "reviews",
+        about: "about",
+        home: "home"
+      };
+
+      const requestedSection = new URLSearchParams(window.location.search).get("section");
+      if (!requestedSection || !sectionNames[requestedSection]) return;
+
+      const appShell = document.getElementById("app-shell");
+      if (!appShell) return;
+
+      let observer = null;
+
+      function showRequestedSection() {
+        if (appShell.hidden) return false;
+
+        const targetId = sectionNames[requestedSection];
+        const sections = appShell.querySelectorAll(":scope > section");
+
+        appShell.classList.add("single-section");
+
+        sections.forEach(function (section) {
+          section.hidden = section.id !== targetId;
+        });
+
+        window.scrollTo(0, 0);
+        return true;
+      }
+
+      if (!showRequestedSection()) {
+        observer = new MutationObserver(function () {
+          if (showRequestedSection() && observer) {
+            observer.disconnect();
+            observer = null;
+          }
+        });
+
+        observer.observe(appShell, {
+          attributes: true,
+          attributeFilter: ["hidden"]
+        });
+      }
+    });
+  </script>
 </body>
 </html>
