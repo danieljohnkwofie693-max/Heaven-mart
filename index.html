@@ -1,113 +1,453 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Shop cleaning products, phones and accessories, and stationery. Contact the seller directly to order.">
-  <title>Heaven's Mart — Everyday Essentials</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heaven's Mart | Ghana</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  color: #333;
+}
+
+/* TOP NAVIGATION */
+.top-nav {
+  background: #f6a623;
+  padding: 15px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: bold;
+  color: #222;
+  white-space: nowrap;
+}
+
+.search {
+  display: flex;
+  flex: 1;
+  max-width: 600px;
+}
+
+.search input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 5px 0 0 5px;
+}
+
+.search button {
+  padding: 12px 20px;
+  background: #222;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+}
+
+.hamburger {
+  font-size: 27px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* SECOND NAVIGATION */
+.second-nav {
+  background: white;
+  padding: 14px 5%;
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+}
+
+.second-nav a,
+.third-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* THIRD NAVIGATION */
+.third-nav {
+  background: #eeeeee;
+  padding: 12px 5%;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+/* SIDE MENU */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 99;
+}
+
+.overlay.active {
+  display: block;
+}
+
+.side-menu {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 280px;
+  height: 100%;
+  background: white;
+  padding: 25px;
+  transition: 0.3s;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.side-menu.active {
+  left: 0;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.close-menu {
+  border: none;
+  background: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.side-menu a {
+  display: block;
+  padding: 16px 5px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+/* MAIN CONTENT */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 25px auto;
+}
+
+.hero {
+  background: linear-gradient(120deg, #176b50, #0d382a);
+  color: white;
+  padding: 55px 35px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.hero h1 {
+  font-size: 35px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.hero button {
+  background: #f6a623;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.section-title {
+  margin-bottom: 20px;
+}
+
+/* CATEGORY CARDS */
+.categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.category {
+  background: white;
+  padding: 25px 15px;
+  text-align: center;
+  border-radius: 7px;
+  font-weight: bold;
+}
+
+/* PRODUCT AREA */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.product-card {
+  background: white;
+  padding: 15px;
+  border-radius: 7px;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.product-card h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.price {
+  color: #176b50;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.order-btn {
+  display: inline-block;
+  background: #f6a623;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #222;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  margin-top: 40px;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media(max-width: 768px) {
+  .top-nav {
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .search {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .second-nav {
+    gap: 15px;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .third-nav {
+    gap: 20px;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+}
+
+@media(max-width: 380px) {
+  .categories {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
+
 <body>
-  <div class="announcement">Serving customers across Ghana <span>•</span> Direct seller contact</div>
-  <header class="site-header">
-    <a class="brand" href="#home"><span class="brand-icon">H</span><span>Heaven's Mart<small>GHANA · EVERYDAY ESSENTIALS</small></span></a>
-    <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-    <nav id="main-nav">
-      <a href="#home">Home</a><a href="#shop">Shop</a><a href="#reviews">Reviews</a><a href="#contact">Contact</a>
-      <button class="admin-link" id="open-admin">Seller dashboard <span>↗</span></button>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero" id="home">
-      <div class="hero-content">
-        <div class="pill"><span class="status-dot"></span> YOUR EVERYDAY SHOP IN GHANA</div>
-        <h1>Good finds.<br><em>Every single day.</em></h1>
-        <p>From home cleaning essentials to phone accessories and stationery, discover the little things that make life easier.</p>
-        <div class="hero-actions"><a class="button button-dark" href="#shop">Explore the shop <span>↗</span></a><a class="text-link" href="#contact">Talk to the seller <span>→</span></a></div>
-        <div class="hero-proof"><div class="avatar-stack"><span>C</span><span>P</span><span>S</span></div><span><strong>Personal service</strong><small>Questions? We're here to help.</small></span></div>
-      </div>
-      <div class="hero-visual" aria-label="Illustration of shopping essentials">
-        <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
-        <div class="floating-card card-clean"><span class="float-emoji">🧴</span><span><b>Home essentials</b><small>Clean & fresh</small></span></div>
-        <div class="floating-card card-phone"><span class="float-emoji">📱</span><span><b>Tech accessories</b><small>Stay connected</small></span></div>
-        <div class="floating-card card-paper"><span class="float-emoji">📒</span><span><b>Stationery</b><small>Ideas start here</small></span></div>
-        <div class="hero-sticker"><span>GOOD<br>STUFF</span><b>✳</b></div>
-        <div class="hero-center"><span class="center-spark">✦</span><div class="big-bag"><span>H</span></div><div class="center-base"></div></div>
-      </div>
-    </section>
+<!-- FIRST NAVIGATION -->
+<header class="top-nav">
 
-    <section class="benefits">
-      <div><span class="benefit-icon">✦</span><span><b>Everyday essentials</b><small>Useful picks for daily life</small></span></div>
-      <div><span class="benefit-icon">♡</span><span><b>Friendly service</b><small>Speak directly with the seller</small></span></div>
-      <div><span class="benefit-icon">★</span><span><b>Community reviews</b><small>Seller-approved feedback</small></span></div>
-    </section>
+  <button class="hamburger" id="menu-toggle"
+    aria-label="Open menu" aria-expanded="false">
+    ☰
+  </button>
 
-    <section class="shop section-shell" id="shop">
-      <div class="section-heading"><div><div class="eyebrow">A LITTLE BIT OF EVERYTHING</div><h2>Find your <em>everyday</em> favourites.</h2></div><p>Browse by category, search for an item, and contact us to check availability.</p></div>
-      <div class="shop-controls">
-        <label class="search-field"><span>⌕</span><input type="search" id="search-input" placeholder="What are you looking for?" aria-label="Search products"><kbd>SEARCH</kbd></label>
-        <div class="category-tabs" id="category-list">
-          <button class="category-chip active" data-category="All">Everything</button>
-          <button class="category-chip" data-category="Cleaning">Cleaning</button>
-          <button class="category-chip" data-category="Phones">Phones</button>
-          <button class="category-chip" data-category="Accessories">Accessories</button>
-          <button class="category-chip" data-category="Stationery">Stationery</button>
-        </div>
-      </div>
-      <div class="product-grid" id="product-grid"></div>
-      <p class="empty-state" id="empty-products" hidden>No products found. Try a different search.</p>
-      <div class="catalog-note"><span>✳</span> Looking for something specific? <a href="#contact">Ask the seller</a></div>
-    </section>
+  <div class="logo">H HEAVEN'S MART</div>
 
-    <section class="review-area" id="reviews">
-      <div class="section-shell review-layout">
-        <div class="review-copy"><div class="eyebrow">REAL EXPERIENCES MATTER</div><h2>Made a purchase?<br><em>Tell us how it went.</em></h2><p>Your feedback helps other shoppers. Reviews are checked by the seller before they are published.</p><div class="review-count"><strong id="approved-review-count">0</strong><span>customer reviews<br>published so far</span></div></div>
-        <form class="review-form" id="review-form">
-          <div class="form-top"><div><span class="form-icon">✎</span><h3>Leave a review</h3></div><span class="private-tag">Seller reviewed</span></div>
-          <label for="review-product">Which product?</label><select id="review-product" required></select>
-          <label>Your rating</label><div class="star-picker" id="star-picker" role="radiogroup" aria-label="Choose a rating"><button type="button" data-rating="1" aria-label="1 star">★</button><button type="button" data-rating="2" aria-label="2 stars">★</button><button type="button" data-rating="3" aria-label="3 stars">★</button><button type="button" data-rating="4" aria-label="4 stars">★</button><button type="button" data-rating="5" aria-label="5 stars">★</button></div><input type="hidden" id="review-rating" value="5">
-          <div class="form-two"><div><label for="review-name">Your name</label><input id="review-name" maxlength="60" placeholder="Name to display" required></div><div><label for="review-comment">Your review</label><textarea id="review-comment" rows="3" maxlength="600" placeholder="Share your experience..." required></textarea></div></div>
-          <label class="check-label"><input type="checkbox" id="purchase-confirm" required> I confirm I purchased this product.</label>
-          <button class="button button-dark submit-review" type="submit">Send for approval <span>→</span></button>
-          <p class="form-note">Your review stays private until approved. Purchases are not independently verified in this demo.</p><p class="form-message" id="review-message" role="status"></p>
-        </form>
-      </div>
-      <div class="section-shell published-section"><div class="published-heading"><div><div class="eyebrow">KIND WORDS FROM CUSTOMERS</div><h2>Shopper notes</h2></div><span class="published-badge">✦ Approved reviews only</span></div><div class="review-grid" id="published-review-list"></div><p class="empty-state" id="empty-reviews">No published reviews yet. Be the first to share your experience.</p></div>
-    </section>
+  <form class="search" id="search-form">
+    <input type="search" id="search-input"
+      placeholder="Search products, brands and categories...">
+    <button type="submit">Search</button>
+  </form>
 
-    <section class="contact-section section-shell" id="contact"><div class="contact-card"><div class="contact-decor">✳</div><div><div class="eyebrow">HERE TO HELP</div><h2>Need a hand finding something?</h2><p>Shopping in Ghana? Ask about product details, availability or delivery. We’ll be happy to help.</p></div><a class="button button-light" id="general-whatsapp" href="#" target="_blank" rel="noopener">Message the seller <span>↗</span></a></div></section>
-  </main>
+</header>
 
-  <footer><a class="brand footer-brand" href="#home"><span class="brand-icon">H</span><span>Heaven's Mart<small>GHANA · EVERYDAY ESSENTIALS</small></span></a><div class="footer-middle">Cleaning <span>·</span> Phones & accessories <span>·</span> Stationery</div><small>© <span id="year"></span> Heaven's Mart. All rights reserved.</small></footer>
+<!-- SECOND NAVIGATION -->
+<nav class="second-nav">
+  <a href="#home">Home</a>
+  <a href="#categories">Categories</a>
+  <a href="#deals">Today's Deals</a>
+  <a href="#contact">Contact</a>
+</nav>
 
-  <dialog id="admin-dialog" class="admin-dialog">
-    <div class="admin-header"><div><div class="eyebrow">SELLER AREA</div><h2>Heaven's Mart dashboard</h2></div><button id="close-admin" class="close-button" aria-label="Close">×</button></div>
-    <section id="seller-auth">
-      <p class="form-note">Create a seller account or log in. Each seller can manage their own WhatsApp number and product listings.</p>
-      <form id="seller-auth-form" class="seller-auth-form">
-        <label for="auth-mode">Account action</label><select id="auth-mode"><option value="login">Log in</option><option value="signup">Create seller account</option></select>
-        <div id="seller-display-name-wrap" hidden><label for="seller-display-name">Store / seller name</label><input id="seller-display-name" maxlength="80" placeholder="Your store name"></div>
-        <label for="seller-email">Email</label><input id="seller-email" type="email" autocomplete="email" required placeholder="you@example.com">
-        <label for="seller-password">Password (at least 8 characters)</label><input id="seller-password" type="password" minlength="8" autocomplete="current-password" required>
-        <button class="button button-dark" id="seller-auth-submit" type="submit">Log in</button><p id="auth-message" class="form-message" role="status"></p>
-      </form>
-    </section>
-    <section id="seller-workspace" hidden>
-      <div class="seller-welcome"><div><div class="eyebrow">SIGNED IN AS</div><strong id="seller-user-label">Seller</strong></div><button id="seller-logout" class="reject-btn" type="button">Log out</button></div>
-      <form id="seller-profile-form" class="seller-auth-form"><h3>Your seller profile</h3><label for="seller-display-name-edit">Store / seller name</label><input id="seller-display-name-edit" maxlength="80" required placeholder="Your store name"><label for="seller-whatsapp">Your Ghana WhatsApp number</label><input id="seller-whatsapp" type="tel" inputmode="tel" placeholder="233XXXXXXXXX"><p class="form-note">Use digits only: 233 followed by 9 digits. This number will be used for your own product listings.</p><button class="approve-btn" type="submit">Save seller profile</button><p id="seller-profile-message" class="form-message" role="status"></p></form>
-      <hr><h3>Add a product</h3>
-      <form id="product-form" class="seller-auth-form"><label for="new-product-name">Product name</label><input id="new-product-name" maxlength="120" required><label for="new-product-category">Category</label><select id="new-product-category"><option>Cleaning</option><option>Phones</option><option>Accessories</option><option>Stationery</option></select><label for="new-product-price">Price (GH₵)</label><input id="new-product-price" type="number" min="0.01" step="0.01" required><label for="new-product-description">Description</label><textarea id="new-product-description" rows="3" maxlength="1000" placeholder="Describe your product"></textarea><label for="new-product-image">Product image URL (optional)</label><input id="new-product-image" type="url" placeholder="https://..."><label for="new-product-emoji">Emoji (used if no image)</label><input id="new-product-emoji" maxlength="8" placeholder="📦"><button class="button button-dark" type="submit">Publish product</button><p id="seller-product-message" class="form-message" role="status"></p></form>
-      <h3>Your listings</h3><div id="my-products" class="my-products"></div>
-      <div id="admin-moderation" class="admin-moderation"><hr><h3>Pending customer reviews</h3><div id="admin-review-tools"></div><p id="admin-review-message" class="form-message" role="status"></p></div>
-    </section>
-  </dialog>
-  <p id="database-status" class="database-status" role="status"></p>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+<!-- THIRD NAVIGATION -->
+<nav class="third-nav">
+  <a href="#account">My Account</a>
+  <a href="#seller-dashboard">Sell on Heaven's Mart</a>
+  <a href="#cart">Cart</a>
+</nav>
+
+<!-- HAMBURGER SIDE MENU -->
+<div class="overlay" id="overlay"></div>
+
+<aside class="side-menu" id="side-menu">
+
+  <div class="menu-header">
+    <h3>Heaven's Mart</h3>
+    <button class="close-menu" id="close-menu"
+      aria-label="Close menu">✕</button>
+  </div>
+
+  <a href="#home">Home</a>
+  <a href="#categories">All Categories</a>
+  <a href="#deals">Today's Deals</a>
+  <a href="#products">All Products</a>
+  <a href="#account">My Account</a>
+  <a href="#seller-dashboard">Seller Dashboard</a>
+  <a href="#reviews">Customer Reviews</a>
+  <a href="#contact">Contact Us</a>
+
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="container" id="home">
+
+  <section class="hero">
+    <h1>Welcome to Heaven's Mart</h1>
+    <p>
+      Shop your everyday essentials in Ghana.
+      Discover cleaning products, phones, accessories
+      and stationery at affordable prices.
+    </p>
+    <button onclick="location.href='#products'">
+      Shop Now
+    </button>
+  </section>
+
+  <section id="categories">
+    <h2 class="section-title">Shop by Category</h2>
+
+    <div class="categories">
+      <div class="category">Cleaning Products</div>
+      <div class="category">Phones & Accessories</div>
+      <div class="category">Stationery</div>
+    </div>
+  </section>
+
+  <section id="products">
+    <h2 class="section-title">Featured Products</h2>
+
+    <!-- Keep this ID for your existing Supabase app.js -->
+    <div class="product-grid" id="product-grid">
+      <p>Loading products...</p>
+    </div>
+  </section>
+
+  <section id="reviews" style="margin-top:35px;">
+    <h2 class="section-title">Customer Reviews</h2>
+    <p>See what customers say about shopping with us.</p>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <h3>HEAVEN'S MART</h3>
+  <p>Everyday Essentials in Ghana</p>
+  <p>Contact sellers directly through WhatsApp.</p>
+  <p>&copy; <span id="year"></span> Heaven's Mart. All rights reserved.</p>
+</footer>
+
+<script>
+const menuToggle = document.getElementById("menu-toggle");
+const sideMenu = document.getElementById("side-menu");
+const closeMenu = document.getElementById("close-menu");
+const overlay = document.getElementById("overlay");
+
+function openMenu() {
+  sideMenu.classList.add("active");
+  overlay.classList.add("active");
+  menuToggle.setAttribute("aria-expanded", "true");
+}
+
+function closeSideMenu() {
+  sideMenu.classList.remove("active");
+  overlay.classList.remove("active");
+  menuToggle.setAttribute("aria-expanded", "false");
+}
+
+menuToggle.addEventListener("click", openMenu);
+closeMenu.addEventListener("click", closeSideMenu);
+overlay.addEventListener("click", closeSideMenu);
+
+document.querySelectorAll(".side-menu a").forEach(link => {
+  link.addEventListener("click", closeSideMenu);
+});
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+// Search form: filters the product cards rendered by app.js.
+document.getElementById("search-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const query = document.getElementById("search-input")
+    .value.trim().toLowerCase();
+
+  document.querySelectorAll("#product-grid .product-card")
+    .forEach(card => {
+      card.style.display = card.textContent.toLowerCase().includes(query)
+        ? ""
+        : "none";
+    });
+});
+</script>
+
+<!-- Supabase and your existing application scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+
 </body>
 </html>
