@@ -4,6 +4,41 @@
    Ghana Marketplace
 ========================================= */
 
+async function payWithPaystack(productId, quantity = 1) {
+  try {
+    const { data: { session } } =
+      await supabaseClient.auth.getSession();
+
+    if (!session) {
+      alert("Please log in before making a purchase.");
+      return;
+    }
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "initialize-payment",
+        {
+          body: {
+            product_id: productId,
+            quantity: quantity
+          }
+        }
+      );
+
+    if (error) throw error;
+
+    if (!data || !data.success || !data.checkout_url) {
+      throw new Error("Payment initialization failed.");
+    }
+
+    window.location.href = data.checkout_url;
+
+  } catch (error) {
+    console.error("Payment error:", error);
+    alert("Unable to start payment. Please try again.");
+  }
+}
+
 let supabaseClient = null;
 let currentUser = null;
 let currentProfile = null;
