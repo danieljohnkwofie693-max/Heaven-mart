@@ -1,900 +1,1502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Heaven's Mart - Shop smart and live better. Your Ghanaian online marketplace.">
-  <title>Heaven's Mart | Shop Smart. Live Better.</title>
-
-  <style>
-    :root {
-      --navy: #09264A;
-      --blue: #145DA0;
-      --gold: #F4C542;
-      --white: #FFFFFF;
-      --background: #F4F6FA;
-      --text: #263445;
-      --muted: #687789;
-      --border: #E0E5EC;
-      --green: #176B50;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: var(--background);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    button, input, select, textarea { font: inherit; }
-    button, a { cursor: pointer; }
-    a { text-decoration: none; }
-
-    .container {
-      width: 92%;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .announcement {
-      background: var(--navy);
-      color: white;
-      text-align: center;
-      padding: 9px;
-      font-size: 13px;
-    }
-
-    header {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-content {
-      min-height: 82px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      flex-shrink: 0;
-    }
-
-    .logo-symbol {
-      width: 52px;
-      height: 52px;
-      background: var(--navy);
-      color: var(--gold);
-      border: 3px solid var(--gold);
-      border-radius: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 30px;
-      font-weight: 900;
-      box-shadow: 0 3px 8px rgba(9, 38, 74, 0.18);
-    }
-
-    .logo-name {
-      display: block;
-      color: var(--navy);
-      font-size: 21px;
-      font-weight: 900;
-      line-height: 1.2;
-    }
-
-    .logo-slogan {
-      display: block;
-      color: var(--blue);
-      font-size: 10px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-top: 4px;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    nav a {
-      color: var(--navy);
-      font-weight: bold;
-      font-size: 14px;
-      transition: color .2s ease;
-    }
-
-    nav a:hover { color: var(--blue); }
-
-    .menu-toggle {
-      display: none;
-      border: none;
-      background: var(--navy);
-      color: white;
-      padding: 9px 13px;
-      border-radius: 6px;
-      font-size: 20px;
-    }
-
-    .menu-overlay { display: none; }
-
-    .search-section {
-      background: var(--navy);
-      padding: 18px 0;
-    }
-
-    .search-form {
-      display: flex;
-      max-width: 650px;
-      margin: auto;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .search-form input {
-      flex: 1;
-      min-width: 0;
-      border: none;
-      outline: none;
-      padding: 14px;
-    }
-
-    .search-form button {
-      border: none;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 0 22px;
-      font-weight: bold;
-    }
-
-    .hero {
-      background: linear-gradient(120deg, var(--navy), var(--blue));
-      color: white;
-      padding: 55px 0;
-    }
-
-    .hero-content { max-width: 750px; }
-
-    .hero h1 {
-      font-size: clamp(32px, 5vw, 50px);
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 span { color: var(--gold); }
-
-    .hero p {
-      font-size: 17px;
-      max-width: 600px;
-      margin-bottom: 25px;
-    }
-
-    .hero-button {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 13px 25px;
-      border-radius: 7px;
-      font-weight: bold;
-    }
-
-    section.content-section { padding: 50px 0; }
-
-    .section-heading {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .section-heading h2 {
-      color: var(--navy);
-      font-size: 29px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-      margin-top: 5px;
-    }
-
-    .category-filter {
-      display: block;
-      max-width: 420px;
-      width: 100%;
-      margin: 0 auto 18px;
-      padding: 12px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 7px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 20px;
-    }
-
-    .product-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.04);
-    }
-
-    .product-card img, .product-placeholder {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      background: #E9EDF3;
-    }
-
-    .product-placeholder {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--muted);
-    }
-
-    .product-details { padding: 15px; }
-
-    .product-category {
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .product-details h3 {
-      color: var(--navy);
-      margin: 7px 0;
-      font-size: 17px;
-    }
-
-    .product-details p {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-
-    .product-details strong {
-      display: block;
-      color: var(--green);
-      font-size: 18px;
-      margin-bottom: 13px;
-    }
-
-    .contact-seller, .review-product-button {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 10px;
-      border: none;
-      border-radius: 6px;
-      margin-top: 8px;
-      font-weight: bold;
-      font-size: 13px;
-    }
-
-    .contact-seller { background: var(--navy); color: white; }
-    .review-product-button { background: var(--gold); color: var(--navy); }
-
-    #database-status {
-      text-align: center;
-      color: var(--muted);
-      margin-top: 20px;
-      font-size: 13px;
-    }
-
-    .login-section {
-      min-height: 75vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 45px 15px;
-      background: linear-gradient(135deg, #EAF0F8, #FFFFFF);
-    }
-
-    .login-card {
-      background: white;
-      width: 100%;
-      max-width: 430px;
-      padding: 35px;
-      border-radius: 13px;
-      box-shadow: 0 8px 30px rgba(9, 38, 74, 0.10);
-    }
-
-    .login-logo { text-align: center; margin-bottom: 20px; }
-    .login-logo .logo-symbol { margin: auto; }
-
-    .login-card h2 {
-      color: var(--navy);
-      text-align: center;
-      margin-bottom: 8px;
-    }
-
-    .login-card > p {
-      color: var(--muted);
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 14px;
-    }
-
-    .form-group { margin-bottom: 15px; }
-
-    .form-group label {
-      display: block;
-      color: var(--navy);
-      font-weight: bold;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      outline: none;
-      background: white;
-    }
-
-    .form-group input:focus, .form-group textarea:focus,
-    .form-group select:focus { border-color: var(--blue); }
-
-    .primary-button {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 6px;
-      background: var(--navy);
-      color: white;
-      font-weight: bold;
-    }
-
-    .primary-button:disabled { opacity: .6; cursor: not-allowed; }
-
-    .auth-switch {
-      text-align: center;
-      margin-top: 18px;
-      font-size: 13px;
-    }
-
-    .auth-switch button, .forgot-button {
-      border: none;
-      background: none;
-      color: var(--blue);
-      font-weight: bold;
-    }
-
-    .forgot-button {
-      display: block;
-      margin: 12px auto 0;
-      font-size: 13px;
-    }
-
-    .message {
-      display: block;
-      margin-top: 12px;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .dashboard-box {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 25px;
-      margin-bottom: 25px;
-    }
-
-    .dashboard-box h3 { color: var(--navy); margin-bottom: 17px; }
-
-    .seller-product {
-      border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 15px;
-      margin: 12px 0;
-      background: #FAFBFD;
-    }
-
-    .seller-product h4 { color: var(--navy); }
-
-    .delete-product-button {
-      background: #B42318;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      margin-top: 8px;
-    }
-
-    .secondary-button {
-      padding: 10px 15px;
-      background: var(--gold);
-      color: var(--navy);
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-
-    .rating-stars { display: flex; gap: 8px; margin: 10px 0; }
-
-    .rating-stars button {
-      border: none;
-      background: none;
-      color: #B7BDC5;
-      font-size: 28px;
-    }
-
-    .rating-stars button.active { color: #E6A700; }
-
-    .review-card {
-      background: white;
-      border: 1px solid var(--border);
-      padding: 17px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-    }
-
-    .review-card h4 { color: var(--navy); }
-    .review-card p:nth-child(2) { color: #E6A700; }
-
-    footer {
-      background: var(--navy);
-      color: white;
-      padding: 35px 0;
-      text-align: center;
-    }
-
-    footer h3 { color: var(--gold); margin-bottom: 8px; }
-    footer p { font-size: 13px; margin: 5px 0; }
-
-    /* Shop appears first inside the marketplace. */
-    #app-shell {
-      display: flex;
-      flex-direction: column;
-    }
-
-    #app-shell[hidden] { display: none !important; }
-
-    #products { order: 1; }
-    .hero { order: 2; }
-    #seller { order: 3; }
-    #reviews { order: 4; }
-    #about { order: 5; }
-
-    /* Used when a navigation link opens one section in a new tab. */
-    #app-shell.single-section > section[hidden] { display: none !important; }
-
-    @media (max-width: 900px) {
-      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      nav { gap: 12px; }
-    }
-
-    @media (max-width: 650px) {
-      .header-content { min-height: 72px; }
-      .logo-symbol { width: 44px; height: 44px; font-size: 25px; }
-      .logo-name { font-size: 17px; }
-      .logo-slogan { font-size: 9px; }
-
-      .menu-toggle { display: block; }
-
-      nav {
-        display: none;
-        position: absolute;
-        top: 72px;
-        left: 0;
-        width: 100%;
-        background: white;
-        padding: 20px;
-        flex-direction: column;
-        align-items: flex-start;
-        box-shadow: 0 5px 12px rgba(0,0,0,0.1);
-      }
-
-      nav.active { display: flex; }
-
-      .menu-overlay.active {
-        display: block;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.3);
-        z-index: -1;
-      }
-
-      .hero { padding: 40px 0; }
-      .hero p { font-size: 15px; }
-      .product-grid { grid-template-columns: 1fr; }
-      .login-card { padding: 25px 20px; }
-      .search-form button { padding: 0 13px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Heaven's Mart | Shop Smart. Live Better.</title>
+
+<meta name="description" content="Heaven's Mart - Ghana's everyday online marketplace.">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+
+<style>
+:root {
+  --navy: #10264b;
+  --blue: #173967;
+  --gold: #d6a638;
+  --gold-light: #f0c65e;
+  --bg: #f3f6fb;
+  --white: #ffffff;
+  --text: #17243a;
+  --muted: #718096;
+  --border: #e3e9f2;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* LOGO */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 55px;
+  height: 55px;
+  background: var(--navy);
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+}
+
+.logo svg {
+  width: 39px;
+  height: 39px;
+}
+
+.brand-name {
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.brand-name small {
+  display: block;
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+/* AUTHENTICATION */
+
+#authScreen {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: white;
+}
+
+.auth-art {
+  background: linear-gradient(145deg,#0c1f40,#173967);
+  color: white;
+  padding: 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.auth-art h1 {
+  font-size: 48px;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+
+.auth-art p {
+  color: #d7e2f2;
+  line-height: 1.8;
+  max-width: 450px;
+}
+
+.auth-side {
+  display: grid;
+  place-items: center;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 410px;
+}
+
+.auth-card h2 {
+  color: var(--navy);
+  font-size: 29px;
+  margin-bottom: 10px;
+}
+
+.auth-card > p {
+  color: var(--muted);
+  margin-bottom: 25px;
+}
+
+.field {
+  margin-bottom: 17px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  outline: none;
+  background: #fbfcfe;
+}
+
+.field input:focus {
+  border-color: var(--gold);
+}
+
+.btn {
+  padding: 13px 18px;
+  border: none;
+  border-radius: 9px;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.btn-blue {
+  background: var(--navy);
+  color: white;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.text-link {
+  color: var(--blue);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.message {
+  font-size: 13px;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.error {
+  color: #c33d48;
+}
+
+.success {
+  color: #16845b;
+}
+
+/* MAIN APPLICATION */
+
+#appShell {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 245px 1fr;
+  grid-template-rows: 72px 1fr;
+}
+
+.sidebar {
+  grid-row: 1 / 3;
+  background: var(--navy);
+  padding: 22px 15px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .brand {
+  margin-bottom: 35px;
+  padding-left: 8px;
+}
+
+.sidebar .brand-name {
+  color: white;
+  font-size: 17px;
+}
+
+.sidebar .logo {
+  width: 43px;
+  height: 43px;
+}
+
+.sidebar .logo svg {
+  width: 31px;
+  height: 31px;
+}
+
+.side-label {
+  color: #9eb1ce;
+  font-size: 11px;
+  letter-spacing: 2px;
+  padding: 10px;
+}
+
+.nav-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  background: transparent;
+  color: #dce6f5;
+  text-align: left;
+  border-radius: 9px;
+  margin: 3px 0;
+  font-weight: 600;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: #ffffff18;
+  color: var(--gold-light);
+}
+
+.nav-btn span {
+  display: inline-block;
+  width: 30px;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  border-top: 1px solid #ffffff25;
+  padding-top: 15px;
+}
+
+.topbar {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.top-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--navy);
+}
+
+.user-chip {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.workspace {
+  grid-column: 2;
+  min-height: 0;
+  overflow: hidden;
+  padding: 28px;
+}
+
+.page {
+  display: none;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.page.active {
+  display: block;
+}
+
+.page-head {
+  margin-bottom: 23px;
+}
+
+.page-head h1 {
+  color: var(--navy);
+  margin-bottom: 7px;
+}
+
+.page-head p {
+  color: var(--muted);
+}
+
+/* DASHBOARD */
+
+.hero {
+  background: linear-gradient(110deg,#10264b,#214b7b);
+  color: white;
+  padding: 32px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+}
+
+.hero h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: #d9e4f2;
+  line-height: 1.6;
+}
+
+.category-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.cat-btn {
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  color: var(--navy);
+}
+
+.cat-btn.active {
+  background: var(--navy);
+  color: white;
+}
+
+/* PRODUCTS */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 17px;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.product-visual {
+  height: 150px;
+  background: #edf2f8;
+  display: grid;
+  place-items: center;
+  font-size: 48px;
+}
+
+.product-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 15px;
+}
+
+.product-info h3 {
+  font-size: 15px;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.product-info p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.product-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.price {
+  font-weight: bold;
+  color: var(--navy);
+}
+
+.product-bottom button {
+  font-size: 11px;
+  padding: 9px;
+}
+
+/* PANELS */
+
+.panel {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  max-width: 850px;
+}
+
+.panel h3 {
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.empty {
+  padding: 35px;
+  text-align: center;
+  color: var(--muted);
+  background: white;
+  border-radius: 12px;
+}
+
+.cart-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px;
+  background: #f8fafd;
+  margin-bottom: 10px;
+  border-radius: 9px;
+  gap: 10px;
+}
+
+.cart-actions button {
+  border: none;
+  padding: 6px 10px;
+  margin: 0 3px;
+  border-radius: 6px;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 19px;
+  font-weight: bold;
+  padding: 20px 0;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px) {
+  .product-grid {
+    grid-template-columns: repeat(3,1fr);
+  }
+
+  .auth-art {
+    padding: 35px;
+  }
+}
+
+@media(max-width:760px) {
+  #authScreen {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-art {
+    display: none;
+  }
+
+  #appShell {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr 65px;
+  }
+
+  .sidebar {
+    grid-row: 3;
+    grid-column: 1;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 5px;
+  }
+
+  .sidebar .brand,
+  .side-label,
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .nav-btn {
+    flex: 1;
+    text-align: center;
+    padding: 7px 2px;
+    font-size: 10px;
+  }
+
+  .nav-btn span {
+    display: block;
+    width: auto;
+    font-size: 18px;
+  }
+
+  .topbar {
+    grid-column: 1;
+    padding: 0 15px;
+  }
+
+  .workspace {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 15px;
+  }
+
+  .product-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px;
+  }
+
+  .product-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .product-bottom button {
+    width: 100%;
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 
 <body>
-  <div class="announcement">
-    Serving customers across Ghana • Direct seller contact
+
+<!-- LOGIN SCREEN -->
+
+<div id="authScreen">
+
+<section class="auth-art">
+
+<div class="brand">
+  <div class="logo">
+    <svg viewBox="0 0 100 100" fill="none">
+      <path d="M18 36 L50 15 L82 36 V79 H18 Z"
+        stroke="#f0c65e" stroke-width="7"
+        stroke-linejoin="round"/>
+      <path d="M35 79 V48 H65 V79"
+        stroke="#f0c65e" stroke-width="7"/>
+      <path d="M30 35 H70"
+        stroke="white" stroke-width="6"/>
+    </svg>
   </div>
 
-  <header>
-    <div class="container header-content">
-      <a href="?section=home" class="logo">
-        <span class="logo-symbol">H</span>
-        <span>
-          <span class="logo-name">HEAVEN'S MART</span>
-          <span class="logo-slogan">SHOP SMART. LIVE BETTER.</span>
-        </span>
-      </a>
-
-      <button class="menu-toggle" id="menu-toggle" type="button"
-              aria-label="Open navigation menu" aria-expanded="false">
-        ☰
-      </button>
-
-      <nav id="main-nav">
-        <a href="?section=home" target="_blank" rel="noopener">Home</a>
-        <a href="?section=products" target="_blank" rel="noopener">Shop</a>
-        <a href="?section=seller" target="_blank" rel="noopener">Seller Dashboard</a>
-        <a href="?section=reviews" target="_blank" rel="noopener">Reviews</a>
-        <a href="?section=about" target="_blank" rel="noopener">About Us</a>
-      </nav>
-
-      <div class="menu-overlay" id="menu-overlay"></div>
-    </div>
-  </header>
-
-  <div class="search-section">
-    <div class="container">
-      <form class="search-form" id="search-form">
-        <input type="search" id="top-search-input" placeholder="Search products..." aria-label="Search products">
-        <button type="submit">Search</button>
-      </form>
-    </div>
+  <div class="brand-name">
+    Heaven's Mart
+    <small>SHOP SMART. LIVE BETTER.</small>
   </div>
+</div>
 
-  <!-- CUSTOMER LOGIN: IDs are retained for app.js. -->
-  <section class="login-section" id="login-screen">
-    <div class="login-card">
-      <div class="login-logo">
-        <div class="logo-symbol">H</div>
-        <h3 class="logo-name">HEAVEN'S MART</h3>
-        <p class="logo-slogan">SHOP SMART. LIVE BETTER.</p>
-      </div>
+<div>
+  <h1>Everything you need, all in one marketplace.</h1>
 
-      <h2 id="login-heading">Welcome Back!</h2>
-      <p id="login-description">Sign in to access your marketplace.</p>
+  <p>
+    Discover everyday essentials, electronics,
+    stationery and more from sellers across Ghana.
+    Welcome to Heaven's Mart.
+  </p>
+</div>
 
-      <form id="customer-auth-form">
-        <div class="form-group" id="customer-name-wrap" hidden>
-          <label for="customer-name">Full Name</label>
-          <input type="text" id="customer-name" placeholder="Enter your full name">
-        </div>
+<p>© 2026 Heaven's Mart · Ghana</p>
 
-        <div class="form-group">
-          <label for="customer-email">Email Address</label>
-          <input type="email" id="customer-email" placeholder="Enter your email" required>
-        </div>
+</section>
 
-        <div class="form-group">
-          <label for="customer-password">Password</label>
-          <input type="password" id="customer-password" placeholder="Enter your password" required minlength="6">
-        </div>
+<section class="auth-side">
 
-        <button type="submit" class="primary-button" id="customer-auth-submit">LOGIN</button>
-      </form>
+<div class="auth-card">
 
-      <button type="button" class="forgot-button" id="forgot-password">Forgot Password?</button>
+<!-- LOGIN FORM -->
 
-      <div class="auth-switch">
-        <span id="account-prompt">New to Heaven's Mart?</span>
-        <button type="button" id="switch-auth-mode">Create an account</button>
-      </div>
+<form id="loginForm">
 
-      <p class="message" id="customer-auth-message"></p>
-    </div>
-  </section>
+<h2>Welcome back</h2>
+<p>Sign in to access Heaven's Mart.</p>
 
-  <!-- MAIN MARKETPLACE -->
-  <div id="app-shell" hidden>
+<div class="field">
+<label>Email address</label>
+<input type="email" id="loginEmail" required>
+</div>
 
-    <!-- SHOP IS FIRST SO PRODUCTS APPEAR BEFORE THE HERO. -->
-    <section class="content-section" id="products">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Explore Our Products</h2>
-          <p>Find what you need at Heaven's Mart.</p>
-        </div>
+<div class="field">
+<label>Password</label>
+<input type="password" id="loginPassword" required>
+</div>
 
-        <input type="search" id="product-search" class="category-filter"
-               placeholder="Search products..." aria-label="Search products">
+<button class="btn btn-primary btn-block">
+Sign in
+</button>
 
-        <select id="category-filter" class="category-filter" aria-label="Filter products by category">
-          <option value="all">All Categories</option>
-          <option value="Cleaning Products">Cleaning Products</option>
-          <option value="Phones and Accessories">Phones and Accessories</option>
-          <option value="Stationery">Stationery</option>
-        </select>
+<p class="message" id="loginMsg"></p>
 
-        <div class="product-grid" id="product-grid">
-          <p>Loading products...</p>
-        </div>
-        <p id="database-status"></p>
-      </div>
-    </section>
+<p class="auth-switch">
+Don't have an account?
+<span class="text-link" onclick="showAuth('signup')">
+Create account
+</span>
+</p>
 
-    <section class="hero" id="home">
-      <div class="container hero-content">
-        <h1>Welcome to <span>Heaven's Mart</span></h1>
-        <p>
-          Discover everyday essentials, phones, accessories and stationery
-          from sellers across Ghana. Shop smart and live better.
-        </p>
-        <a href="?section=products" target="_blank" rel="noopener" class="hero-button">
-          Explore Products
-        </a>
-      </div>
-    </section>
+</form>
 
-    <section class="content-section" id="seller">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Seller Dashboard</h2>
-          <p>Manage your products and seller information.</p>
-        </div>
+<!-- SIGNUP FORM -->
 
-        <div class="dashboard-box" id="seller-auth">
-          <h3>Seller Login</h3>
-          <form id="seller-auth-form">
-            <div class="form-group" id="seller-display-name-wrap">
-              <label for="seller-display-name">Display Name</label>
-              <input type="text" id="seller-display-name" placeholder="Your business name">
-            </div>
+<form id="signupForm" class="hidden">
 
-            <div class="form-group">
-              <label for="seller-email">Email Address</label>
-              <input type="email" id="seller-email" placeholder="Seller email" required>
-            </div>
+<h2>Create account</h2>
+<p>Join Heaven's Mart today.</p>
 
-            <div class="form-group">
-              <label for="seller-password">Password</label>
-              <input type="password" id="seller-password" placeholder="Password" required>
-            </div>
+<div class="field">
+<label>Full name</label>
+<input type="text" id="signupName" required>
+</div>
 
-            <button type="submit" class="primary-button" id="seller-auth-submit">LOGIN</button>
-          </form>
+<div class="field">
+<label>Email address</label>
+<input type="email" id="signupEmail" required>
+</div>
 
-          <p class="message" id="auth-message"></p>
-          <p style="font-size:13px; margin-top:12px;">
-            Seller accounts must be approved and created by the administrator.
-          </p>
-          <button type="button" id="auth-mode" class="secondary-button" style="margin-top:12px;">
-            Seller account information
-          </button>
-        </div>
+<div class="field">
+<label>Password</label>
+<input type="password" id="signupPassword"
+minlength="8" required>
+</div>
 
-        <div class="dashboard-box" id="seller-workspace">
-          <h3>Update Seller Profile</h3>
-          <form id="seller-profile-form">
-            <div class="form-group">
-              <label for="seller-display-name-edit">Business Name</label>
-              <input type="text" id="seller-display-name-edit" placeholder="Your business name">
-            </div>
+<button class="btn btn-primary btn-block">
+Register
+</button>
 
-            <div class="form-group">
-              <label for="seller-whatsapp">WhatsApp Number</label>
-              <input type="tel" id="seller-whatsapp" placeholder="Example: 233XXXXXXXXX">
-            </div>
+<p class="message" id="signupMsg"></p>
 
-            <button type="submit" class="primary-button">SAVE PROFILE</button>
-            <p class="message" id="seller-profile-message"></p>
-          </form>
+<p class="auth-switch">
+Already registered?
+<span class="text-link" onclick="showAuth('login')">
+Sign in
+</span>
+</p>
 
-          <hr style="margin:25px 0; border:0; border-top:1px solid #E0E5EC;">
+</form>
 
-          <h3>Add a New Product</h3>
-          <form id="product-form">
-            <div class="form-group">
-              <label for="new-product-name">Product Name</label>
-              <input type="text" id="new-product-name" placeholder="Product name" required>
-            </div>
+<div class="message" id="authNotice">
+🔒 Protected customer authentication.
+</div>
 
-            <div class="form-group">
-              <label for="new-product-category">Category</label>
-              <select id="new-product-category" required>
-                <option value="">Choose category</option>
-                <option value="Cleaning Products">Cleaning Products</option>
-                <option value="Phones and Accessories">Phones and Accessories</option>
-                <option value="Stationery">Stationery</option>
-              </select>
-            </div>
+</div>
+</section>
+</div>
 
-            <div class="form-group">
-              <label for="new-product-price">Price (GHS)</label>
-              <input type="number" id="new-product-price" min="0.01" step="0.01"
-                     placeholder="Enter price" required>
-            </div>
+<!-- APPLICATION -->
 
-            <div class="form-group">
-              <label for="new-product-description">Description</label>
-              <textarea id="new-product-description" rows="4"
-                        placeholder="Describe your product"></textarea>
-            </div>
+<div id="appShell" class="hidden">
 
-            <div class="form-group">
-              <label for="new-product-image">Image URL</label>
-              <input type="url" id="new-product-image" placeholder="Paste product image URL">
-            </div>
+<aside class="sidebar">
 
-            <button type="submit" class="primary-button">ADD PRODUCT</button>
-            <p class="message" id="seller-product-message"></p>
-          </form>
+<div class="brand">
+<div class="logo">
+<svg viewBox="0 0 100 100" fill="none">
+<path d="M18 36 L50 15 L82 36 V79 H18 Z"
+stroke="#f0c65e" stroke-width="7"/>
+<path d="M35 79 V48 H65 V79"
+stroke="#f0c65e" stroke-width="7"/>
+</svg>
+</div>
+<div class="brand-name">Heaven's Mart</div>
+</div>
 
-          <hr style="margin:25px 0; border:0; border-top:1px solid #E0E5EC;">
+<div class="side-label">MAIN MENU</div>
 
-          <h3>My Products</h3>
-          <div id="my-products"><p>Your products will appear here.</p></div>
+<button class="nav-btn active" data-page="home"
+onclick="navigate('home')">
+<span>⌂</span> Dashboard
+</button>
 
-          <button type="button" id="seller-logout" class="secondary-button">LOG OUT</button>
-        </div>
-      </div>
-    </section>
+<button class="nav-btn" data-page="catalog"
+onclick="navigate('catalog')">
+<span>▦</span> Marketplace
+</button>
 
-    <section class="content-section" id="reviews">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Customer Reviews</h2>
-          <p>Share your experience with Heaven's Mart.</p>
-        </div>
+<button class="nav-btn" data-page="cart"
+onclick="navigate('cart')">
+<span>🛒</span> My Cart
+</button>
 
-        <div class="dashboard-box">
-          <form id="review-form">
-            <div class="form-group">
-              <label for="review-name">Your Name</label>
-              <input type="text" id="review-name" placeholder="Enter your name">
-            </div>
+<button class="nav-btn" data-page="account"
+onclick="navigate('account')">
+<span>♙</span> My Account
+</button>
 
-            <div class="form-group">
-              <label>Your Rating</label>
-              <div class="rating-stars">
-                <button type="button" data-rating="1" aria-label="1 star">★</button>
-                <button type="button" data-rating="2" aria-label="2 stars">★</button>
-                <button type="button" data-rating="3" aria-label="3 stars">★</button>
-                <button type="button" data-rating="4" aria-label="4 stars">★</button>
-                <button type="button" data-rating="5" class="active" aria-label="5 stars">★</button>
-              </div>
-            </div>
+<div class="sidebar-bottom">
+<button class="nav-btn" onclick="logout()">
+<span>↪</span> Sign out
+</button>
+</div>
 
-            <div class="form-group">
-              <label for="review-comment">Your Review</label>
-              <textarea id="review-comment" rows="4" placeholder="Write your review..." required></textarea>
-            </div>
+</aside>
 
-            <button type="submit" class="primary-button">SUBMIT REVIEW</button>
-            <p class="message" id="review-message"></p>
-          </form>
-        </div>
+<header class="topbar">
+<div class="top-title" id="topTitle">
+Dashboard
+</div>
 
-        <h3 style="color:var(--navy); margin:25px 0 15px;">What Customers Say</h3>
-        <div id="reviews-list"><p>Loading reviews...</p></div>
-      </div>
-    </section>
+<div class="user-chip">
+<span id="userName">Customer</span>
+</div>
+</header>
 
-    <section class="content-section" id="about">
-      <div class="container">
-        <div class="section-heading">
-          <h2>About Heaven's Mart</h2>
-          <p>Shop Smart. Live Better.</p>
-        </div>
+<main class="workspace">
 
-        <div class="dashboard-box">
-          <p>
-            Heaven's Mart is a Ghana-focused online marketplace designed
-            to connect customers with sellers of everyday essentials.
-            Browse products, contact sellers directly through WhatsApp
-            and share your shopping experience through customer reviews.
-          </p>
-        </div>
-      </div>
-    </section>
-  </div>
+<!-- HOME -->
 
-  <footer>
-    <div class="container">
-      <h3>HEAVEN'S MART</h3>
-      <p>Shop Smart. Live Better.</p>
-      <p>Serving customers across Ghana.</p>
-      <p>&copy; <span id="year"></span> Heaven's Mart. All rights reserved.</p>
-    </div>
-  </footer>
+<section class="page active" id="page-home">
 
-  <!-- Keep these files: they connect the page to your existing Supabase project. -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="app.js"></script>
+<div class="hero">
+<h2>Welcome to Heaven's Mart</h2>
+<p>
+Shop smarter. Discover quality products
+from sellers across Ghana.
+</p>
+</div>
 
-  <!-- Navigation menu and separate-section tab handling. -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const menuButton = document.getElementById("menu-toggle");
-      const nav = document.getElementById("main-nav");
-      const overlay = document.getElementById("menu-overlay");
+<div class="page-head">
+<h1>Shop by category</h1>
+<p>Choose a department to explore.</p>
+</div>
 
-      function closeMenu() {
-        if (nav) nav.classList.remove("active");
-        if (overlay) overlay.classList.remove("active");
-        if (menuButton) menuButton.setAttribute("aria-expanded", "false");
+<div class="category-row">
+
+<button class="cat-btn"
+onclick="setCategory('All')">
+All products
+</button>
+
+<button class="cat-btn"
+onclick="setCategory('Cleaning Products')">
+🧹 Cleaning
+</button>
+
+<button class="cat-btn"
+onclick="setCategory('Phones and Accessories')">
+📱 Phones
+</button>
+
+<button class="cat-btn"
+onclick="setCategory('Stationery')">
+📚 Stationery
+</button>
+
+</div>
+
+<div class="page-head">
+<h1>Featured products</h1>
+</div>
+
+<div class="product-grid" id="featuredGrid"></div>
+
+</section>
+
+<!-- MARKETPLACE -->
+
+<section class="page" id="page-catalog">
+
+<div class="page-head">
+<h1>Marketplace</h1>
+<p>Explore products from sellers across Ghana.</p>
+</div>
+
+<input type="search"
+id="searchInput"
+placeholder="Search products..."
+style="width:100%;padding:13px;border:1px solid #ddd;border-radius:9px;margin-bottom:20px">
+
+<div class="product-grid" id="catalogGrid"></div>
+
+</section>
+
+<!-- CART -->
+
+<section class="page" id="page-cart">
+
+<div class="page-head">
+<h1>My shopping cart</h1>
+<p>Review your selected products.</p>
+</div>
+
+<div class="panel">
+
+<div id="cartContents"></div>
+
+<div class="total-line">
+<span>Total</span>
+<span id="cartTotal">GH₵0.00</span>
+</div>
+
+<button class="btn btn-primary"
+onclick="sendOrder()">
+Order through WhatsApp
+</button>
+
+</div>
+
+</section>
+
+<!-- ACCOUNT -->
+
+<section class="page" id="page-account">
+
+<div class="page-head">
+<h1>My account</h1>
+<p>Manage your account information.</p>
+</div>
+
+<div class="panel">
+
+<h3>Account information</h3>
+
+<p><b>Name:</b> <span id="accountName"></span></p>
+
+<p style="margin-top:12px">
+<b>Email:</b> <span id="accountEmail"></span>
+</p>
+
+<br>
+
+<button class="btn btn-blue" onclick="logout()">
+Sign out
+</button>
+
+</div>
+
+</section>
+
+</main>
+</div>
+
+<script>
+
+/* =====================================
+   SUPABASE CONFIGURATION
+===================================== */
+
+const CONFIG = window.HEAVENS_MART_CONFIG || {};
+
+let supabaseClient = null;
+let currentUser = null;
+let products = [];
+let cart = JSON.parse(
+  localStorage.getItem("hm_cart") || "[]"
+);
+
+let currentCategory = "All";
+
+/* =====================================
+   INITIALIZATION
+===================================== */
+
+async function init() {
+
+  if (!window.supabase || !CONFIG.url || !CONFIG.anonKey) {
+
+    document.getElementById("authNotice").textContent =
+      "Supabase configuration missing. Check config.js.";
+
+    return;
+  }
+
+  supabaseClient = window.supabase.createClient(
+    CONFIG.url,
+    CONFIG.anonKey
+  );
+
+  const {data,error} =
+    await supabaseClient.auth.getSession();
+
+  if (error) {
+    console.error(error);
+  }
+
+  if (data.session) {
+    currentUser = data.session.user;
+    await showApp();
+  } else {
+    showAuth("login");
+  }
+
+  supabaseClient.auth.onAuthStateChange(
+    async (event,session) => {
+
+      if (session) {
+        currentUser = session.user;
+        await showApp();
+      } else {
+        currentUser = null;
+        showAuth("login");
       }
 
-      if (menuButton && nav) {
-        menuButton.addEventListener("click", function () {
-          const isOpen = nav.classList.toggle("active");
-          if (overlay) overlay.classList.toggle("active", isOpen);
-          menuButton.setAttribute("aria-expanded", String(isOpen));
-        });
+    }
+  );
 
-        nav.querySelectorAll("a").forEach(function (link) {
-          link.addEventListener("click", closeMenu);
-        });
+}
+
+/* =====================================
+   AUTHENTICATION
+===================================== */
+
+function showAuth(mode) {
+
+  document.getElementById("authScreen")
+    .classList.remove("hidden");
+
+  document.getElementById("appShell")
+    .classList.add("hidden");
+
+  document.getElementById("loginForm")
+    .classList.toggle("hidden",mode !== "login");
+
+  document.getElementById("signupForm")
+    .classList.toggle("hidden",mode !== "signup");
+
+}
+
+function message(id,text,type="error") {
+
+  const el = document.getElementById(id);
+
+  el.textContent = text;
+  el.className = "message " + type;
+
+}
+
+/* REGISTER */
+
+document.getElementById("signupForm")
+.addEventListener("submit",async function(e) {
+
+  e.preventDefault();
+
+  if (!supabaseClient) {
+    message("signupMsg","Supabase is not configured.");
+    return;
+  }
+
+  const name =
+    document.getElementById("signupName").value.trim();
+
+  const email =
+    document.getElementById("signupEmail").value.trim();
+
+  const password =
+    document.getElementById("signupPassword").value;
+
+  if (password.length < 8) {
+    message("signupMsg","Password must contain at least 8 characters.");
+    return;
+  }
+
+  const {error} = await supabaseClient.auth.signUp({
+
+    email,
+    password,
+
+    options: {
+      data: {
+        full_name: name
       }
+    }
 
-      if (overlay) overlay.addEventListener("click", closeMenu);
+  });
 
-      const sectionNames = {
-        products: "products",
-        seller: "seller",
-        reviews: "reviews",
-        about: "about",
-        home: "home"
-      };
+  if (error) {
+    message("signupMsg",error.message);
+    return;
+  }
 
-      const requestedSection = new URLSearchParams(window.location.search).get("section");
-      if (!requestedSection || !sectionNames[requestedSection]) return;
+  message(
+    "signupMsg",
+    "Registration successful. Check your email to verify your account.",
+    "success"
+  );
 
-      const appShell = document.getElementById("app-shell");
-      if (!appShell) return;
+});
 
-      let observer = null;
+/* LOGIN */
 
-      function showRequestedSection() {
-        if (appShell.hidden) return false;
+document.getElementById("loginForm")
+.addEventListener("submit",async function(e) {
 
-        const targetId = sectionNames[requestedSection];
-        const sections = appShell.querySelectorAll(":scope > section");
+  e.preventDefault();
 
-        appShell.classList.add("single-section");
+  if (!supabaseClient) {
+    message("loginMsg","Supabase is not configured.");
+    return;
+  }
 
-        sections.forEach(function (section) {
-          section.hidden = section.id !== targetId;
-        });
+  const email =
+    document.getElementById("loginEmail").value.trim();
 
-        window.scrollTo(0, 0);
-        return true;
-      }
+  const password =
+    document.getElementById("loginPassword").value;
 
-      if (!showRequestedSection()) {
-        observer = new MutationObserver(function () {
-          if (showRequestedSection() && observer) {
-            observer.disconnect();
-            observer = null;
-          }
-        });
+  const {data,error} =
+    await supabaseClient.auth.signInWithPassword({
 
-        observer.observe(appShell, {
-          attributes: true,
-          attributeFilter: ["hidden"]
-        });
-      }
+      email,
+      password
+
     });
-  </script>
+
+  if (error) {
+    message("loginMsg",error.message);
+    return;
+  }
+
+  currentUser = data.user;
+
+  await showApp();
+
+});
+
+/* LOGOUT */
+
+async function logout() {
+
+  if (supabaseClient) {
+    await supabaseClient.auth.signOut();
+  }
+
+  currentUser = null;
+
+  showAuth("login");
+
+}
+
+/* =====================================
+   APPLICATION
+===================================== */
+
+async function showApp() {
+
+  if (!currentUser) return;
+
+  document.getElementById("authScreen")
+    .classList.add("hidden");
+
+  document.getElementById("appShell")
+    .classList.remove("hidden");
+
+  const name =
+    currentUser.user_metadata?.full_name ||
+    currentUser.email.split("@")[0];
+
+  document.getElementById("userName").textContent = name;
+
+  document.getElementById("accountName").textContent = name;
+
+  document.getElementById("accountEmail").textContent =
+    currentUser.email;
+
+  await loadProducts();
+
+  navigate("home");
+
+}
+
+/* =====================================
+   LOAD PRODUCTS FROM SUPABASE
+===================================== */
+
+async function loadProducts() {
+
+  if (!supabaseClient || !currentUser) return;
+
+  const {data,error} = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("is_active",true)
+    .order("created_at",{ascending:false});
+
+  if (error) {
+
+    console.error("Product loading error:",error);
+
+    products = [];
+
+  } else {
+
+    products = data || [];
+
+  }
+
+  renderProducts("featuredGrid",true);
+  renderProducts("catalogGrid");
+
+}
+
+/* =====================================
+   NAVIGATION
+===================================== */
+
+function navigate(page) {
+
+  if (!currentUser) {
+    showAuth("login");
+    return;
+  }
+
+  document.querySelectorAll(".page")
+    .forEach(p => p.classList.remove("active"));
+
+  document.getElementById("page-"+page)
+    .classList.add("active");
+
+  document.querySelectorAll(".nav-btn[data-page]")
+    .forEach(b => {
+
+      b.classList.toggle(
+        "active",
+        b.dataset.page === page
+      );
+
+    });
+
+  const titles = {
+
+    home:"Dashboard",
+    catalog:"Marketplace",
+    cart:"My Shopping Cart",
+    account:"My Account"
+
+  };
+
+  document.getElementById("topTitle").textContent =
+    titles[page];
+
+  if (page === "home") {
+    renderProducts("featuredGrid",true);
+  }
+
+  if (page === "catalog") {
+    renderProducts("catalogGrid");
+  }
+
+  if (page === "cart") {
+    renderCart();
+  }
+
+}
+
+/* =====================================
+   CATEGORIES
+===================================== */
+
+function setCategory(category) {
+
+  currentCategory = category;
+
+  navigate("catalog");
+
+  renderProducts("catalogGrid");
+
+}
+
+/* =====================================
+   DISPLAY PRODUCTS
+===================================== */
+
+function renderProducts(target,featured=false) {
+
+  const box = document.getElementById(target);
+
+  if (!box) return;
+
+  const search =
+    document.getElementById("searchInput")?.value
+    ?.toLowerCase() || "";
+
+  const filtered = products.filter(p => {
+
+    const categoryMatch =
+      currentCategory === "All" ||
+      p.category === currentCategory;
+
+    const searchMatch =
+      `${p.name} ${p.category} ${p.description || ""}`
+      .toLowerCase()
+      .includes(search);
+
+    return categoryMatch && searchMatch;
+
+  });
+
+  const list = featured
+    ? filtered.slice(0,4)
+    : filtered;
+
+  if (!list.length) {
+
+    box.innerHTML =
+      '<div class="empty">No products available yet.</div>';
+
+    return;
+
+  }
+
+  box.innerHTML = list.map(p => `
+
+    <article class="product-card">
+
+      <div class="product-visual">
+
+        ${
+          p.image_url
+          ? `<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.name)}">`
+          : "🛍️"
+        }
+
+      </div>
+
+      <div class="product-info">
+
+        <h3>${escapeHTML(p.name)}</h3>
+
+        <p>${escapeHTML(p.category || "")}</p>
+
+        <p>${escapeHTML(p.description || "")}</p>
+
+        <div class="product-bottom">
+
+          <span class="price">
+            GH₵${Number(p.price).toFixed(2)}
+          </span>
+
+          <button class="btn btn-primary"
+            onclick="addToCart('${String(p.id).replace(/[^a-zA-Z0-9_-]/g,"")}')">
+            Add to cart
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `).join("");
+
+}
+
+function escapeHTML(value) {
+
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    c => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
+}
+
+/* =====================================
+   SHOPPING CART
+===================================== */
+
+function addToCart(id) {
+
+  const item = cart.find(x => String(x.id) === String(id));
+
+  if (item) {
+    item.qty++;
+  } else {
+    cart.push({id,qty:1});
+  }
+
+  saveCart();
+
+  alert("Product added to your cart.");
+
+}
+
+function saveCart() {
+
+  localStorage.setItem(
+    "hm_cart",
+    JSON.stringify(cart)
+  );
+
+}
+
+function renderCart() {
+
+  const box = document.getElementById("cartContents");
+
+  if (!cart.length) {
+
+    box.innerHTML =
+      '<div class="empty">Your shopping cart is empty.</div>';
+
+    document.getElementById("cartTotal").textContent =
+      "GH₵0.00";
+
+    return;
+
+  }
+
+  let total = 0;
+
+  box.innerHTML = cart.map(item => {
+
+    const p = products.find(
+      x => String(x.id) === String(item.id)
+    );
+
+    if (!p) return "";
+
+    total += Number(p.price) * item.qty;
+
+    return `
+
+      <div class="cart-row">
+
+        <div>
+          <strong>${escapeHTML(p.name)}</strong>
+          <p>GH₵${Number(p.price).toFixed(2)}</p>
+        </div>
+
+        <div class="cart-actions">
+
+          <button onclick="changeQty('${p.id}',-1)">−</button>
+
+          <b>${item.qty}</b>
+
+          <button onclick="changeQty('${p.id}',1)">+</button>
+
+          <button onclick="removeItem('${p.id}')">✕</button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+  document.getElementById("cartTotal").textContent =
+    "GH₵" + total.toFixed(2);
+
+}
+
+function changeQty(id,amount) {
+
+  const item = cart.find(
+    x => String(x.id) === String(id)
+  );
+
+  if (!item) return;
+
+  item.qty += amount;
+
+  if (item.qty <= 0) {
+    removeItem(id);
+    return;
+  }
+
+  saveCart();
+  renderCart();
+
+}
+
+function removeItem(id) {
+
+  cart = cart.filter(
+    x => String(x.id) !== String(id)
+  );
+
+  saveCart();
+  renderCart();
+
+}
+
+/* =====================================
+   WHATSAPP ORDER
+===================================== */
+
+function sendOrder() {
+
+  if (!cart.length) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const lines = cart.map(item => {
+
+    const p = products.find(
+      x => String(x.id) === String(item.id)
+    );
+
+    return p
+      ? `${p.name} x ${item.qty} - GH₵${(p.price * item.qty).toFixed(2)}`
+      : "";
+
+  }).filter(Boolean);
+
+  const total = cart.reduce((sum,item) => {
+
+    const p = products.find(
+      x => String(x.id) === String(item.id)
+    );
+
+    return sum + (p ? p.price * item.qty : 0);
+
+  },0);
+
+  const message = encodeURIComponent(
+
+    "Hello Heaven's Mart. I would like to enquire about:\n\n" +
+    lines.join("\n") +
+    "\n\nEstimated total: GH₵" +
+    total.toFixed(2)
+
+  );
+
+  alert(
+    "WhatsApp ordering requires the seller's verified WhatsApp number. Please contact the seller."
+  );
+
+}
+
+/* =====================================
+   SEARCH
+===================================== */
+
+document.getElementById("searchInput")
+?.addEventListener("input",() => {
+
+  renderProducts("catalogGrid");
+
+});
+
+/* START */
+
+init();
+
+</script>
+
 </body>
 </html>
