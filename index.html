@@ -835,8 +835,9 @@ async function payForCart() {
   button.textContent = "Connecting to Paystack...";
 
   try {
+    /* UPDATED FUNCTION NAME: initialize-payments */
     const {data,error} = await supabaseClient.functions.invoke(
-      "initialize-payment",
+      "initialize-payments",
       {body:{items}}
     );
 
