@@ -1,4 +1,233 @@
 
+// ========================================
+// HEAVEN'S MART - PAYSTACK CHECKOUT
+// ========================================
+
+async function startPaystackCheckout(cartItems) {
+  try {
+    if (!currentUser) {
+      alert("Please sign in before making payment.");
+      return;
+    }
+
+    const items = cartItems.map((item) => ({
+      product_id: item.product_id ?? item.id,
+      quantity: Number(item.quantity),
+    }));
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "initialize-payment",
+        {
+          body: { items },
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data?.success || !data.checkout_url) {
+      throw new Error(
+        data?.error || "Unable to start payment."
+      );
+    }
+
+    // Redirect customer to Paystack
+    window.location.href = data.checkout_url;
+
+  } catch (error) {
+    console.error("Checkout error:", error);
+    alert(error.message || "Payment could not start.");
+  }
+}
+
+
+// ========================================
+// VERIFY PAYMENT AFTER PAYSTACK REDIRECT
+// ========================================
+
+async function handlePaymentReturn() {
+  const url = new URL(window.location.href);
+
+  if (url.searchParams.get("payment") !== "verify") {
+    return;
+  }
+
+  const reference = url.searchParams.get("reference");
+
+  if (!reference) {
+    alert("Payment reference was not found.");
+    return;
+  }
+
+  try {
+    if (!currentUser) {
+      alert("Please sign in to verify your payment.");
+      return;
+    }
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "verify-payment",
+        {
+          body: { reference },
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    if (data?.success && data?.verified) {
+      alert("Payment successful! Your order is confirmed.");
+
+      // Refresh your orders/products if needed.
+      if (typeof loadOrders === "function") {
+        await loadOrders();
+      }
+
+    } else {
+      alert(
+        data?.message || "Payment has not been confirmed."
+      );
+    }
+
+  } catch (error) {
+    console.error("Verification error:", error);
+
+    alert(
+      "We could not verify your payment. Please check your orders."
+    );
+
+  } finally {
+    // Remove payment parameters from the address bar.
+    url.searchParams.delete("payment");
+    url.searchParams.delete("reference");
+
+    window.history.replaceState(
+      {},
+      document.title,
+      url.pathname + url.search + url.hash
+    );
+  }
+}
+
+// ========================================
+// HEAVEN'S MART - PAYSTACK CHECKOUT
+// ========================================
+
+async function startPaystackCheckout(cartItems) {
+  try {
+    if (!currentUser) {
+      alert("Please sign in before making payment.");
+      return;
+    }
+
+    const items = cartItems.map((item) => ({
+      product_id: item.product_id ?? item.id,
+      quantity: Number(item.quantity),
+    }));
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "initialize-payment",
+        {
+          body: { items },
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data?.success || !data.checkout_url) {
+      throw new Error(
+        data?.error || "Unable to start payment."
+      );
+    }
+
+    // Redirect customer to Paystack
+    window.location.href = data.checkout_url;
+
+  } catch (error) {
+    console.error("Checkout error:", error);
+    alert(error.message || "Payment could not start.");
+  }
+}
+
+
+// ========================================
+// VERIFY PAYMENT AFTER PAYSTACK REDIRECT
+// ========================================
+
+async function handlePaymentReturn() {
+  const url = new URL(window.location.href);
+
+  if (url.searchParams.get("payment") !== "verify") {
+    return;
+  }
+
+  const reference = url.searchParams.get("reference");
+
+  if (!reference) {
+    alert("Payment reference was not found.");
+    return;
+  }
+
+  try {
+    if (!currentUser) {
+      alert("Please sign in to verify your payment.");
+      return;
+    }
+
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "verify-payment",
+        {
+          body: { reference },
+        }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    if (data?.success && data?.verified) {
+      alert("Payment successful! Your order is confirmed.");
+
+      // Refresh your orders/products if needed.
+      if (typeof loadOrders === "function") {
+        await loadOrders();
+      }
+
+    } else {
+      alert(
+        data?.message || "Payment has not been confirmed."
+      );
+    }
+
+  } catch (error) {
+    console.error("Verification error:", error);
+
+    alert(
+      "We could not verify your payment. Please check your orders."
+    );
+
+  } finally {
+    // Remove payment parameters from the address bar.
+    url.searchParams.delete("payment");
+    url.searchParams.delete("reference");
+
+    window.history.replaceState(
+      {},
+      document.title,
+      url.pathname + url.search + url.hash
+    );
+  }
+}
+
+
 /* =========================================
    DISPLAY PRODUCTS - PAYSTACK + WHATSAPP
 ========================================= */
