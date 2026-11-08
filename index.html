@@ -26,7 +26,7 @@
 }
 * {box-sizing:border-box;margin:0;padding:0}
 body {font-family:Arial,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
-button,input,select {font:inherit}
+button,input,select,textarea {font:inherit}
 button {cursor:pointer}
 button:disabled {opacity:.6;cursor:not-allowed}
 .hidden {display:none!important}
@@ -260,6 +260,7 @@ button:disabled {opacity:.6;cursor:not-allowed}
   <section class="auth-side">
     <div class="auth-card">
 
+      <!-- LOGIN -->
       <form id="loginForm">
         <h2>Welcome back</h2>
         <p>Sign in to access Heaven's Mart.</p>
@@ -274,6 +275,12 @@ button:disabled {opacity:.6;cursor:not-allowed}
           <input type="password" id="loginPassword" autocomplete="current-password" required>
         </div>
 
+        <p style="text-align:right;margin:-5px 0 18px;font-size:13px">
+          <span class="text-link" onclick="showAuth('forgot')">
+            Forgot password?
+          </span>
+        </p>
+
         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
         <p class="message" id="loginMsg" aria-live="polite"></p>
 
@@ -283,6 +290,7 @@ button:disabled {opacity:.6;cursor:not-allowed}
         </p>
       </form>
 
+      <!-- REGISTRATION -->
       <form id="signupForm" class="hidden">
         <h2>Create account</h2>
         <p>Join Heaven's Mart today.</p>
@@ -309,6 +317,52 @@ button:disabled {opacity:.6;cursor:not-allowed}
           Already registered?
           <span class="text-link" onclick="showAuth('login')">Sign in</span>
         </p>
+      </form>
+
+      <!-- FORGOT PASSWORD -->
+      <form id="forgotForm" class="hidden">
+        <h2>Forgot password?</h2>
+        <p>Enter your registered email address. We will send you a password-reset link.</p>
+
+        <div class="field">
+          <label for="resetEmail">Email address</label>
+          <input type="email" id="resetEmail" autocomplete="email" required>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="resetEmailButton" type="submit">
+          Send reset link
+        </button>
+
+        <p class="message" id="forgotMsg" aria-live="polite"></p>
+
+        <p class="auth-switch">
+          Remember your password?
+          <span class="text-link" onclick="showAuth('login')">Sign in</span>
+        </p>
+      </form>
+
+      <!-- NEW PASSWORD -->
+      <form id="newPasswordForm" class="hidden">
+        <h2>Choose a new password</h2>
+        <p>Enter and confirm your new password below.</p>
+
+        <div class="field">
+          <label for="newPassword">New password</label>
+          <input type="password" id="newPassword"
+            minlength="8" autocomplete="new-password" required>
+        </div>
+
+        <div class="field">
+          <label for="confirmNewPassword">Confirm new password</label>
+          <input type="password" id="confirmNewPassword"
+            minlength="8" autocomplete="new-password" required>
+        </div>
+
+        <button class="btn btn-primary btn-block" id="updatePasswordButton" type="submit">
+          Update password
+        </button>
+
+        <p class="message" id="newPasswordMsg" aria-live="polite"></p>
       </form>
 
       <div class="message" id="authNotice" aria-live="polite">
@@ -358,7 +412,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
 
   <main class="workspace">
 
-    <!-- HOME -->
     <section class="page active" id="page-home">
       <div class="hero">
         <h2>Welcome to Heaven's Mart</h2>
@@ -381,7 +434,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
       <div class="product-grid" id="featuredGrid"></div>
     </section>
 
-    <!-- MARKETPLACE -->
     <section class="page" id="page-catalog">
       <div class="page-head">
         <h1>Marketplace</h1>
@@ -393,7 +445,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
       <div class="product-grid" id="catalogGrid"></div>
     </section>
 
-    <!-- CART -->
     <section class="page" id="page-cart">
       <div class="page-head">
         <h1>My shopping cart</h1>
@@ -423,7 +474,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
       </div>
     </section>
 
-    <!-- ACCOUNT -->
     <section class="page" id="page-account">
       <div class="page-head">
         <h1>My account</h1>
@@ -452,7 +502,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
       </div>
     </section>
 
-    <!-- SELLER DASHBOARD -->
     <section class="page" id="page-seller">
       <div class="page-head">
         <h1>Seller Dashboard</h1>
@@ -508,7 +557,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
       <div class="product-grid" id="sellerProductGrid"></div>
     </section>
 
-    <!-- SELLER APPLICATION -->
     <section class="page" id="page-apply-seller">
       <div class="page-head">
         <h1>Become a seller</h1>
@@ -536,7 +584,6 @@ button:disabled {opacity:.6;cursor:not-allowed}
       </div>
     </section>
 
-    <!-- ADMIN -->
     <section class="page" id="page-admin">
       <div class="page-head">
         <h1>Admin Control</h1>
@@ -566,6 +613,7 @@ let cart = [];
 let currentCategory = "All";
 let paymentVerificationRunning = false;
 let appLoading = false;
+let passwordRecoveryMode = false;
 
 try {
   const savedCart = JSON.parse(localStorage.getItem("hm_cart") || "[]");
@@ -620,12 +668,21 @@ async function init() {
   supabaseClient.auth.onAuthStateChange((event, session) => {
     currentUser = session?.user || null;
 
-    if (!currentUser) {
+    if (event === "PASSWORD_RECOVERY") {
+      passwordRecoveryMode = true;
+      showAuth("reset");
+      return;
+    }
+
+    if (event === "SIGNED_OUT") {
       currentProfile = null;
       products = [];
       sellerProducts = [];
       document.getElementById("appShell").classList.add("hidden");
-      showAuth("login");
+
+      if (!passwordRecoveryMode) {
+        showAuth("login");
+      }
     }
   });
 
@@ -635,20 +692,35 @@ async function init() {
 
   currentUser = data.session?.user || null;
 
-  if (currentUser) {
+  const recoveryRequested =
+    new URLSearchParams(window.location.search).get("reset-password") === "1";
+
+  if (recoveryRequested || passwordRecoveryMode) {
+    passwordRecoveryMode = true;
+    showAuth("reset");
+  } else if (currentUser) {
     await showApp();
   } else {
     showAuth("login");
   }
 }
 
-/* AUTHENTICATION */
+/* AUTHENTICATION SCREEN */
 function showAuth(mode) {
   document.getElementById("authScreen").classList.remove("hidden");
   document.getElementById("appShell").classList.add("hidden");
 
   document.getElementById("loginForm").classList.toggle("hidden", mode !== "login");
   document.getElementById("signupForm").classList.toggle("hidden", mode !== "signup");
+  document.getElementById("forgotForm").classList.toggle("hidden", mode !== "forgot");
+  document.getElementById("newPasswordForm").classList.toggle("hidden", mode !== "reset");
+
+  const notice = document.getElementById("authNotice");
+  notice.classList.toggle("hidden", mode === "reset");
+
+  if (mode === "reset") {
+    passwordRecoveryMode = true;
+  }
 }
 
 /* REGISTRATION */
@@ -691,7 +763,14 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
   const email = document.getElementById("loginEmail").value.trim();
   const password = document.getElementById("loginPassword").value;
 
+  const button = this.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Signing in...";
+
   const {data,error} = await supabaseClient.auth.signInWithPassword({email,password});
+
+  button.disabled = false;
+  button.textContent = "Sign in";
 
   if (error) return message("loginMsg", error.message);
 
@@ -702,6 +781,103 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
 
   currentUser = data.user;
   await showApp();
+});
+
+/* FORGOT PASSWORD: SEND EMAIL */
+document.getElementById("forgotForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  if (!supabaseClient) {
+    return message("forgotMsg", "Supabase is not configured.");
+  }
+
+  const email = document.getElementById("resetEmail").value.trim();
+  const button = document.getElementById("resetEmailButton");
+
+  button.disabled = true;
+  button.textContent = "Sending...";
+
+  const {error} = await supabaseClient.auth.resetPasswordForEmail(email, {
+    redirectTo: SITE_URL + "?reset-password=1"
+  });
+
+  button.disabled = false;
+  button.textContent = "Send reset link";
+
+  if (error) {
+    return message("forgotMsg", error.message);
+  }
+
+  message(
+    "forgotMsg",
+    "If an account exists for that email, a password-reset link will be sent. Check your inbox and spam folder.",
+    "success"
+  );
+});
+
+/* UPDATE PASSWORD */
+document.getElementById("newPasswordForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  if (!supabaseClient) {
+    return message("newPasswordMsg", "Supabase is not configured.");
+  }
+
+  const password = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmNewPassword").value;
+  const button = document.getElementById("updatePasswordButton");
+
+  if (password.length < 8) {
+    return message("newPasswordMsg", "Your password must contain at least 8 characters.");
+  }
+
+  if (password !== confirmPassword) {
+    return message("newPasswordMsg", "The passwords do not match.");
+  }
+
+  button.disabled = true;
+  button.textContent = "Updating...";
+
+  const {error} = await supabaseClient.auth.updateUser({
+    password: password
+  });
+
+  button.disabled = false;
+  button.textContent = "Update password";
+
+  if (error) {
+    return message("newPasswordMsg", error.message);
+  }
+
+  // Password has been changed. End the recovery session.
+  passwordRecoveryMode = false;
+
+  const {error:signOutError} = await supabaseClient.auth.signOut();
+
+  if (signOutError) {
+    console.error("Sign out after password reset:", signOutError);
+  }
+
+  window.history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+  );
+
+  document.getElementById("loginEmail").value =
+    document.getElementById("resetEmail").value.trim();
+
+  document.getElementById("loginPassword").value = "";
+  document.getElementById("newPassword").value = "";
+  document.getElementById("confirmNewPassword").value = "";
+
+  showAuth("login");
+
+  message(
+    "loginMsg",
+    "Your password has been changed successfully. Sign in with your new password.",
+    "success"
+  );
 });
 
 /* LOGOUT */
@@ -744,6 +920,10 @@ async function showApp() {
     document.getElementById("appShell").classList.remove("hidden");
 
     await loadProfile();
+
+    if (currentProfile.is_active !== true) {
+      throw new Error("Your account is currently inactive. Please contact support.");
+    }
 
     const name = currentProfile.display_name ||
       currentUser.user_metadata?.display_name ||
@@ -906,12 +1086,7 @@ async function loadSellerApplicationStatus() {
   const statusText = document.getElementById("sellerApplicationStatus");
   const applyButton = document.getElementById("applySellerButton");
 
-  if (isSeller()) {
-    area.classList.add("hidden");
-    return;
-  }
-
-  if (isAdmin()) {
+  if (isSeller() || isAdmin()) {
     area.classList.add("hidden");
     return;
   }
