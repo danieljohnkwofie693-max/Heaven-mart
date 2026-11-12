@@ -42,9 +42,10 @@ async function startPaystackCheckout(cartItems) {
       throw new Error("Invalid product or quantity.");
     }
 
+    // Call the deployed Supabase Edge Function.
     const { data, error } =
       await supabaseClient.functions.invoke(
-        "initialize-payment",
+        "initialize-payments",
         {
           body: { items }
         }
@@ -62,6 +63,7 @@ async function startPaystackCheckout(cartItems) {
       );
     }
 
+    // Validate Paystack checkout URL.
     const checkoutURL = new URL(data.checkout_url);
 
     if (
@@ -169,7 +171,7 @@ async function handlePaymentReturn() {
 
     }
 
-    // Remove URL parameters only after verification response.
+    // Remove URL parameters after verification response.
     url.searchParams.delete("payment");
     url.searchParams.delete("reference");
 
