@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,23 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Heaven's Mart | Shop Smart. Live Better.</title>
 <meta name="description" content="Heaven's Mart - Ghana's everyday online marketplace.">
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 
 <style>
-:root {
-  --navy:#10264b;
-  --blue:#173967;
-  --gold:#d6a638;
-  --gold-light:#f0c65e;
-  --bg:#f3f6fb;
-  --white:#fff;
-  --text:#17243a;
-  --muted:#718096;
-  --border:#e3e9f2;
-  --green:#16845b;
-  --red:#c33d48;
+:root{
+  --navy:#10264b;--blue:#173967;--gold:#d6a638;--gold-light:#f0c65e;
+  --bg:#f3f6fb;--white:#fff;--text:#17243a;--muted:#718096;
+  --border:#e3e9f2;--green:#16845b;--red:#c33d48
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);overflow:hidden}
@@ -30,51 +20,29 @@ button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 button:disabled{opacity:.6;cursor:not-allowed}
 .hidden{display:none!important}
-
 .brand{display:flex;align-items:center;gap:12px}
-.logo{
-  width:55px;height:55px;background:var(--navy);
-  border:2px solid var(--gold);border-radius:14px;
-  display:grid;place-items:center;flex-shrink:0
-}
+.logo{width:55px;height:55px;background:var(--navy);border:2px solid var(--gold);border-radius:14px;display:grid;place-items:center;flex-shrink:0}
 .logo svg{width:39px;height:39px}
 .brand-name{font-size:21px;font-weight:800}
-.brand-name small{
-  display:block;font-size:10px;color:var(--gold);
-  letter-spacing:2px;margin-top:4px
-}
-.btn{
-  padding:12px 17px;border:0;border-radius:9px;
-  font-weight:bold
-}
+.brand-name small{display:block;font-size:10px;color:var(--gold);letter-spacing:2px;margin-top:4px}
+.btn{padding:12px 17px;border:0;border-radius:9px;font-weight:bold}
 .btn-primary{background:var(--gold);color:var(--navy)}
 .btn-primary:hover{background:var(--gold-light)}
 .btn-blue{background:var(--navy);color:white}
 .btn-danger{background:#fee2e2;color:#991b1b}
 .btn-block{width:100%}
 .message{font-size:13px;margin-top:12px;line-height:1.5}
-.error{color:var(--red)}
-.success{color:var(--green)}
+.error{color:var(--red)}.success{color:var(--green)}
 .field{margin-bottom:16px}
 .field label{display:block;margin-bottom:8px;font-weight:bold;font-size:13px}
-.field input,.field select,.field textarea{
-  width:100%;padding:13px;border:1px solid var(--border);
-  border-radius:9px;outline:none;background:#fbfcfe
-}
+.field input,.field select,.field textarea{width:100%;padding:13px;border:1px solid var(--border);border-radius:9px;outline:none;background:#fbfcfe}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}
 .text-link{color:var(--blue);font-weight:bold;cursor:pointer}
 .auth-switch{text-align:center;margin-top:20px;color:var(--muted);font-size:14px}
 
-/* AUTHENTICATION */
-#authScreen{
-  height:100dvh;display:grid;
-  grid-template-columns:1fr 1fr;background:white
-}
-.auth-art{
-  background:linear-gradient(145deg,#0c1f40,#173967);
-  color:white;padding:65px;display:flex;
-  flex-direction:column;justify-content:space-between
-}
+/* LOGIN */
+#authScreen{height:100dvh;display:grid;grid-template-columns:1fr 1fr;background:white}
+.auth-art{background:linear-gradient(145deg,#0c1f40,#173967);color:white;padding:65px;display:flex;flex-direction:column;justify-content:space-between}
 .auth-art h1{font-size:48px;line-height:1.15;margin-bottom:20px}
 .auth-art p{color:#d7e2f2;line-height:1.8;max-width:450px}
 .auth-side{display:grid;place-items:center;padding:30px;overflow-y:auto}
@@ -82,1632 +50,779 @@ button:disabled{opacity:.6;cursor:not-allowed}
 .auth-card h2{color:var(--navy);font-size:29px;margin-bottom:10px}
 .auth-card>p{color:var(--muted);margin-bottom:25px}
 
-/* APPLICATION SHELL */
-#appShell{
-  height:100dvh;display:grid;
-  grid-template-columns:245px 1fr;
-  grid-template-rows:72px 1fr
-}
-.sidebar{
-  grid-row:1/3;background:var(--navy);padding:22px 15px;
-  color:white;display:flex;flex-direction:column;overflow-y:auto
-}
-.sidebar .brand{margin-bottom:35px;padding-left:8px}
+/* APP */
+#appShell{height:100dvh;display:grid;grid-template-columns:245px 1fr;grid-template-rows:72px 1fr}
+.sidebar{grid-row:1/3;background:var(--navy);padding:22px 15px;color:white;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar .brand{margin-bottom:25px;padding-left:8px}
 .sidebar .brand-name{color:white;font-size:17px}
 .sidebar .logo{width:43px;height:43px}
 .sidebar .logo svg{width:31px;height:31px}
 .side-label{color:#9eb1ce;font-size:11px;letter-spacing:2px;padding:10px}
-.nav-btn{
-  width:100%;padding:14px;border:0;background:transparent;
-  color:#dce6f5;text-align:left;border-radius:9px;
-  margin:3px 0;font-weight:600
-}
+.nav-btn{width:100%;padding:12px;border:0;background:transparent;color:#dce6f5;text-align:left;border-radius:9px;margin:3px 0;font-weight:600}
 .nav-btn:hover,.nav-btn.active{background:#ffffff18;color:var(--gold-light)}
-.nav-btn span{display:inline-block;width:30px}
+.nav-btn span{display:inline-block;width:28px}
 .sidebar-bottom{margin-top:auto;border-top:1px solid #ffffff25;padding-top:15px}
-.topbar{
-  background:white;border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;padding:0 30px
-}
+.topbar{background:white;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;padding:0 30px}
 .top-title{font-size:20px;font-weight:bold;color:var(--navy)}
 .user-chip{font-weight:bold;font-size:13px}
-.workspace{grid-column:2;min-height:0;overflow:hidden;padding:28px}
+.workspace{grid-column:2;min-height:0;overflow:hidden;padding:25px}
 .page{display:none;height:100%;overflow-y:auto}
 .page.active{display:block}
-.page-head{margin-bottom:23px}
+.page-head{margin-bottom:20px}
 .page-head h1,.page-head h2{color:var(--navy);margin-bottom:7px}
 .page-head p{color:var(--muted)}
-
-/* DASHBOARD */
-.hero{
-  background:linear-gradient(110deg,#10264b,#214b7b);
-  color:white;padding:32px;border-radius:16px;margin-bottom:25px
-}
+.hero{background:linear-gradient(110deg,#10264b,#214b7b);color:white;padding:32px;border-radius:16px;margin-bottom:25px}
 .hero h2{font-size:28px;margin-bottom:10px}
 .hero p{color:#d9e4f2;line-height:1.6}
 .category-row{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
-.cat-btn{
-  padding:10px 16px;background:white;
-  border:1px solid var(--border);border-radius:30px;color:var(--navy)
-}
+.cat-btn{padding:10px 16px;background:white;border:1px solid var(--border);border-radius:30px;color:var(--navy)}
 .cat-btn.active{background:var(--navy);color:white}
 
 /* PRODUCTS */
 .product-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
-.product-card{
-  background:white;border:1px solid var(--border);
-  border-radius:13px;overflow:hidden
-}
-.product-visual{
-  height:150px;background:#edf2f8;
-  display:grid;place-items:center;font-size:48px;overflow:hidden
-}
+.product-card{background:white;border:1px solid var(--border);border-radius:13px;overflow:hidden}
+.product-visual{height:150px;background:#edf2f8;display:grid;place-items:center;font-size:48px;overflow:hidden}
 .product-visual img{width:100%;height:100%;object-fit:cover}
 .product-info{padding:15px}
 .product-info h3{font-size:15px;color:var(--navy);margin-bottom:8px}
-.product-info p{color:var(--muted);font-size:12px;margin-bottom:12px;line-height:1.5}
+.product-info p{color:var(--muted);font-size:12px;margin-bottom:10px;line-height:1.5}
 .product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .price{font-weight:bold;color:var(--navy)}
 .product-bottom button{font-size:11px;padding:9px}
 .product-management{display:flex;gap:7px;margin-top:12px}
 .product-management button{flex:1;font-size:11px;padding:8px}
+.verified{display:inline-block;color:#126344;background:#d9f5e8;border-radius:20px;padding:4px 8px;font-size:10px;font-weight:bold;margin-bottom:8px}
+.heart-btn{border:1px solid var(--border);background:white;color:#b83250;border-radius:8px;padding:7px 10px;font-size:17px}
 
-/* PANELS */
-.panel{
-  background:white;border:1px solid var(--border);
-  border-radius:14px;padding:24px;margin-bottom:20px
-}
-.panel h3{color:var(--navy);margin-bottom:20px}
-.empty{
-  padding:35px;text-align:center;color:var(--muted);
-  background:white;border-radius:12px
-}
-.status{
-  display:inline-block;padding:6px 10px;border-radius:20px;
-  font-size:12px;font-weight:bold;background:#edf2f8;color:var(--navy)
-}
+/* PANELS AND TABLES */
+.panel{background:white;border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:20px}
+.panel h3{color:var(--navy);margin-bottom:17px}
+.empty{padding:30px;text-align:center;color:var(--muted);background:white;border-radius:12px}
+.status{display:inline-block;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold;background:#edf2f8;color:var(--navy)}
 .status.pending{background:#fff4d6;color:#815900}
-.status.approved,.status.paid,.status.active{background:#d9f5e8;color:#126344}
-.status.rejected,.status.inactive,.status.failed{background:#fee2e2;color:#991b1b}
-
-/* CART */
-.cart-row{
-  display:flex;justify-content:space-between;padding:14px;
-  background:#f8fafd;margin-bottom:10px;border-radius:9px;gap:10px
-}
-.cart-actions{display:flex;align-items:center;gap:4px}
-.cart-actions button{border:0;padding:6px 10px;border-radius:6px}
-.total-line{
-  display:flex;justify-content:space-between;
-  font-size:19px;font-weight:bold;padding:20px 0
-}
-.cart-note{color:var(--muted);font-size:12px;line-height:1.5;margin-top:10px}
-.pay-now-button{
-  width:100%;padding:13px;margin:12px 0 0;
-  background:var(--gold);color:#071b3a;border:0;
-  border-radius:8px;font-weight:800
-}
-.pay-now-button:hover:not(:disabled){background:var(--gold-light)}
-
-/* ADMIN DASHBOARD */
-.admin-tabs{
-  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px
-}
-.admin-tab{
-  border:1px solid var(--border);background:white;color:var(--navy);
-  border-radius:8px;padding:10px 14px;font-weight:bold;font-size:13px
-}
-.admin-tab.active{background:var(--navy);color:white}
-.admin-panel{display:none}
-.admin-panel.active{display:block}
-.stat-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
-  margin-bottom:20px
-}
-.stat-card{
-  background:white;border:1px solid var(--border);
-  border-radius:12px;padding:19px
-}
-.stat-card span{display:block;color:var(--muted);font-size:12px;margin-bottom:10px}
-.stat-card strong{font-size:25px;color:var(--navy)}
+.status.approved,.status.paid,.status.active,.status.delivered{background:#d9f5e8;color:#126344}
+.status.rejected,.status.inactive,.status.failed,.status.cancelled{background:#fee2e2;color:#991b1b}
 .admin-table-wrap{width:100%;overflow-x:auto;background:white;border-radius:12px}
 .admin-table{width:100%;border-collapse:collapse;min-width:650px}
-.admin-table th,.admin-table td{
-  padding:13px;text-align:left;border-bottom:1px solid var(--border);
-  font-size:13px;vertical-align:middle
-}
+.admin-table th,.admin-table td{padding:12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
 .admin-table th{background:#f8fafd;color:var(--navy)}
 .admin-table td button{margin:2px;padding:8px 10px;font-size:11px}
-.admin-search{
-  width:100%;max-width:400px;padding:12px;
-  border:1px solid var(--border);border-radius:8px;margin-bottom:15px
-}
-.admin-actions{display:flex;gap:6px;flex-wrap:wrap}
-.application-card{
-  border:1px solid var(--border);border-radius:10px;
-  padding:16px;margin-bottom:12px;background:#fbfcfe
-}
+.admin-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.admin-tab{border:1px solid var(--border);background:white;color:var(--navy);border-radius:8px;padding:10px 13px;font-weight:bold;font-size:12px}
+.admin-tab.active{background:var(--navy);color:white}
+.admin-panel{display:none}.admin-panel.active{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:20px}
+.stat-card{background:white;border:1px solid var(--border);border-radius:12px;padding:17px}
+.stat-card span{display:block;color:var(--muted);font-size:12px;margin-bottom:9px}
+.stat-card strong{font-size:24px;color:var(--navy)}
+.admin-search,.search-control{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:12px}
+.filter-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-bottom:17px}
+.filter-row input,.filter-row select{width:100%;padding:11px;border:1px solid var(--border);border-radius:8px;background:white}
+.application-card{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;background:#fbfcfe}
 .application-card p{font-size:13px;margin:7px 0;color:var(--muted)}
 .application-actions{display:flex;gap:8px;margin-top:12px}
 .application-actions button{padding:9px 12px;font-size:12px}
-.admin-note{font-size:12px;color:var(--muted);margin:10px 0 16px;line-height:1.5}
+.cart-row{display:flex;justify-content:space-between;padding:14px;background:#f8fafd;margin-bottom:10px;border-radius:9px;gap:10px}
+.cart-actions{display:flex;align-items:center;gap:4px}
+.cart-actions button{border:0;padding:6px 10px;border-radius:6px}
+.total-line{display:flex;justify-content:space-between;font-size:19px;font-weight:bold;padding:20px 0}
+.cart-note{color:var(--muted);font-size:12px;line-height:1.5;margin-top:10px}
+.pay-now-button{width:100%;padding:13px;margin:12px 0 0;background:var(--gold);color:#071b3a;border:0;border-radius:8px;font-weight:800}
+.item-card{background:white;border:1px solid var(--border);padding:17px;border-radius:11px;margin-bottom:12px}
+.item-card h3{color:var(--navy);margin-bottom:7px}
+.item-card p{font-size:13px;color:var(--muted);line-height:1.6;margin:5px 0}
+.inline-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.inline-actions button{padding:9px 12px;font-size:12px}
+.notice-count{background:#c33d48;color:white;border-radius:20px;padding:2px 7px;font-size:10px;margin-left:4px}
 
 @media(max-width:1000px){
-  .product-grid{grid-template-columns:repeat(3,1fr)}
-  .auth-art{padding:35px}
-  .stat-grid{grid-template-columns:repeat(2,1fr)}
+ .product-grid{grid-template-columns:repeat(3,1fr)}
+ .auth-art{padding:35px}.stat-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:760px){
-  #authScreen{grid-template-columns:1fr}
-  .auth-art{display:none}
-  #appShell{grid-template-columns:1fr;grid-template-rows:60px 1fr 65px}
-  .sidebar{
-    grid-row:3;grid-column:1;flex-direction:row;
-    justify-content:space-around;padding:5px;overflow:visible
-  }
-  .sidebar .brand,.side-label,.sidebar-bottom{display:none}
-  .nav-btn{flex:1;text-align:center;padding:7px 2px;font-size:10px}
-  .nav-btn span{display:block;width:auto;font-size:18px}
-  .topbar{grid-column:1;padding:0 15px}
-  .workspace{grid-column:1;grid-row:2;padding:15px}
-  .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .product-bottom{align-items:flex-start;flex-direction:column}
-  .product-bottom button{width:100%}
-  .product-management{flex-direction:column}
-  .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .stat-card{padding:13px}
-  .stat-card strong{font-size:20px}
-  .admin-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
-  .admin-tab{white-space:nowrap}
-  .panel{padding:15px}
+ #authScreen{grid-template-columns:1fr}.auth-art{display:none}
+ #appShell{grid-template-columns:1fr;grid-template-rows:60px 1fr 65px}
+ .sidebar{grid-row:3;grid-column:1;flex-direction:row;justify-content:space-around;padding:5px;overflow:visible}
+ .sidebar .brand,.side-label,.sidebar-bottom{display:none}
+ .nav-btn{flex:1;text-align:center;padding:6px 2px;font-size:9px}
+ .nav-btn span{display:block;width:auto;font-size:17px}
+ .topbar{grid-column:1;padding:0 15px}
+ .workspace{grid-column:1;grid-row:2;padding:13px}
+ .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .product-bottom{align-items:flex-start;flex-direction:column}
+ .product-bottom button{width:100%}
+ .product-management{flex-direction:column}
+ .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .stat-card{padding:12px}.stat-card strong{font-size:20px}
+ .admin-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
+ .admin-tab{white-space:nowrap}
+ .panel{padding:14px}
+ .filter-row{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 
 <body>
 
-<!-- AUTHENTICATION -->
 <div id="authScreen">
-  <section class="auth-art">
-    <div class="brand">
-      <div class="logo">
-        <svg viewBox="0 0 100 100" fill="none">
-          <path d="M18 36 L50 15 L82 36 V79 H18 Z" stroke="#f0c65e" stroke-width="7"/>
-          <path d="M35 79 V48 H65 V79" stroke="#f0c65e" stroke-width="7"/>
-          <path d="M30 35 H70" stroke="white" stroke-width="6"/>
-        </svg>
-      </div>
-      <div class="brand-name">Heaven's Mart<small>SHOP SMART. LIVE BETTER.</small></div>
-    </div>
-    <div>
-      <h1>Everything you need, all in one marketplace.</h1>
-      <p>Discover everyday essentials, electronics, stationery and more from sellers across Ghana. Welcome to Heaven's Mart.</p>
-    </div>
-    <p>© 2026 Heaven's Mart · Ghana</p>
-  </section>
-
-  <section class="auth-side">
-    <div class="auth-card">
-
-      <form id="loginForm">
-        <h2>Welcome back</h2>
-        <p>Sign in to access Heaven's Mart.</p>
-        <div class="field">
-          <label for="loginEmail">Email address</label>
-          <input type="email" id="loginEmail" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" autocomplete="current-password" required>
-        </div>
-        <p style="text-align:right;margin:-5px 0 18px;font-size:13px">
-          <span class="text-link" onclick="showAuth('forgot')">Forgot password?</span>
-        </p>
-        <button class="btn btn-primary btn-block" type="submit">Sign in</button>
-        <p class="message" id="loginMsg" aria-live="polite"></p>
-        <p class="auth-switch">Don't have an account?
-          <span class="text-link" onclick="showAuth('signup')">Create account</span>
-        </p>
-      </form>
-
-      <form id="signupForm" class="hidden">
-        <h2>Create account</h2>
-        <p>Join Heaven's Mart today.</p>
-        <div class="field">
-          <label for="signupName">Full name</label>
-          <input type="text" id="signupName" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="signupEmail">Email address</label>
-          <input type="email" id="signupEmail" autocomplete="email" required>
-        </div>
-        <div class="field">
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" minlength="8" autocomplete="new-password" required>
-        </div>
-        <button class="btn btn-primary btn-block" type="submit">Register</button>
-        <p class="message" id="signupMsg" aria-live="polite"></p>
-        <p class="auth-switch">Already registered?
-          <span class="text-link" onclick="showAuth('login')">Sign in</span>
-        </p>
-      </form>
-
-      <form id="forgotForm" class="hidden">
-        <h2>Forgot password?</h2>
-        <p>Enter your registered email address. We will send you a password-reset link.</p>
-        <div class="field">
-          <label for="resetEmail">Email address</label>
-          <input type="email" id="resetEmail" autocomplete="email" required>
-        </div>
-        <button class="btn btn-primary btn-block" id="resetEmailButton" type="submit">Send reset link</button>
-        <p class="message" id="forgotMsg" aria-live="polite"></p>
-        <p class="auth-switch">Remember your password?
-          <span class="text-link" onclick="showAuth('login')">Sign in</span>
-        </p>
-      </form>
-
-      <form id="newPasswordForm" class="hidden">
-        <h2>Choose a new password</h2>
-        <p>Enter and confirm your new password below.</p>
-        <div class="field">
-          <label for="newPassword">New password</label>
-          <input type="password" id="newPassword" minlength="8" autocomplete="new-password" required>
-        </div>
-        <div class="field">
-          <label for="confirmNewPassword">Confirm new password</label>
-          <input type="password" id="confirmNewPassword" minlength="8" autocomplete="new-password" required>
-        </div>
-        <button class="btn btn-primary btn-block" id="updatePasswordButton" type="submit">Update password</button>
-        <p class="message" id="newPasswordMsg" aria-live="polite"></p>
-      </form>
-
-      <div class="message" id="authNotice" aria-live="polite">🔒 Protected customer authentication.</div>
-    </div>
-  </section>
+ <section class="auth-art">
+  <div class="brand">
+   <div class="logo"><svg viewBox="0 0 100 100" fill="none"><path d="M18 36L50 15L82 36V79H18Z" stroke="#f0c65e" stroke-width="7"/><path d="M35 79V48H65V79" stroke="#f0c65e" stroke-width="7"/><path d="M30 35H70" stroke="white" stroke-width="6"/></svg></div>
+   <div class="brand-name">Heaven's Mart<small>SHOP SMART. LIVE BETTER.</small></div>
+  </div>
+  <div><h1>Everything you need, all in one marketplace.</h1><p>Discover everyday essentials, electronics, stationery and more from sellers across Ghana. Welcome to Heaven's Mart.</p></div>
+  <p>© 2026 Heaven's Mart · Ghana</p>
+ </section>
+ <section class="auth-side">
+  <div class="auth-card">
+   <form id="loginForm">
+    <h2>Welcome back</h2><p>Sign in to access Heaven's Mart.</p>
+    <div class="field"><label>Email address</label><input type="email" id="loginEmail" autocomplete="email" required></div>
+    <div class="field"><label>Password</label><input type="password" id="loginPassword" autocomplete="current-password" required></div>
+    <p style="text-align:right;margin:-5px 0 18px;font-size:13px"><span class="text-link" onclick="showAuth('forgot')">Forgot password?</span></p>
+    <button class="btn btn-primary btn-block">Sign in</button>
+    <p class="message" id="loginMsg"></p>
+    <p class="auth-switch">Don't have an account? <span class="text-link" onclick="showAuth('signup')">Create account</span></p>
+   </form>
+   <form id="signupForm" class="hidden">
+    <h2>Create account</h2><p>Join Heaven's Mart today.</p>
+    <div class="field"><label>Full name</label><input id="signupName" required maxlength="100"></div>
+    <div class="field"><label>Email address</label><input type="email" id="signupEmail" required></div>
+    <div class="field"><label>Password</label><input type="password" id="signupPassword" minlength="8" required></div>
+    <button class="btn btn-primary btn-block">Register</button><p class="message" id="signupMsg"></p>
+    <p class="auth-switch">Already registered? <span class="text-link" onclick="showAuth('login')">Sign in</span></p>
+   </form>
+   <form id="forgotForm" class="hidden">
+    <h2>Forgot password?</h2><p>Enter your registered email address.</p>
+    <div class="field"><label>Email address</label><input type="email" id="resetEmail" required></div>
+    <button class="btn btn-primary btn-block">Send reset link</button><p class="message" id="forgotMsg"></p>
+    <p class="auth-switch"><span class="text-link" onclick="showAuth('login')">Back to sign in</span></p>
+   </form>
+   <form id="newPasswordForm" class="hidden">
+    <h2>Choose a new password</h2>
+    <div class="field"><label>New password</label><input type="password" id="newPassword" minlength="8" required></div>
+    <div class="field"><label>Confirm password</label><input type="password" id="confirmNewPassword" minlength="8" required></div>
+    <button class="btn btn-primary btn-block">Update password</button><p class="message" id="newPasswordMsg"></p>
+   </form>
+   <p id="authNotice" class="message">🔒 Protected customer authentication.</p>
+  </div>
+ </section>
 </div>
 
-<!-- APPLICATION -->
 <div id="appShell" class="hidden">
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="logo">
-        <svg viewBox="0 0 100 100" fill="none">
-          <path d="M18 36 L50 15 L82 36 V79 H18 Z" stroke="#f0c65e" stroke-width="7"/>
-          <path d="M35 79 V48 H65 V79" stroke="#f0c65e" stroke-width="7"/>
-        </svg>
-      </div>
-      <div class="brand-name">Heaven's Mart</div>
-    </div>
+ <aside class="sidebar">
+  <div class="brand"><div class="logo"><svg viewBox="0 0 100 100" fill="none"><path d="M18 36L50 15L82 36V79H18Z" stroke="#f0c65e" stroke-width="7"/><path d="M35 79V48H65V79" stroke="#f0c65e" stroke-width="7"/></svg></div><div class="brand-name">Heaven's Mart</div></div>
+  <div class="side-label">MAIN MENU</div>
+  <button class="nav-btn active" data-page="home" onclick="navigate('home')"><span>⌂</span>Dashboard</button>
+  <button class="nav-btn" data-page="catalog" onclick="navigate('catalog')"><span>▦</span>Marketplace</button>
+  <button class="nav-btn" data-page="wishlist" onclick="navigate('wishlist')"><span>♡</span>Wishlist</button>
+  <button class="nav-btn" data-page="cart" onclick="navigate('cart')"><span>🛒</span>My Cart</button>
+  <button class="nav-btn" data-page="orders" onclick="navigate('orders')"><span>📦</span>My Orders</button>
+  <button class="nav-btn" data-page="notifications" onclick="navigate('notifications')"><span>🔔</span>Notifications <b id="notificationCount" class="notice-count hidden">0</b></button>
+  <button class="nav-btn" data-page="support" onclick="navigate('support')"><span>💬</span>Customer Support</button>
+  <button class="nav-btn" data-page="account" onclick="navigate('account')"><span>♙</span>My Account</button>
+  <button class="nav-btn hidden" id="sellerNav" data-page="seller" onclick="navigate('seller')"><span>🏪</span>Seller Dashboard</button>
+  <button class="nav-btn hidden" id="adminNav" data-page="admin" onclick="navigate('admin')"><span>⚙</span>Admin Control</button>
+  <div class="sidebar-bottom"><button class="nav-btn" onclick="logout()"><span>↪</span>Sign out</button></div>
+ </aside>
+ <header class="topbar"><div class="top-title" id="topTitle">Dashboard</div><div class="user-chip" id="userName">Customer</div></header>
 
-    <div class="side-label">MAIN MENU</div>
-    <button class="nav-btn active" data-page="home" onclick="navigate('home')"><span>⌂</span> Dashboard</button>
-    <button class="nav-btn" data-page="catalog" onclick="navigate('catalog')"><span>▦</span> Marketplace</button>
-    <button class="nav-btn" data-page="cart" onclick="navigate('cart')"><span>🛒</span> My Cart</button>
-    <button class="nav-btn" data-page="account" onclick="navigate('account')"><span>♙</span> My Account</button>
-    <button class="nav-btn hidden" id="sellerNav" data-page="seller" onclick="navigate('seller')"><span>🏪</span> Seller Dashboard</button>
-    <button class="nav-btn hidden" id="adminNav" data-page="admin" onclick="navigate('admin')"><span>⚙</span> Admin Control</button>
+ <main class="workspace">
+  <section class="page active" id="page-home">
+   <div class="hero"><h2>Welcome to Heaven's Mart</h2><p>Shop smarter. Discover quality products from sellers across Ghana.</p></div>
+   <div class="page-head"><h1>Shop by category</h1><p>Choose a department to explore.</p></div>
+   <div class="category-row">
+    <button class="cat-btn active" onclick="setCategory('All',this)">All products</button>
+    <button class="cat-btn" onclick="setCategory('Cleaning Products',this)">🧹 Cleaning</button>
+    <button class="cat-btn" onclick="setCategory('Phones and Accessories',this)">📱 Phones</button>
+    <button class="cat-btn" onclick="setCategory('Stationery',this)">📚 Stationery</button>
+   </div>
+   <div class="page-head"><h2>Featured products</h2></div><div class="product-grid" id="featuredGrid"></div>
+  </section>
 
-    <div class="sidebar-bottom">
-      <button class="nav-btn" onclick="logout()"><span>↪</span> Sign out</button>
-    </div>
-  </aside>
+  <section class="page" id="page-catalog">
+   <div class="page-head"><h1>Marketplace</h1><p>Explore products from sellers across Ghana.</p></div>
+   <div class="filter-row">
+    <input id="searchInput" type="search" placeholder="Search products...">
+    <select id="categoryFilter"><option value="All">All categories</option><option>Cleaning Products</option><option>Phones and Accessories</option><option>Stationery</option></select>
+    <input id="minPrice" type="number" min="0" placeholder="Min price">
+    <input id="maxPrice" type="number" min="0" placeholder="Max price">
+   </div>
+   <div class="field"><label for="sortProducts">Sort products</label><select id="sortProducts"><option value="newest">Newest first</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option><option value="name">Name A–Z</option></select></div>
+   <div class="product-grid" id="catalogGrid"></div>
+  </section>
 
-  <header class="topbar">
-    <div class="top-title" id="topTitle">Dashboard</div>
-    <div class="user-chip"><span id="userName">Customer</span></div>
-  </header>
+  <section class="page" id="page-wishlist">
+   <div class="page-head"><h1>My Wishlist</h1><p>Products you have saved for later.</p></div><div class="product-grid" id="wishlistGrid"></div>
+  </section>
 
-  <main class="workspace">
+  <section class="page" id="page-cart">
+   <div class="page-head"><h1>My shopping cart</h1><p>Review your selected products.</p></div>
+   <div class="panel"><div id="cartContents"></div><div class="total-line"><span>Total</span><span id="cartTotal">GH₵0.00</span></div>
+    <button class="btn btn-primary" onclick="sendOrder()">Order through WhatsApp</button>
+    <button class="pay-now-button" id="payCartButton" onclick="payForCart()" disabled>💳 Pay with Paystack</button>
+    <p class="cart-note">Your order is not confirmed until payment is verified.</p>
+   </div>
+  </section>
 
-    <section class="page active" id="page-home">
-      <div class="hero">
-        <h2>Welcome to Heaven's Mart</h2>
-        <p>Shop smarter. Discover quality products from sellers across Ghana.</p>
-      </div>
-      <div class="page-head">
-        <h1>Shop by category</h1>
-        <p>Choose a department to explore.</p>
-      </div>
-      <div class="category-row">
-        <button class="cat-btn active" onclick="setCategory('All',this)">All products</button>
-        <button class="cat-btn" onclick="setCategory('Cleaning Products',this)">🧹 Cleaning</button>
-        <button class="cat-btn" onclick="setCategory('Phones and Accessories',this)">📱 Phones</button>
-        <button class="cat-btn" onclick="setCategory('Stationery',this)">📚 Stationery</button>
-      </div>
-      <div class="page-head"><h1>Featured products</h1></div>
-      <div class="product-grid" id="featuredGrid"></div>
-    </section>
+  <section class="page" id="page-orders">
+   <div class="page-head"><h1>My Orders</h1><p>View payment records and delivery progress.</p></div><div id="customerOrders"></div>
+  </section>
 
-    <section class="page" id="page-catalog">
-      <div class="page-head">
-        <h1>Marketplace</h1>
-        <p>Explore products from sellers across Ghana.</p>
-      </div>
-      <input type="search" id="searchInput" placeholder="Search products..." aria-label="Search products"
-        style="width:100%;padding:13px;border:1px solid #ddd;border-radius:9px;margin-bottom:20px">
-      <div class="product-grid" id="catalogGrid"></div>
-    </section>
+  <section class="page" id="page-notifications">
+   <div class="page-head"><h1>Notifications</h1><p>Updates from Heaven's Mart.</p></div><div id="customerNotifications"></div>
+  </section>
 
-    <section class="page" id="page-cart">
-      <div class="page-head">
-        <h1>My shopping cart</h1>
-        <p>Review your selected products.</p>
-      </div>
-      <div class="panel">
-        <div id="cartContents"></div>
-        <div class="total-line"><span>Total</span><span id="cartTotal">GH₵0.00</span></div>
-        <button class="btn btn-primary" type="button" onclick="sendOrder()">Order through WhatsApp</button>
-        <button class="pay-now-button" id="payCartButton" type="button" onclick="payForCart()" disabled>💳 Pay with Paystack</button>
-        <p class="cart-note">Your payable amount is calculated using current product prices stored in Heaven's Mart. Your order is not confirmed until payment is verified.</p>
-      </div>
-    </section>
+  <section class="page" id="page-support">
+   <div class="page-head"><h1>Customer Support</h1><p>Send a message to the Heaven's Mart support team.</p></div>
+   <div class="panel">
+    <form id="supportForm">
+     <div class="field"><label>Subject</label><input id="supportSubject" maxlength="120" required></div>
+     <div class="field"><label>Message</label><textarea id="supportMessage" rows="4" maxlength="2000" required></textarea></div>
+     <button class="btn btn-primary" id="supportSubmitButton">Send support request</button><p class="message" id="supportMsg"></p>
+    </form>
+   </div>
+   <h2 style="color:var(--navy);margin:20px 0">My support requests</h2><div id="myTickets"></div>
+  </section>
 
-    <section class="page" id="page-account">
-      <div class="page-head"><h1>My account</h1><p>Manage your account information.</p></div>
-      <div class="panel">
-        <h3>Account information</h3>
-        <p><b>Name:</b> <span id="accountName"></span></p>
-        <p style="margin-top:12px"><b>Email:</b> <span id="accountEmail"></span></p>
-        <p style="margin-top:12px"><b>Account type:</b> <span id="accountRole">Customer</span></p>
-        <div id="sellerApplicationArea" style="margin-top:22px">
-          <h3>Sell on Heaven's Mart</h3>
-          <p id="sellerApplicationStatus" style="margin-bottom:15px">Become a seller and list your products.</p>
-          <button class="btn btn-primary" id="applySellerButton" onclick="navigate('apply-seller')">Apply to become a seller</button>
-        </div>
-        <br><button class="btn btn-blue" onclick="logout()">Sign out</button>
-      </div>
-    </section>
+  <section class="page" id="page-account">
+   <div class="page-head"><h1>My account</h1><p>Manage your account information.</p></div>
+   <div class="panel">
+    <h3>Account information</h3>
+    <p><b>Name:</b> <span id="accountName"></span></p><p style="margin-top:12px"><b>Email:</b> <span id="accountEmail"></span></p>
+    <p style="margin-top:12px"><b>Account type:</b> <span id="accountRole">Customer</span></p>
+    <div id="sellerApplicationArea" style="margin-top:22px"><h3>Sell on Heaven's Mart</h3><p id="sellerApplicationStatus" style="margin-bottom:15px">Become a seller and list your products.</p><button class="btn btn-primary" id="applySellerButton" onclick="navigate('apply-seller')">Apply to become a seller</button></div>
+    <br><button class="btn btn-blue" onclick="logout()">Sign out</button>
+   </div>
+  </section>
 
-    <section class="page" id="page-seller">
-      <div class="page-head"><h1>Seller Dashboard</h1><p>Manage your Heaven's Mart products.</p></div>
-      <div class="panel">
-        <h3 id="productFormTitle">Add a product</h3>
-        <form id="productForm">
-          <input type="hidden" id="editProductId">
-          <div class="field"><label for="productName">Product name</label><input id="productName" required maxlength="100"></div>
-          <div class="field">
-            <label for="productCategory">Category</label>
-            <select id="productCategory" required>
-              <option value="">Choose category</option>
-              <option>Cleaning Products</option>
-              <option>Phones and Accessories</option>
-              <option>Stationery</option>
-            </select>
-          </div>
-          <div class="field"><label for="productPrice">Price (GH₵)</label><input id="productPrice" type="number" min="0.01" step="0.01" required></div>
-          <div class="field"><label for="productDescription">Description</label><textarea id="productDescription" rows="3" maxlength="500" required></textarea></div>
-          <div class="field"><label for="productImage">Image URL (optional)</label><input id="productImage" type="url" placeholder="https://example.com/image.jpg"></div>
-          <button class="btn btn-primary" id="saveProductButton" type="submit">Save product</button>
-          <button class="btn btn-blue" type="button" onclick="resetProductForm()">Clear form</button>
-          <p id="productMsg" class="message" aria-live="polite"></p>
-        </form>
-      </div>
-      <div class="page-head" style="margin-top:25px"><h2>My products</h2></div>
-      <div class="product-grid" id="sellerProductGrid"></div>
-    </section>
+  <section class="page" id="page-seller">
+   <div class="page-head"><h1>Seller Dashboard</h1><p>Manage your Heaven's Mart products.</p></div>
+   <div class="panel"><h3>Add or edit a product</h3>
+    <form id="productForm"><input type="hidden" id="editProductId">
+     <div class="field"><label>Product name</label><input id="productName" maxlength="100" required></div>
+     <div class="field"><label>Category</label><select id="productCategory" required><option value="">Choose category</option><option>Cleaning Products</option><option>Phones and Accessories</option><option>Stationery</option></select></div>
+     <div class="field"><label>Price (GH₵)</label><input id="productPrice" type="number" min=".01" step=".01" required></div>
+     <div class="field"><label>Description</label><textarea id="productDescription" rows="3" maxlength="500" required></textarea></div>
+     <div class="field"><label>Image URL (optional)</label><input id="productImage" type="url"></div>
+     <button class="btn btn-primary" id="saveProductButton">Save product</button><button class="btn btn-blue" type="button" onclick="resetProductForm()">Clear</button><p id="productMsg" class="message"></p>
+    </form>
+   </div>
+   <div class="panel"><h3>Seller verification</h3><p id="sellerVerificationStatus">Checking verification status...</p></div>
+   <h2 style="color:var(--navy);margin:20px 0">My products</h2><div class="product-grid" id="sellerProductGrid"></div>
+  </section>
 
-    <section class="page" id="page-apply-seller">
-      <div class="page-head"><h1>Become a seller</h1><p>Apply to sell products on Heaven's Mart.</p></div>
-      <div class="panel">
-        <form id="sellerApplicationForm">
-          <div class="field"><label for="businessName">Business name</label><input id="businessName" required maxlength="100"></div>
-          <div class="field"><label for="sellerWhatsApp">WhatsApp number</label><input id="sellerWhatsApp" type="tel" placeholder="233XXXXXXXXX" required maxlength="20"></div>
-          <button class="btn btn-primary" id="applicationSubmitButton" type="submit">Submit application</button>
-          <p id="applicationMsg" class="message" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
+  <section class="page" id="page-apply-seller">
+   <div class="page-head"><h1>Become a seller</h1><p>Apply to sell products on Heaven's Mart.</p></div>
+   <div class="panel"><form id="sellerApplicationForm">
+    <div class="field"><label>Business name</label><input id="businessName" required maxlength="100"></div>
+    <div class="field"><label>WhatsApp number</label><input id="sellerWhatsApp" type="tel" placeholder="233XXXXXXXXX" required maxlength="20"></div>
+    <button class="btn btn-primary" id="applicationSubmitButton">Submit application</button><p id="applicationMsg" class="message"></p>
+   </form></div>
+  </section>
 
-    <!-- ADMIN DASHBOARD -->
-    <section class="page" id="page-admin">
-      <div class="page-head">
-        <h1>Admin Control Centre</h1>
-        <p>Manage Heaven's Mart customers, sellers, products, orders and reviews.</p>
-      </div>
-
-      <div class="admin-tabs">
-        <button class="admin-tab active" data-admin-tab="overview" onclick="showAdminTab('overview')">Overview</button>
-        <button class="admin-tab" data-admin-tab="customers" onclick="showAdminTab('customers')">Customers</button>
-        <button class="admin-tab" data-admin-tab="sellers" onclick="showAdminTab('sellers')">Sellers</button>
-        <button class="admin-tab" data-admin-tab="products" onclick="showAdminTab('products')">Products</button>
-        <button class="admin-tab" data-admin-tab="applications" onclick="showAdminTab('applications')">Applications</button>
-        <button class="admin-tab" data-admin-tab="orders" onclick="showAdminTab('orders')">Orders & Payments</button>
-        <button class="admin-tab" data-admin-tab="reviews" onclick="showAdminTab('reviews')">Reviews</button>
-      </div>
-
-      <div class="admin-panel active" id="admin-overview">
-        <div class="stat-grid">
-          <div class="stat-card"><span>Total customers</span><strong id="statCustomers">—</strong></div>
-          <div class="stat-card"><span>Total sellers</span><strong id="statSellers">—</strong></div>
-          <div class="stat-card"><span>Total products</span><strong id="statProducts">—</strong></div>
-          <div class="stat-card"><span>Total orders</span><strong id="statOrders">—</strong></div>
-          <div class="stat-card"><span>Pending applications</span><strong id="statApplications">—</strong></div>
-          <div class="stat-card"><span>Pending reviews</span><strong id="statReviews">—</strong></div>
-          <div class="stat-card"><span>Paid orders</span><strong id="statPaidOrders">—</strong></div>
-          <div class="stat-card"><span>Inactive accounts</span><strong id="statInactive">—</strong></div>
-        </div>
-        <div class="panel">
-          <h3>Administrator overview</h3>
-          <p class="admin-note">Use the sections above to manage accounts, listings, applications, orders and customer reviews. Payment amounts are shown exactly as stored in your orders table; their currency-unit conversion depends on your payment function.</p>
-          <button class="btn btn-primary" onclick="refreshAdminDashboard()">Refresh dashboard</button>
-          <p id="adminOverviewMsg" class="message" aria-live="polite"></p>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="admin-customers">
-        <div class="panel">
-          <h3>Customer accounts</h3>
-          <input class="admin-search" id="customerSearch" type="search" placeholder="Search customers..." oninput="filterAdminTable('customerTable','customerSearch')">
-          <div id="customerTable"><div class="empty">Load customers to begin.</div></div>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="admin-sellers">
-        <div class="panel">
-          <h3>Seller accounts</h3>
-          <input class="admin-search" id="sellerSearch" type="search" placeholder="Search sellers..." oninput="filterAdminTable('sellerTable','sellerSearch')">
-          <div id="sellerTable"><div class="empty">Load sellers to begin.</div></div>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="admin-products">
-        <div class="panel">
-          <h3>Marketplace products</h3>
-          <input class="admin-search" id="adminProductSearch" type="search" placeholder="Search products..." oninput="filterAdminTable('adminProductTable','adminProductSearch')">
-          <div id="adminProductTable"><div class="empty">Load products to begin.</div></div>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="admin-applications">
-        <div class="panel">
-          <h3>Seller applications</h3>
-          <div id="applicationsList"><div class="empty">Loading applications...</div></div>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="admin-orders">
-        <div class="panel">
-          <h3>Orders and Paystack records</h3>
-          <p class="admin-note">Order amounts below are the integer values stored in the database. Confirm whether your Edge Function stores pesewas or Ghana cedis before interpreting these as display prices.</p>
-          <div id="ordersList"><div class="empty">Load orders to begin.</div></div>
-        </div>
-      </div>
-
-      <div class="admin-panel" id="admin-reviews">
-        <div class="panel">
-          <h3>Customer reviews</h3>
-          <div id="reviewsList"><div class="empty">Load reviews to begin.</div></div>
-        </div>
-      </div>
-    </section>
-
-  </main>
+  <section class="page" id="page-admin">
+   <div class="page-head"><h1>Admin Control Centre</h1><p>Manage Heaven's Mart operations.</p></div>
+   <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="overview" onclick="showAdminTab('overview')">Overview</button>
+    <button class="admin-tab" data-tab="customers" onclick="showAdminTab('customers')">Customers</button>
+    <button class="admin-tab" data-tab="sellers" onclick="showAdminTab('sellers')">Sellers</button>
+    <button class="admin-tab" data-tab="products" onclick="showAdminTab('products')">Products</button>
+    <button class="admin-tab" data-tab="applications" onclick="showAdminTab('applications')">Applications</button>
+    <button class="admin-tab" data-tab="orders" onclick="showAdminTab('orders')">Orders & Tracking</button>
+    <button class="admin-tab" data-tab="reviews" onclick="showAdminTab('reviews')">Reviews</button>
+    <button class="admin-tab" data-tab="tickets" onclick="showAdminTab('tickets')">Support</button>
+    <button class="admin-tab" data-tab="notify" onclick="showAdminTab('notify')">Notifications</button>
+   </div>
+   <div class="admin-panel active" id="admin-overview">
+    <div class="stat-grid">
+     <div class="stat-card"><span>Total customers</span><strong id="statCustomers">—</strong></div><div class="stat-card"><span>Total sellers</span><strong id="statSellers">—</strong></div>
+     <div class="stat-card"><span>Total products</span><strong id="statProducts">—</strong></div><div class="stat-card"><span>Total orders</span><strong id="statOrders">—</strong></div>
+     <div class="stat-card"><span>Pending applications</span><strong id="statApplications">—</strong></div><div class="stat-card"><span>Pending reviews</span><strong id="statReviews">—</strong></div>
+     <div class="stat-card"><span>Paid orders</span><strong id="statPaidOrders">—</strong></div><div class="stat-card"><span>Inactive accounts</span><strong id="statInactive">—</strong></div>
+    </div><div class="panel"><button class="btn btn-primary" onclick="refreshAdminDashboard()">Refresh dashboard</button><p id="adminOverviewMsg" class="message"></p></div>
+   </div>
+   <div class="admin-panel" id="admin-customers"><div class="panel"><h3>Customer accounts</h3><div id="customerTable"></div></div></div>
+   <div class="admin-panel" id="admin-sellers"><div class="panel"><h3>Seller accounts and verification</h3><div id="sellerTable"></div></div></div>
+   <div class="admin-panel" id="admin-products"><div class="panel"><h3>Marketplace products</h3><div id="adminProductTable"></div></div></div>
+   <div class="admin-panel" id="admin-applications"><div class="panel"><h3>Seller applications</h3><div id="applicationsList"></div></div></div>
+   <div class="admin-panel" id="admin-orders"><div class="panel"><h3>Orders and delivery tracking</h3><div id="ordersList"></div></div></div>
+   <div class="admin-panel" id="admin-reviews"><div class="panel"><h3>Customer reviews</h3><div id="reviewsList"></div></div></div>
+   <div class="admin-panel" id="admin-tickets"><div class="panel"><h3>Customer support tickets</h3><div id="adminTickets"></div></div></div>
+   <div class="admin-panel" id="admin-notify"><div class="panel"><h3>Send customer notification</h3>
+    <form id="adminNotificationForm">
+     <div class="field"><label>Customer user ID</label><input id="notifyUserId" required placeholder="Paste customer user ID"></div>
+     <div class="field"><label>Title</label><input id="notifyTitle" maxlength="100" required></div>
+     <div class="field"><label>Message</label><textarea id="notifyMessage" maxlength="1000" required></textarea></div>
+     <button class="btn btn-primary">Send notification</button><p id="notifyMsg" class="message"></p>
+    </form>
+   </div></div>
+  </section>
+ </main>
 </div>
 
 <script>
-/* CONFIGURATION */
-const CONFIG = window.HEAVENS_MART_CONFIG || {};
-const SITE_URL = "https://danieljohnkwofie693-max.github.io/Heaven-mart/";
+"use strict";
 
-let supabaseClient = null;
-let currentUser = null;
-let currentProfile = null;
-let products = [];
-let sellerProducts = [];
-let cart = [];
-let currentCategory = "All";
-let paymentVerificationRunning = false;
-let appLoading = false;
-let passwordRecoveryMode = false;
+const CONFIG=window.HEAVENS_MART_CONFIG||{};
+const SITE_URL="https://danieljohnkwofie693-max.github.io/Heaven-mart/";
+let supabaseClient=null,currentUser=null,currentProfile=null;
+let products=[],sellerProducts=[],cart=[],wishlistedIds=new Set();
+let currentCategory="All",adminProfiles=[],adminApplications=[],adminReviews=[];
+let paymentVerificationRunning=false,appLoading=false,passwordRecoveryMode=false;
 
-let adminProfiles = [];
-let adminProducts = [];
-let adminOrders = [];
-let adminApplications = [];
-let adminReviews = [];
+try{
+ const saved=JSON.parse(localStorage.getItem("hm_cart")||"[]");
+ cart=Array.isArray(saved)?saved.filter(x=>x&&typeof x.id==="string"&&Number.isInteger(x.qty)&&x.qty>0&&x.qty<=10):[];
+}catch{cart=[]}
 
-try {
-  const savedCart = JSON.parse(localStorage.getItem("hm_cart") || "[]");
-  cart = Array.isArray(savedCart)
-    ? savedCart.filter(item => item && typeof item.id === "string" &&
-      Number.isInteger(item.qty) && item.qty > 0 && item.qty <= 10)
-    : [];
-} catch {
-  cart = [];
+function $(id){return document.getElementById(id)}
+function msg(id,text,type="error"){
+ const el=$(id);if(!el)return;el.textContent=text;el.className="message "+type;
 }
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function dateText(v){if(!v)return "—";const d=new Date(v);return Number.isNaN(d.getTime())?"—":d.toLocaleString()}
+function money(v){const n=Number(v);return "GH₵"+(Number.isFinite(n)?n.toFixed(2):"0.00")}
+function isSeller(){return currentProfile?.role==="seller"&&currentProfile?.is_approved===true&&currentProfile?.is_active===true}
+function isAdmin(){return currentProfile?.role==="admin"&&currentProfile?.is_active===true}
+function statusClass(v){return ["pending","approved","rejected","paid","failed","active","inactive","processing","shipped","delivered","cancelled","in_progress","resolved","closed"].includes(String(v||"").toLowerCase())?String(v).toLowerCase():"pending"}
 
-/* HELPERS */
-function message(id,text,type="error") {
-  const el=document.getElementById(id);
-  if(!el)return;
-  el.textContent=text;
-  el.className="message "+type;
+async function init(){
+ if(!window.supabase||!CONFIG.url||!CONFIG.anonKey){$("authNotice").textContent="Supabase configuration missing. Check config.js.";return}
+ supabaseClient=window.supabase.createClient(CONFIG.url,CONFIG.anonKey);
+ supabaseClient.auth.onAuthStateChange((event,session)=>{
+  currentUser=session?.user||null;
+  if(event==="PASSWORD_RECOVERY"){passwordRecoveryMode=true;showAuth("reset")}
+  if(event==="SIGNED_OUT"){currentProfile=null;$("appShell").classList.add("hidden");if(!passwordRecoveryMode)showAuth("login")}
+ });
+ const {data,error}=await supabaseClient.auth.getSession();
+ if(error)console.error(error);
+ currentUser=data.session?.user||null;
+ if(new URLSearchParams(location.search).get("reset-password")==="1"){passwordRecoveryMode=true;showAuth("reset")}
+ else if(currentUser)await showApp();else showAuth("login");
 }
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g,c=>({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  }[c]));
+function showAuth(mode){
+ $("authScreen").classList.remove("hidden");$("appShell").classList.add("hidden");
+ ["login","signup","forgot","newPassword"].forEach(x=>$(x+"Form").classList.add("hidden"));
+ const ids={login:"loginForm",signup:"signupForm",forgot:"forgotForm",reset:"newPasswordForm"};
+ $(ids[mode]||"loginForm").classList.remove("hidden");
+ $("authNotice").classList.toggle("hidden",mode==="reset");
 }
-function formatDate(value) {
-  if(!value)return "—";
-  const date=new Date(value);
-  return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString();
-}
-function isSeller() {
-  return currentProfile?.role==="seller" &&
-    currentProfile?.is_approved===true &&
-    currentProfile?.is_active===true;
-}
-function isAdmin() {
-  return currentProfile?.role==="admin" &&
-    currentProfile?.is_active===true;
-}
-function safeStatus(value) {
-  const allowed=["pending","approved","rejected","paid","failed","active","inactive"];
-  return allowed.includes(String(value).toLowerCase()) ? String(value).toLowerCase() : "pending";
-}
-
-/* INITIALIZATION */
-async function init() {
-  if(!window.supabase || !CONFIG.url || !CONFIG.anonKey) {
-    document.getElementById("authNotice").textContent="Supabase configuration missing. Check config.js.";
-    return;
-  }
-
-  supabaseClient=window.supabase.createClient(CONFIG.url,CONFIG.anonKey);
-
-  supabaseClient.auth.onAuthStateChange((event,session)=>{
-    currentUser=session?.user||null;
-
-    if(event==="PASSWORD_RECOVERY") {
-      passwordRecoveryMode=true;
-      showAuth("reset");
-      return;
-    }
-
-    if(event==="SIGNED_OUT") {
-      currentProfile=null;
-      products=[];
-      sellerProducts=[];
-      document.getElementById("appShell").classList.add("hidden");
-      if(!passwordRecoveryMode)showAuth("login");
-    }
-  });
-
-  const {data,error}=await supabaseClient.auth.getSession();
-  if(error)console.error("Session error:",error);
-  currentUser=data.session?.user||null;
-
-  const recoveryRequested=new URLSearchParams(window.location.search).get("reset-password")==="1";
-
-  if(recoveryRequested||passwordRecoveryMode) {
-    passwordRecoveryMode=true;
-    showAuth("reset");
-  } else if(currentUser) {
-    await showApp();
-  } else {
-    showAuth("login");
-  }
-}
-
-/* AUTHENTICATION SCREEN */
-function showAuth(mode) {
-  document.getElementById("authScreen").classList.remove("hidden");
-  document.getElementById("appShell").classList.add("hidden");
-
-  ["login","signup","forgot","newPassword"].forEach(id=>{
-    const form=document.getElementById(id+"Form");
-    if(form)form.classList.add("hidden");
-  });
-
-  const map={login:"loginForm",signup:"signupForm",forgot:"forgotForm",reset:"newPasswordForm"};
-  document.getElementById(map[mode]||"loginForm").classList.remove("hidden");
-
-  document.getElementById("authNotice").classList.toggle("hidden",mode==="reset");
-  if(mode==="reset")passwordRecoveryMode=true;
-}
-
-/* REGISTRATION */
-document.getElementById("signupForm").addEventListener("submit",async function(e) {
-  e.preventDefault();
-  if(!supabaseClient)return message("signupMsg","Supabase is not configured.");
-
-  const name=document.getElementById("signupName").value.trim();
-  const email=document.getElementById("signupEmail").value.trim();
-  const password=document.getElementById("signupPassword").value;
-
-  if(password.length<8)return message("signupMsg","Password must contain at least 8 characters.");
-
-  const {error}=await supabaseClient.auth.signUp({
-    email,password,
-    options:{data:{display_name:name},emailRedirectTo:SITE_URL}
-  });
-
-  if(error)return message("signupMsg",error.message);
-  message("signupMsg","Registration successful. Check your email to verify your account before signing in.","success");
+$("signupForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const {error}=await supabaseClient.auth.signUp({
+  email:$("signupEmail").value.trim(),password:$("signupPassword").value,
+  options:{data:{display_name:$("signupName").value.trim()},emailRedirectTo:SITE_URL}
+ });
+ if(error)return msg("signupMsg",error.message);
+ msg("signupMsg","Registration successful. Verify your email before signing in.","success");
 });
-
-/* LOGIN */
-document.getElementById("loginForm").addEventListener("submit",async function(e) {
-  e.preventDefault();
-  if(!supabaseClient)return message("loginMsg","Supabase is not configured.");
-
-  const email=document.getElementById("loginEmail").value.trim();
-  const password=document.getElementById("loginPassword").value;
-  const button=this.querySelector('button[type="submit"]');
-
-  button.disabled=true;
-  button.textContent="Signing in...";
-
-  const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
-
-  button.disabled=false;
-  button.textContent="Sign in";
-
-  if(error)return message("loginMsg",error.message);
-
-  if(!data.user?.email_confirmed_at) {
-    await supabaseClient.auth.signOut();
-    return message("loginMsg","Please verify your email address before signing in.");
-  }
-
-  currentUser=data.user;
-  await showApp();
+$("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();const b=e.submitter;b.disabled=true;
+ const {data,error}=await supabaseClient.auth.signInWithPassword({email:$("loginEmail").value.trim(),password:$("loginPassword").value});
+ b.disabled=false;
+ if(error)return msg("loginMsg",error.message);
+ if(!data.user?.email_confirmed_at){await supabaseClient.auth.signOut();return msg("loginMsg","Please verify your email before signing in.")}
+ currentUser=data.user;await showApp();
 });
-
-/* FORGOT PASSWORD */
-document.getElementById("forgotForm").addEventListener("submit",async function(e) {
-  e.preventDefault();
-  if(!supabaseClient)return message("forgotMsg","Supabase is not configured.");
-
-  const email=document.getElementById("resetEmail").value.trim();
-  const button=document.getElementById("resetEmailButton");
-  button.disabled=true;
-  button.textContent="Sending...";
-
-  const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{
-    redirectTo:SITE_URL+"?reset-password=1"
-  });
-
-  button.disabled=false;
-  button.textContent="Send reset link";
-
-  if(error)return message("forgotMsg",error.message);
-  message("forgotMsg","If an account exists for that email, a password-reset link will be sent. Check your inbox and spam folder.","success");
+$("forgotForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const {error}=await supabaseClient.auth.resetPasswordForEmail($("resetEmail").value.trim(),{redirectTo:SITE_URL+"?reset-password=1"});
+ if(error)return msg("forgotMsg",error.message);
+ msg("forgotMsg","If the account exists, a reset link will be sent. Check your inbox and spam folder.","success");
 });
-
-/* UPDATE PASSWORD */
-document.getElementById("newPasswordForm").addEventListener("submit",async function(e) {
-  e.preventDefault();
-  if(!supabaseClient)return message("newPasswordMsg","Supabase is not configured.");
-
-  const password=document.getElementById("newPassword").value;
-  const confirmPassword=document.getElementById("confirmNewPassword").value;
-  const button=document.getElementById("updatePasswordButton");
-
-  if(password.length<8)return message("newPasswordMsg","Your password must contain at least 8 characters.");
-  if(password!==confirmPassword)return message("newPasswordMsg","The passwords do not match.");
-
-  button.disabled=true;
-  button.textContent="Updating...";
-
-  const {error}=await supabaseClient.auth.updateUser({password});
-
-  button.disabled=false;
-  button.textContent="Update password";
-
-  if(error)return message("newPasswordMsg",error.message);
-
-  passwordRecoveryMode=false;
-  const {error:signOutError}=await supabaseClient.auth.signOut();
-  if(signOutError)console.error("Sign out after password reset:",signOutError);
-
-  window.history.replaceState({},document.title,window.location.pathname);
-  document.getElementById("loginEmail").value=document.getElementById("resetEmail").value.trim();
-  document.getElementById("loginPassword").value="";
-  document.getElementById("newPassword").value="";
-  document.getElementById("confirmNewPassword").value="";
-  showAuth("login");
-  message("loginMsg","Your password has been changed successfully. Sign in with your new password.","success");
+$("newPasswordForm").addEventListener("submit",async e=>{
+ e.preventDefault();const p=$("newPassword").value;
+ if(p.length<8)return msg("newPasswordMsg","Use at least 8 characters.");
+ if(p!==$("confirmNewPassword").value)return msg("newPasswordMsg","Passwords do not match.");
+ const {error}=await supabaseClient.auth.updateUser({password:p});
+ if(error)return msg("newPasswordMsg",error.message);
+ passwordRecoveryMode=false;await supabaseClient.auth.signOut();
+ history.replaceState({},document.title,location.pathname);
+ showAuth("login");msg("loginMsg","Password updated. Please sign in.","success");
 });
-
-/* LOGOUT */
-async function logout() {
-  if(supabaseClient)await supabaseClient.auth.signOut();
-  currentUser=null;
-  currentProfile=null;
-  products=[];
-  sellerProducts=[];
-  document.getElementById("appShell").classList.add("hidden");
-  showAuth("login");
+async function logout(){await supabaseClient.auth.signOut();currentUser=null;currentProfile=null;showAuth("login")}
+async function loadProfile(){
+ const {data,error}=await supabaseClient.from("profiles").select("id,display_name,role,is_approved,is_active,is_verified").eq("id",currentUser.id).single();
+ if(error)throw new Error("Could not load your profile: "+error.message);
+ currentProfile=data;
 }
-
-/* LOAD PROFILE */
-async function loadProfile() {
-  const {data,error}=await supabaseClient.from("profiles")
-    .select("id,display_name,role,is_approved,is_active")
-    .eq("id",currentUser.id).single();
-
-  if(error) {
-    console.error("Profile loading error:",error);
-    throw new Error("Could not load your account profile. Please try again.");
-  }
-  currentProfile=data;
-}
-
-/* SHOW APPLICATION */
-async function showApp() {
-  if(!currentUser||appLoading)return;
-  appLoading=true;
-
-  try {
-    document.getElementById("authScreen").classList.add("hidden");
-    document.getElementById("appShell").classList.remove("hidden");
-
-    await loadProfile();
-
-    if(currentProfile.is_active!==true) {
-      throw new Error("Your account is currently inactive. Please contact support.");
-    }
-
-    const name=currentProfile.display_name||
-      currentUser.user_metadata?.display_name||
-      currentUser.email?.split("@")[0]||"Customer";
-
-    document.getElementById("userName").textContent=name;
-    document.getElementById("accountName").textContent=name;
-    document.getElementById("accountEmail").textContent=currentUser.email||"";
-    document.getElementById("accountRole").textContent=
-      currentProfile.role==="admin"?"Administrator":
-      currentProfile.role==="seller"?"Seller":"Customer";
-
-    document.getElementById("sellerNav").classList.toggle("hidden",!isSeller());
-    document.getElementById("adminNav").classList.toggle("hidden",!isAdmin());
-
-    await loadProducts();
-    await loadSellerApplicationStatus();
-    if(isSeller())await loadSellerProducts();
-
-    navigate("home");
-
-    if(isAdmin()) {
-      await refreshAdminDashboard();
-      await loadApplications();
-    }
-
-    await handlePaystackReturn();
-
-  } catch(error) {
-    console.error("Application loading error:",error);
-    alert(error.message||"Could not load your account.");
-    await supabaseClient.auth.signOut();
-  } finally {
-    appLoading=false;
-  }
-}
-
-/* CUSTOMER MARKETPLACE PRODUCTS */
-async function loadProducts() {
-  if(!supabaseClient||!currentUser)return;
-
-  const {data,error}=await supabaseClient.from("products")
-    .select("*").eq("is_active",true)
-    .order("created_at",{ascending:false});
-
-  if(error) {
-    console.error("Product loading error:",error);
-    products=[];
-  } else {
-    products=data||[];
-  }
-
-  renderProducts("featuredGrid",true);
-  renderProducts("catalogGrid");
-  renderCart();
+async function showApp(){
+ if(!currentUser||appLoading)return;appLoading=true;
+ try{
+  $("authScreen").classList.add("hidden");$("appShell").classList.remove("hidden");
+  await loadProfile();
+  if(currentProfile.is_active!==true)throw new Error("Your account is inactive. Please contact support.");
+  const name=currentProfile.display_name||currentUser.user_metadata?.display_name||currentUser.email.split("@")[0];
+  $("userName").textContent=name;$("accountName").textContent=name;$("accountEmail").textContent=currentUser.email;
+  $("accountRole").textContent=currentProfile.role||"Customer";
+  $("sellerNav").classList.toggle("hidden",!isSeller());$("adminNav").classList.toggle("hidden",!isAdmin());
+  await Promise.all([loadProducts(),loadWishlist(),loadSellerApplicationStatus(),loadNotifications()]);
+  if(isSeller())await loadSellerProducts();
+  navigate("home");
+  if(isAdmin())await refreshAdminDashboard();
+  await handlePaystackReturn();
+ }catch(e){console.error(e);alert(e.message);await supabaseClient.auth.signOut()}
+ finally{appLoading=false}
 }
 
 /* NAVIGATION */
-function navigate(page) {
-  if(!currentUser)return showAuth("login");
-  if(page==="seller"&&!isSeller())return alert("Your seller account is not approved or active.");
-  if(page==="admin"&&!isAdmin())return alert("Administrator access required.");
-
-  const target=document.getElementById("page-"+page);
-  if(!target)return;
-
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  target.classList.add("active");
-
-  document.querySelectorAll(".nav-btn[data-page]").forEach(button=>{
-    button.classList.toggle("active",button.dataset.page===page);
-  });
-
-  const titles={
-    home:"Dashboard",catalog:"Marketplace",cart:"My Shopping Cart",
-    account:"My Account",seller:"Seller Dashboard",
-    "apply-seller":"Seller Application",admin:"Admin Control"
-  };
-  document.getElementById("topTitle").textContent=titles[page]||"Heaven's Mart";
-
-  if(page==="home")renderProducts("featuredGrid",true);
-  if(page==="catalog")renderProducts("catalogGrid");
-  if(page==="cart")renderCart();
-  if(page==="seller")loadSellerProducts();
-  if(page==="admin")refreshAdminDashboard();
+const pageTitles={home:"Dashboard",catalog:"Marketplace",wishlist:"My Wishlist",cart:"My Cart",orders:"My Orders",notifications:"Notifications",support:"Customer Support",account:"My Account",seller:"Seller Dashboard","apply-seller":"Seller Application",admin:"Admin Control"};
+function navigate(page){
+ if(!currentUser)return showAuth("login");
+ if(page==="seller"&&!isSeller())return alert("Your seller account is not approved.");
+ if(page==="admin"&&!isAdmin())return alert("Administrator access required.");
+ const target=$("page-"+page);if(!target)return;
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));target.classList.add("active");
+ document.querySelectorAll(".nav-btn[data-page]").forEach(x=>x.classList.toggle("active",x.dataset.page===page));
+ $("topTitle").textContent=pageTitles[page]||"Heaven's Mart";
+ const loaders={home:()=>renderProducts("featuredGrid",true),catalog:()=>renderProducts("catalogGrid"),wishlist:loadWishlist,cart:renderCart,orders:loadCustomerOrders,notifications:loadNotifications,support:loadMyTickets,seller:loadSellerProducts,admin:refreshAdminDashboard};
+ if(loaders[page])loaders[page]();
+}
+function setCategory(category,button){
+ currentCategory=category;document.querySelectorAll(".cat-btn").forEach(x=>x.classList.remove("active"));
+ if(button)button.classList.add("active");$("categoryFilter").value=category;navigate("catalog");renderProducts("catalogGrid");
 }
 
-/* CATEGORIES */
-function setCategory(category,clickedButton) {
-  currentCategory=category;
-  document.querySelectorAll(".cat-btn").forEach(button=>button.classList.remove("active"));
-  if(clickedButton)clickedButton.classList.add("active");
-  navigate("catalog");
-  renderProducts("catalogGrid");
+/* PRODUCTS AND FILTERS */
+async function loadProducts(){
+ const {data,error}=await supabaseClient.from("products").select("*").eq("is_active",true).order("created_at",{ascending:false});
+ if(error){console.error(error);products=[]}else products=data||[];
+ renderProducts("featuredGrid",true);renderProducts("catalogGrid");renderCart();
 }
-
-/* PRODUCT DISPLAY */
-function renderProducts(target,featured=false) {
-  const box=document.getElementById(target);
-  if(!box)return;
-
-  const search=(document.getElementById("searchInput")?.value||"").toLowerCase();
-  const filtered=products.filter(p=>{
-    const categoryMatch=currentCategory==="All"||p.category===currentCategory;
-    const searchMatch=`${p.name||""} ${p.category||""} ${p.description||""}`.toLowerCase().includes(search);
-    return categoryMatch&&searchMatch;
-  });
-
-  const list=featured?filtered.slice(0,4):filtered;
-  if(!list.length) {
-    box.innerHTML='<div class="empty">No products available yet.</div>';
-    return;
-  }
-
-  box.innerHTML=list.map(p=>{
-    const safeId=String(p.id).replace(/[^a-zA-Z0-9_-]/g,"");
-    const price=Number(p.price);
-    const image=typeof p.image_url==="string"&&/^https:\/\//i.test(p.image_url)
-      ?`<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.name)}" loading="lazy">`
-      :"🛍️";
-
-    return `<article class="product-card">
-      <div class="product-visual">${image}</div>
-      <div class="product-info">
-        <h3>${escapeHTML(p.name)}</h3>
-        <p>${escapeHTML(p.category||"")}</p>
-        <p>${escapeHTML(p.description||"")}</p>
-        <div class="product-bottom">
-          <span class="price">GH₵${Number.isFinite(price)?price.toFixed(2):"0.00"}</span>
-          <button class="btn btn-primary" type="button" onclick="addToCart('${safeId}')">Add to cart</button>
-        </div>
-      </div>
-    </article>`;
-  }).join("");
+function productCard(p){
+ const id=String(p.id).replace(/[^a-zA-Z0-9_-]/g,"");
+ const image=typeof p.image_url==="string"&&/^https:\/\//i.test(p.image_url)?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`:"🛍️";
+ const saved=wishlistedIds.has(String(p.id));
+ return `<article class="product-card"><div class="product-visual">${image}</div><div class="product-info">
+ <h3>${esc(p.name)}</h3><p>${esc(p.category)}</p><p>${esc(p.description)}</p>
+ <div class="product-bottom"><span class="price">${money(p.price)}</span><button class="btn btn-primary" onclick="addToCart('${id}')">Add to cart</button></div>
+ <div class="inline-actions"><button class="heart-btn" aria-label="Toggle wishlist" onclick="toggleWishlist('${id}')">${saved?"♥":"♡"}</button></div>
+ </div></article>`;
 }
-
-/* SELLER APPLICATION STATUS */
-async function loadSellerApplicationStatus() {
-  const area=document.getElementById("sellerApplicationArea");
-  const statusText=document.getElementById("sellerApplicationStatus");
-  const applyButton=document.getElementById("applySellerButton");
-
-  if(isSeller()||isAdmin()) {
-    area.classList.add("hidden");
-    return;
-  }
-
-  area.classList.remove("hidden");
-
-  const {data,error}=await supabaseClient.from("seller_applications")
-    .select("status").eq("user_id",currentUser.id)
-    .order("created_at",{ascending:false}).limit(1).maybeSingle();
-
-  if(error) {
-    console.error("Application status error:",error);
-    statusText.textContent="We could not check your application status.";
-    applyButton.disabled=true;
-    return;
-  }
-
-  if(!data) {
-    statusText.textContent="You have not applied to become a seller yet.";
-    applyButton.classList.remove("hidden");
-    applyButton.disabled=false;
-    return;
-  }
-
-  statusText.innerHTML=`Application status: <span class="status ${safeStatus(data.status)}">${escapeHTML(String(data.status).toUpperCase())}</span>`;
-
-  if(data.status==="pending")applyButton.classList.add("hidden");
-  else if(data.status==="approved") {
-    statusText.textContent="Your application is approved. Refresh your account if your seller dashboard is not visible.";
-    applyButton.classList.add("hidden");
-  } else {
-    statusText.textContent="Your previous application was rejected. Please contact Heaven's Mart support.";
-    applyButton.classList.add("hidden");
-  }
+function renderProducts(target,featured=false){
+ const box=$(target);if(!box)return;
+ const search=($("searchInput")?.value||"").toLowerCase();
+ const category=$("categoryFilter")?.value||currentCategory;
+ const min=$("minPrice")?.value===""?0:Number($("minPrice")?.value);
+ const max=$("maxPrice")?.value===""?Infinity:Number($("maxPrice")?.value);
+ let list=products.filter(p=>(category==="All"||p.category===category)&&(`${p.name} ${p.category} ${p.description||""}`).toLowerCase().includes(search)&&Number(p.price)>=min&&Number(p.price)<=max);
+ const sort=$("sortProducts")?.value||"newest";
+ if(sort==="low")list.sort((a,b)=>Number(a.price)-Number(b.price));
+ if(sort==="high")list.sort((a,b)=>Number(b.price)-Number(a.price));
+ if(sort==="name")list.sort((a,b)=>String(a.name).localeCompare(String(b.name)));
+ if(featured)list=list.slice(0,4);
+ box.innerHTML=list.length?list.map(productCard).join(""):'<div class="empty">No matching products found.</div>';
 }
+["searchInput","categoryFilter","minPrice","maxPrice","sortProducts"].forEach(id=>$(id).addEventListener("input",()=>renderProducts("catalogGrid")));
 
-/* SUBMIT SELLER APPLICATION */
-document.getElementById("sellerApplicationForm").addEventListener("submit",async function(e) {
-  e.preventDefault();
-  if(!currentUser)return showAuth("login");
-
-  const businessName=document.getElementById("businessName").value.trim();
-  const whatsapp=document.getElementById("sellerWhatsApp").value.trim().replace(/[^\d+]/g,"");
-
-  if(!businessName||whatsapp.replace(/\D/g,"").length<9)
-    return message("applicationMsg","Enter a valid business name and WhatsApp number.");
-
-  const button=document.getElementById("applicationSubmitButton");
-  button.disabled=true;
-
-  const {error}=await supabaseClient.from("seller_applications").insert({
-    user_id:currentUser.id,business_name:businessName,
-    whatsapp_number:whatsapp,status:"pending"
-  });
-
-  button.disabled=false;
-
-  if(error) {
-    console.error("Seller application error:",error);
-    return message("applicationMsg",error.code==="23505"?"You have already submitted an application.":error.message);
-  }
-
-  message("applicationMsg","Your seller application has been submitted. Please wait for administrator approval.","success");
-  await loadSellerApplicationStatus();
-  setTimeout(()=>navigate("account"),1200);
-});
-
-/* SELLER PRODUCTS */
-async function loadSellerProducts() {
-  if(!isSeller())return;
-  const box=document.getElementById("sellerProductGrid");
-  box.innerHTML='<div class="empty">Loading your products...</div>';
-
-  const {data,error}=await supabaseClient.from("products").select("*")
-    .eq("seller_id",currentUser.id).order("created_at",{ascending:false});
-
-  if(error) {
-    console.error("Seller product error:",error);
-    box.innerHTML='<div class="empty">Could not load your products.</div>';
-    return;
-  }
-
-  sellerProducts=data||[];
-  renderSellerProducts();
+/* WISHLIST */
+async function loadWishlist(){
+ if(!currentUser)return;
+ const {data,error}=await supabaseClient.from("wishlists").select("product_id").eq("user_id",currentUser.id);
+ if(error){console.error("Wishlist:",error);wishlistedIds=new Set();return}
+ wishlistedIds=new Set((data||[]).map(x=>String(x.product_id)));
+ renderProducts("featuredGrid",true);renderProducts("catalogGrid");
+ if($("wishlistGrid"))$("wishlistGrid").innerHTML=products.filter(p=>wishlistedIds.has(String(p.id))).map(productCard).join("")||'<div class="empty">Your wishlist is empty.</div>';
 }
-
-function renderSellerProducts() {
-  const box=document.getElementById("sellerProductGrid");
-  if(!box)return;
-  if(!sellerProducts.length) {
-    box.innerHTML='<div class="empty">You have not listed any products yet.</div>';
-    return;
-  }
-
-  box.innerHTML=sellerProducts.map(p=>{
-    const safeId=String(p.id).replace(/[^a-zA-Z0-9_-]/g,"");
-    const price=Number(p.price);
-    const image=typeof p.image_url==="string"&&/^https:\/\//i.test(p.image_url)
-      ?`<img src="${escapeHTML(p.image_url)}" alt="${escapeHTML(p.name)}" loading="lazy">`:"🛍️";
-
-    return `<article class="product-card">
-      <div class="product-visual">${image}</div>
-      <div class="product-info">
-        <h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.category)}</p>
-        <p>${escapeHTML(p.description)}</p>
-        <p class="price">GH₵${Number.isFinite(price)?price.toFixed(2):"0.00"}</p>
-        <p><span class="status ${p.is_active?"approved":"pending"}">${p.is_active?"ACTIVE":"INACTIVE"}</span></p>
-        <div class="product-management">
-          <button class="btn btn-blue" onclick="editProduct('${safeId}')">Edit</button>
-          <button class="btn btn-primary" onclick="toggleProduct('${safeId}',${!p.is_active})">${p.is_active?"Deactivate":"Activate"}</button>
-          <button class="btn btn-danger" onclick="deleteProduct('${safeId}')">Delete</button>
-        </div>
-      </div>
-    </article>`;
-  }).join("");
-}
-
-/* ADD OR UPDATE PRODUCT */
-document.getElementById("productForm").addEventListener("submit",async function(e) {
-  e.preventDefault();
-  if(!isSeller())return message("productMsg","Only approved, active sellers can manage products.");
-
-  const editId=document.getElementById("editProductId").value;
-  const name=document.getElementById("productName").value.trim();
-  const category=document.getElementById("productCategory").value;
-  const price=Number(document.getElementById("productPrice").value);
-  const description=document.getElementById("productDescription").value.trim();
-  const imageUrl=document.getElementById("productImage").value.trim();
-
-  if(!name||!category||!description||!Number.isFinite(price)||price<=0)
-    return message("productMsg","Please enter valid product details.");
-  if(imageUrl&&!/^https:\/\//i.test(imageUrl))
-    return message("productMsg","Product image URL must start with https://");
-
-  const button=document.getElementById("saveProductButton");
-  button.disabled=true;
-  button.textContent="Saving...";
-
-  const productData={name,category,price,description,image_url:imageUrl||null};
-  let result;
-
-  if(editId) {
-    result=await supabaseClient.from("products").update(productData)
-      .eq("id",editId).eq("seller_id",currentUser.id);
-  } else {
-    result=await supabaseClient.from("products").insert({
-      ...productData,seller_id:currentUser.id,is_active:true
-    });
-  }
-
-  button.disabled=false;
-  button.textContent="Save product";
-
-  if(result.error) {
-    console.error("Product save error:",result.error);
-    return message("productMsg",result.error.message);
-  }
-
-  message("productMsg",editId?"Product updated successfully.":"Product added successfully.","success");
-  resetProductForm();
-  await loadSellerProducts();
-  await loadProducts();
-});
-
-function editProduct(id) {
-  if(!isSeller())return;
-  const p=sellerProducts.find(x=>String(x.id)===String(id));
-  if(!p)return;
-
-  document.getElementById("editProductId").value=p.id;
-  document.getElementById("productName").value=p.name||"";
-  document.getElementById("productCategory").value=p.category||"";
-  document.getElementById("productPrice").value=p.price;
-  document.getElementById("productDescription").value=p.description||"";
-  document.getElementById("productImage").value=p.image_url||"";
-  document.getElementById("productFormTitle").textContent="Edit product";
-  document.getElementById("productForm").scrollIntoView({behavior:"smooth"});
-}
-function resetProductForm() {
-  document.getElementById("productForm").reset();
-  document.getElementById("editProductId").value="";
-  document.getElementById("productFormTitle").textContent="Add a product";
-  document.getElementById("saveProductButton").textContent="Save product";
-}
-async function toggleProduct(id,active) {
-  if(!isSeller())return;
-  const {error}=await supabaseClient.from("products").update({is_active:active})
-    .eq("id",id).eq("seller_id",currentUser.id);
-  if(error)return alert("Could not update product: "+error.message);
-  await loadSellerProducts();
-  await loadProducts();
-}
-async function deleteProduct(id) {
-  if(!isSeller())return;
-  if(!confirm("Are you sure you want to delete this product?"))return;
-  const {error}=await supabaseClient.from("products").delete()
-    .eq("id",id).eq("seller_id",currentUser.id);
-  if(error)return alert("Could not delete product: "+error.message);
-  await loadSellerProducts();
-  await loadProducts();
-}
-
-/* ADMIN TAB NAVIGATION */
-function showAdminTab(tab) {
-  if(!isAdmin())return alert("Administrator access required.");
-  document.querySelectorAll(".admin-tab").forEach(b=>b.classList.toggle("active",b.dataset.adminTab===tab));
-  document.querySelectorAll(".admin-panel").forEach(p=>p.classList.remove("active"));
-  document.getElementById("admin-"+tab)?.classList.add("active");
-
-  const loaders={
-    overview:refreshAdminDashboard,
-    customers:loadAdminCustomers,
-    sellers:loadAdminSellers,
-    products:loadAdminProducts,
-    applications:loadApplications,
-    orders:loadAdminOrders,
-    reviews:loadAdminReviews
-  };
-  if(loaders[tab])loaders[tab]();
-}
-
-/* ADMIN OVERVIEW */
-async function refreshAdminDashboard() {
-  if(!isAdmin())return;
-  message("adminOverviewMsg","Updating dashboard...","success");
-
-  const results=await Promise.all([
-    supabaseClient.from("profiles").select("id,role,is_active,is_approved"),
-    supabaseClient.from("products").select("id,is_active"),
-    supabaseClient.from("orders").select("id,status,amount"),
-    supabaseClient.from("seller_applications").select("id,status"),
-    supabaseClient.from("reviews").select("id,status")
-  ]);
-
-  const [profileResult,productResult,orderResult,applicationResult,reviewResult]=results;
-  const errors=results.filter(r=>r.error);
-
-  if(errors.length) {
-    console.error("Admin overview loading errors:",errors.map(r=>r.error));
-    message("adminOverviewMsg","Some statistics could not be loaded. Check the relevant table permissions.");
-  } else {
-    const profiles=profileResult.data||[];
-    const productRows=productResult.data||[];
-    const orders=orderResult.data||[];
-    const applications=applicationResult.data||[];
-    const reviews=reviewResult.data||[];
-
-    document.getElementById("statCustomers").textContent=profiles.filter(p=>p.role==="customer").length;
-    document.getElementById("statSellers").textContent=profiles.filter(p=>p.role==="seller").length;
-    document.getElementById("statProducts").textContent=productRows.length;
-    document.getElementById("statOrders").textContent=orders.length;
-    document.getElementById("statApplications").textContent=applications.filter(a=>a.status==="pending").length;
-    document.getElementById("statReviews").textContent=reviews.filter(r=>r.status==="pending").length;
-    document.getElementById("statPaidOrders").textContent=orders.filter(o=>o.status==="paid").length;
-    document.getElementById("statInactive").textContent=profiles.filter(p=>p.is_active===false).length;
-    message("adminOverviewMsg","Dashboard statistics updated.","success");
-  }
-}
-
-/* ADMIN CUSTOMER MANAGEMENT */
-async function loadAdminCustomers() {
-  if(!isAdmin())return;
-  const box=document.getElementById("customerTable");
-  box.innerHTML='<div class="empty">Loading customers...</div>';
-
-  const {data,error}=await supabaseClient.from("profiles")
-    .select("id,display_name,role,is_active,created_at")
-    .eq("role","customer").order("created_at",{ascending:false});
-
-  if(error) {
-    console.error("Customer loading error:",error);
-    box.innerHTML='<div class="empty">Could not load customers. Check profile permissions.</div>';
-    return;
-  }
-
-  adminProfiles=data||[];
-  if(!adminProfiles.length) {
-    box.innerHTML='<div class="empty">No customer accounts found.</div>';
-    return;
-  }
-
-  box.innerHTML=`<div class="admin-table-wrap"><table class="admin-table" id="customerDataTable">
-    <thead><tr><th>Name</th><th>Status</th><th>Joined</th><th>Action</th></tr></thead>
-    <tbody>${adminProfiles.map(p=>`<tr>
-      <td>${escapeHTML(p.display_name||"Customer")}</td>
-      <td><span class="status ${p.is_active?"active":"inactive"}">${p.is_active?"ACTIVE":"SUSPENDED"}</span></td>
-      <td>${escapeHTML(formatDate(p.created_at))}</td>
-      <td><button class="btn ${p.is_active?"btn-danger":"btn-primary"}" onclick="setProfileActive('${p.id}',${!p.is_active})">${p.is_active?"Suspend":"Activate"}</button></td>
-    </tr>`).join("")}</tbody></table></div>`;
-}
-
-/* ADMIN SELLER MANAGEMENT */
-async function loadAdminSellers() {
-  if(!isAdmin())return;
-  const box=document.getElementById("sellerTable");
-  box.innerHTML='<div class="empty">Loading sellers...</div>';
-
-  const {data,error}=await supabaseClient.from("profiles")
-    .select("id,display_name,role,is_approved,is_active,created_at")
-    .eq("role","seller").order("created_at",{ascending:false});
-
-  if(error) {
-    console.error("Seller loading error:",error);
-    box.innerHTML='<div class="empty">Could not load sellers.</div>';
-    return;
-  }
-
-  adminProfiles=data||[];
-  if(!adminProfiles.length) {
-    box.innerHTML='<div class="empty">No seller accounts found.</div>';
-    return;
-  }
-
-  box.innerHTML=`<div class="admin-table-wrap"><table class="admin-table" id="sellerDataTable">
-    <thead><tr><th>Seller</th><th>Approval</th><th>Account</th><th>Joined</th><th>Actions</th></tr></thead>
-    <tbody>${adminProfiles.map(p=>`<tr>
-      <td>${escapeHTML(p.display_name||"Seller")}</td>
-      <td><span class="status ${p.is_approved?"approved":"pending"}">${p.is_approved?"APPROVED":"NOT APPROVED"}</span></td>
-      <td><span class="status ${p.is_active?"active":"inactive"}">${p.is_active?"ACTIVE":"SUSPENDED"}</span></td>
-      <td>${escapeHTML(formatDate(p.created_at))}</td>
-      <td><button class="btn ${p.is_active?"btn-danger":"btn-primary"}" onclick="setProfileActive('${p.id}',${!p.is_active})">${p.is_active?"Suspend":"Activate"}</button></td>
-    </tr>`).join("")}</tbody></table></div>`;
-}
-
-/* ADMIN ACCOUNT STATUS */
-async function setProfileActive(id,active) {
-  if(!isAdmin())return alert("Administrator access required.");
-  if(id===currentUser.id&&!active)return alert("You cannot suspend your own administrator account here.");
-  if(!confirm(`Are you sure you want to ${active?"activate":"suspend"} this account?`))return;
-
-  const {error}=await supabaseClient.from("profiles")
-    .update({is_active:active}).eq("id",id);
-
-  if(error) {
-    console.error("Profile update error:",error);
-    return alert("Could not update account: "+error.message);
-  }
-
-  alert("Account status updated.");
-  await refreshAdminDashboard();
-  await loadAdminCustomers();
-  await loadAdminSellers();
-}
-
-/* ADMIN PRODUCT MANAGEMENT */
-async function loadAdminProducts() {
-  if(!isAdmin())return;
-  const box=document.getElementById("adminProductTable");
-  box.innerHTML='<div class="empty">Loading products...</div>';
-
-  const {data,error}=await supabaseClient.from("products")
-    .select("id,name,category,price,is_active,seller_id,created_at")
-    .order("created_at",{ascending:false});
-
-  if(error) {
-    console.error("Admin product loading error:",error);
-    box.innerHTML='<div class="empty">Could not load products.</div>';
-    return;
-  }
-
-  adminProducts=data||[];
-  if(!adminProducts.length) {
-    box.innerHTML='<div class="empty">No products found.</div>';
-    return;
-  }
-
-  box.innerHTML=`<div class="admin-table-wrap"><table class="admin-table" id="adminProductDataTable">
-    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
-    <tbody>${adminProducts.map(p=>`<tr>
-      <td>${escapeHTML(p.name)}</td>
-      <td>${escapeHTML(p.category||"—")}</td>
-      <td>GH₵${Number(p.price||0).toFixed(2)}</td>
-      <td><span class="status ${p.is_active?"active":"inactive"}">${p.is_active?"ACTIVE":"INACTIVE"}</span></td>
-      <td class="admin-actions">
-        <button class="btn btn-primary" onclick="adminToggleProduct('${p.id}',${!p.is_active})">${p.is_active?"Deactivate":"Activate"}</button>
-        <button class="btn btn-danger" onclick="adminDeleteProduct('${p.id}')">Delete</button>
-      </td>
-    </tr>`).join("")}</tbody></table></div>`;
-}
-
-async function adminToggleProduct(id,active) {
-  if(!isAdmin())return;
-  const {error}=await supabaseClient.from("products").update({is_active:active}).eq("id",id);
-  if(error)return alert("Product update failed: "+error.message);
-  await loadAdminProducts();
-  await loadProducts();
-  await refreshAdminDashboard();
-}
-
-async function adminDeleteProduct(id) {
-  if(!isAdmin())return;
-  if(!confirm("Permanently delete this product?"))return;
-  const {error}=await supabaseClient.from("products").delete().eq("id",id);
-  if(error)return alert("Product deletion failed: "+error.message);
-  await loadAdminProducts();
-  await loadProducts();
-  await refreshAdminDashboard();
-}
-
-/* ADMIN SELLER APPLICATIONS */
-async function loadApplications() {
-  if(!isAdmin())return;
-  const box=document.getElementById("applicationsList");
-  box.innerHTML='<div class="empty">Loading applications...</div>';
-
-  const {data,error}=await supabaseClient.from("seller_applications")
-    .select("id,user_id,business_name,whatsapp_number,status,created_at")
-    .eq("status","pending").order("created_at",{ascending:true});
-
-  if(error) {
-    console.error("Applications loading error:",error);
-    box.innerHTML='<div class="empty">Could not load applications. Check administrator permissions.</div>';
-    return;
-  }
-
-  adminApplications=data||[];
-  if(!adminApplications.length) {
-    box.innerHTML='<div class="empty">There are no pending seller applications.</div>';
-    return;
-  }
-
-  box.innerHTML=adminApplications.map(app=>`
-    <div class="application-card">
-      <h4>${escapeHTML(app.business_name)}</h4>
-      <p><b>WhatsApp:</b> ${escapeHTML(app.whatsapp_number)}</p>
-      <p><b>Application date:</b> ${escapeHTML(formatDate(app.created_at))}</p>
-      <p><b>Status:</b> <span class="status pending">PENDING</span></p>
-      <div class="application-actions">
-        <button class="btn btn-primary" onclick="reviewApplication('${app.id}','approved')">Approve</button>
-        <button class="btn btn-danger" onclick="reviewApplication('${app.id}','rejected')">Reject</button>
-      </div>
-    </div>`).join("");
-}
-
-async function reviewApplication(id,decision) {
-  if(!isAdmin())return alert("Administrator access required.");
-  if(!["approved","rejected"].includes(decision))return;
-
-  const action=decision==="approved"?"approve":"reject";
-  if(!confirm(`Are you sure you want to ${action} this seller application?`))return;
-
-  const {data,error}=await supabaseClient.rpc("review_seller_application",{
-    application_id:id,decision
-  });
-
-  if(error) {
-    console.error("Application review error:",error);
-    return alert("Could not review application: "+error.message);
-  }
-
-  alert(data||"Application reviewed successfully.");
-  await loadApplications();
-  await refreshAdminDashboard();
-}
-
-/* ADMIN ORDERS AND PAYMENTS */
-async function loadAdminOrders() {
-  if(!isAdmin())return;
-  const box=document.getElementById("ordersList");
-  box.innerHTML='<div class="empty">Loading orders...</div>';
-
-  const {data,error}=await supabaseClient.from("orders")
-    .select("id,user_id,reference,amount,currency,items,status,created_at,paid_at")
-    .order("created_at",{ascending:false}).limit(200);
-
-  if(error) {
-    console.error("Orders loading error:",error);
-    box.innerHTML='<div class="empty">Could not load orders. Check the orders RLS policy.</div>';
-    return;
-  }
-
-  adminOrders=data||[];
-  if(!adminOrders.length) {
-    box.innerHTML='<div class="empty">No orders have been recorded yet.</div>';
-    return;
-  }
-
-  box.innerHTML=`<div class="admin-table-wrap"><table class="admin-table" id="ordersDataTable">
-    <thead><tr><th>Reference</th><th>Customer ID</th><th>Amount stored</th><th>Currency</th><th>Status</th><th>Order date</th><th>Paid date</th></tr></thead>
-    <tbody>${adminOrders.map(o=>`<tr>
-      <td>${escapeHTML(o.reference)}</td>
-      <td>${escapeHTML(o.user_id)}</td>
-      <td>${escapeHTML(o.amount)}</td>
-      <td>${escapeHTML(o.currency)}</td>
-      <td><span class="status ${safeStatus(o.status)}">${escapeHTML(String(o.status||"unknown").toUpperCase())}</span></td>
-      <td>${escapeHTML(formatDate(o.created_at))}</td>
-      <td>${escapeHTML(formatDate(o.paid_at))}</td>
-    </tr>`).join("")}</tbody></table></div>`;
-}
-
-/* ADMIN REVIEWS */
-async function loadAdminReviews() {
-  if(!isAdmin())return;
-  const box=document.getElementById("reviewsList");
-  box.innerHTML='<div class="empty">Loading reviews...</div>';
-
-  const {data,error}=await supabaseClient.from("reviews")
-    .select("id,product_id,customer_name,rating,comment,status,created_at")
-    .order("created_at",{ascending:false});
-
-  if(error) {
-    console.error("Reviews loading error:",error);
-    box.innerHTML='<div class="empty">Could not load reviews. Check review permissions.</div>';
-    return;
-  }
-
-  adminReviews=data||[];
-  if(!adminReviews.length) {
-    box.innerHTML='<div class="empty">No reviews found.</div>';
-    return;
-  }
-
-  box.innerHTML=`<div class="admin-table-wrap"><table class="admin-table" id="reviewsDataTable">
-    <thead><tr><th>Customer</th><th>Product ID</th><th>Rating</th><th>Comment</th><th>Status</th><th>Actions</th></tr></thead>
-    <tbody>${adminReviews.map(r=>`<tr>
-      <td>${escapeHTML(r.customer_name)}</td>
-      <td>${escapeHTML(r.product_id)}</td>
-      <td>${escapeHTML(r.rating)}/5</td>
-      <td>${escapeHTML(r.comment||"—")}</td>
-      <td><span class="status ${safeStatus(r.status)}">${escapeHTML(String(r.status).toUpperCase())}</span></td>
-      <td class="admin-actions">
-        ${r.status!=="approved"?`<button class="btn btn-primary" onclick="moderateReview('${r.id}','approved')">Approve</button>`:""}
-        ${r.status!=="rejected"?`<button class="btn btn-danger" onclick="moderateReview('${r.id}','rejected')">Reject</button>`:""}
-      </td>
-    </tr>`).join("")}</tbody></table></div>`;
-}
-
-async function moderateReview(id,status) {
-  if(!isAdmin())return;
-  if(!["approved","rejected"].includes(status))return;
-  const {error}=await supabaseClient.from("reviews").update({status}).eq("id",id);
-  if(error) {
-    console.error("Review moderation error:",error);
-    return alert("Could not update review: "+error.message);
-  }
-  await loadAdminReviews();
-  await refreshAdminDashboard();
-}
-
-/* ADMIN TABLE SEARCH */
-function filterAdminTable(containerId,inputId) {
-  const query=(document.getElementById(inputId)?.value||"").toLowerCase();
-  const container=document.getElementById(containerId);
-  if(!container)return;
-  const table=container.querySelector("table");
-  if(!table)return;
-  table.querySelectorAll("tbody tr").forEach(row=>{
-    row.style.display=row.textContent.toLowerCase().includes(query)?"":"none";
-  });
+async function toggleWishlist(id){
+ if(!currentUser)return showAuth("login");
+ const exists=wishlistedIds.has(String(id));
+ const result=exists
+ ?await supabaseClient.from("wishlists").delete().eq("user_id",currentUser.id).eq("product_id",id)
+ :await supabaseClient.from("wishlists").insert({user_id:currentUser.id,product_id:id});
+ if(result.error)return alert("Wishlist update failed: "+result.error.message);
+ await loadWishlist();
+ if($("page-wishlist").classList.contains("active"))await loadWishlist();
 }
 
 /* CART */
-function addToCart(id) {
-  if(!currentUser)return showAuth("login");
-  const product=products.find(p=>String(p.id)===String(id));
-  if(!product)return alert("This product is no longer available.");
-
-  const item=cart.find(x=>String(x.id)===String(id));
-  if(item) {
-    if(item.qty>=10)return alert("Maximum quantity per product is 10.");
-    item.qty++;
-  } else {
-    cart.push({id:String(id),qty:1});
-  }
-
-  saveCart();
-  renderCart();
-  alert("Product added to your cart.");
+function saveCart(){localStorage.setItem("hm_cart",JSON.stringify(cart));updatePayButton()}
+function updatePayButton(){if($("payCartButton"))$("payCartButton").disabled=!currentUser||cart.length===0}
+function addToCart(id){
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return alert("Product is unavailable.");
+ const item=cart.find(x=>String(x.id)===String(id));
+ if(item){if(item.qty>=10)return alert("Maximum quantity is 10.");item.qty++}else cart.push({id:String(id),qty:1});
+ saveCart();renderCart();alert("Added to cart.");
 }
-function saveCart() {
-  localStorage.setItem("hm_cart",JSON.stringify(cart));
-  updatePayButton();
+function renderCart(){
+ const box=$("cartContents");if(!box)return;let total=0,rows=[];
+ cart.forEach(item=>{
+  const p=products.find(x=>String(x.id)===String(item.id));if(!p)return;
+  total+=Number(p.price)*item.qty;
+  rows.push(`<div class="cart-row"><div><b>${esc(p.name)}</b><p>${money(p.price)} each</p></div><div class="cart-actions"><button onclick="changeQty('${esc(p.id)}',-1)">−</button><b>${item.qty}</b><button onclick="changeQty('${esc(p.id)}',1)">+</button><button onclick="removeItem('${esc(p.id)}')">✕</button></div></div>`);
+ });
+ box.innerHTML=rows.join("")||'<div class="empty">Your cart is empty.</div>';
+ $("cartTotal").textContent=money(total);updatePayButton();
 }
-function updatePayButton() {
-  const button=document.getElementById("payCartButton");
-  if(button)button.disabled=!currentUser||cart.length===0;
-}
-function renderCart() {
-  const box=document.getElementById("cartContents");
-  if(!box)return;
-  let total=0;
-  const rows=[];
+function changeQty(id,delta){const item=cart.find(x=>x.id===String(id));if(!item)return;item.qty+=delta;if(item.qty<=0)return removeItem(id);if(item.qty>10)item.qty=10;saveCart();renderCart()}
+function removeItem(id){cart=cart.filter(x=>x.id!==String(id));saveCart();renderCart()}
+function sendOrder(){alert("WhatsApp ordering is not configured. Add your official business WhatsApp number before enabling this option.")}
 
-  cart.forEach(item=>{
-    const p=products.find(x=>String(x.id)===String(item.id));
-    if(!p)return;
-    const price=Number(p.price);
-    if(!Number.isFinite(price)||price<0)return;
-    total+=price*item.qty;
-    const safeId=String(p.id).replace(/[^a-zA-Z0-9_-]/g,"");
-
-    rows.push(`<div class="cart-row">
-      <div><strong>${escapeHTML(p.name)}</strong><p>GH₵${price.toFixed(2)} each</p></div>
-      <div class="cart-actions">
-        <button type="button" onclick="changeQty('${safeId}',-1)">−</button>
-        <b>${item.qty}</b>
-        <button type="button" onclick="changeQty('${safeId}',1)">+</button>
-        <button type="button" onclick="removeItem('${safeId}')">✕</button>
-      </div>
-    </div>`);
-  });
-
-  box.innerHTML=rows.length?rows.join(""):'<div class="empty">Your shopping cart is empty. Add products from the Marketplace.</div>';
-  document.getElementById("cartTotal").textContent="GH₵"+total.toFixed(2);
-  updatePayButton();
+/* PAYSTACK */
+async function payForCart(){
+ if(!currentUser||!cart.length)return alert("Sign in and add products before checkout.");
+ const button=$("payCartButton");button.disabled=true;button.textContent="Connecting to Paystack...";
+ try{
+  const items=cart.map(x=>({product_id:String(x.id),quantity:Number(x.qty)}));
+  const {data,error}=await supabaseClient.functions.invoke("initialize-payment",{body:{items}});
+  if(error)throw new Error(error.message||"Payment initialization failed.");
+  if(!data?.success||!data.checkout_url)throw new Error(data?.error||"No checkout URL was returned.");
+  const url=new URL(data.checkout_url);
+  if(url.protocol!=="https:"||url.hostname!=="checkout.paystack.com")throw new Error("Invalid checkout URL.");
+  location.assign(url.href);
+ }catch(e){console.error(e);alert(e.message);button.disabled=false;button.textContent="💳 Pay with Paystack"}
 }
-function changeQty(id,amount) {
-  const item=cart.find(x=>String(x.id)===String(id));
-  if(!item)return;
-  item.qty+=amount;
-  if(item.qty<=0)return removeItem(id);
-  if(item.qty>10){item.qty=10;alert("Maximum quantity per product is 10.");}
-  saveCart();
-  renderCart();
-}
-function removeItem(id) {
-  cart=cart.filter(x=>String(x.id)!==String(id));
-  saveCart();
-  renderCart();
+async function handlePaystackReturn(){
+ if(paymentVerificationRunning)return;
+ const url=new URL(location.href);if(url.searchParams.get("payment")!=="verify")return;
+ const reference=url.searchParams.get("reference")||url.searchParams.get("trxref");
+ if(!reference)return alert("Payment reference is missing.");
+ paymentVerificationRunning=true;
+ try{
+  const {data,error}=await supabaseClient.functions.invoke("verify-payment",{body:{reference}});
+  if(error)throw error;
+  if(data?.success&&(data.status==="paid"||data.verified===true)){
+   cart=[];saveCart();renderCart();alert("Payment verified successfully. Thank you for shopping with Heaven's Mart!");
+   await loadCustomerOrders();
+  }else alert(data?.message||"Payment is not confirmed. Your cart has been preserved.");
+ }catch(e){console.error(e);alert("Payment verification could not be completed. Please contact support.")}
+ finally{
+  ["payment","reference","trxref"].forEach(k=>url.searchParams.delete(k));
+  history.replaceState({},document.title,url.pathname+url.search+url.hash);paymentVerificationRunning=false;
+ }
 }
 
-/* WHATSAPP ORDER */
-function sendOrder() {
-  if(!cart.length)return alert("Your cart is empty.");
-  alert("WhatsApp ordering is not configured yet. Add and verify the official Heaven's Mart WhatsApp number before enabling this feature.");
+/* CUSTOMER ORDERS AND TRACKING */
+async function loadCustomerOrders(){
+ const box=$("customerOrders");box.innerHTML='<div class="empty">Loading your orders...</div>';
+ const {data,error}=await supabaseClient.from("orders").select("id,reference,amount,currency,items,status,created_at,paid_at,delivery_status,tracking_note,updated_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){console.error(error);box.innerHTML='<div class="empty">Could not load orders. Check the customer orders SELECT policy in Supabase.</div>';return}
+ if(!data?.length){box.innerHTML='<div class="empty">You have not placed any orders yet.</div>';return}
+ box.innerHTML=data.map(o=>`<article class="item-card"><h3>Order ${esc(o.reference||o.id)}</h3>
+ <p>Payment: <span class="status ${statusClass(o.status)}">${esc(o.status||"pending")}</span></p>
+ <p>Delivery: <span class="status ${statusClass(o.delivery_status||"processing")}">${esc(o.delivery_status||"processing")}</span></p>
+ <p>Amount recorded: ${esc(o.currency||"")} ${esc(o.amount)}</p><p>Placed: ${esc(dateText(o.created_at))}</p>
+ <p>Tracking update: ${esc(o.tracking_note||"No tracking update yet.")}</p>
+ <p>Last updated: ${esc(dateText(o.updated_at||o.paid_at))}</p></article>`).join("");
 }
 
-/* PAYSTACK CHECKOUT */
-async function payForCart() {
-  const button=document.getElementById("payCartButton");
-  if(!supabaseClient||!currentUser)return alert("Please sign in before making a payment.");
-  if(!cart.length)return alert("Your shopping cart is empty.");
-
-  const items=cart.map(item=>({product_id:String(item.id),quantity:Number(item.qty)}));
-  if(items.some(item=>!item.product_id||!Number.isInteger(item.quantity)||item.quantity<1||item.quantity>10))
-    return alert("Your cart contains an invalid item. Please review it.");
-
-  button.disabled=true;
-  button.textContent="Connecting to Paystack...";
-
-  try {
-    const {data,error}=await supabaseClient.functions.invoke("initialize-payments",{body:{items}});
-    if(error) {
-      let detail=error.message||"Payment request failed.";
-      try {
-        if(error.context&&typeof error.context.json==="function") {
-          const body=await error.context.json();
-          if(body.error)detail=body.error;
-        }
-      } catch(_) {}
-      throw new Error(detail);
-    }
-
-    if(!data?.success||!data.checkout_url)
-      throw new Error(data?.error||"Paystack did not return a checkout link.");
-
-    const checkoutURL=new URL(data.checkout_url);
-    if(checkoutURL.protocol!=="https:"||checkoutURL.hostname!=="checkout.paystack.com")
-      throw new Error("Invalid Paystack checkout URL.");
-
-    window.location.assign(checkoutURL.href);
-
-  } catch(error) {
-    console.error("Paystack checkout error:",error);
-    alert(error.message||"Payment could not be started. Please try again.");
-    button.disabled=false;
-    button.textContent="💳 Pay with Paystack";
-  }
+/* NOTIFICATIONS */
+async function loadNotifications(){
+ if(!currentUser)return;
+ const box=$("customerNotifications");
+ const {data,error}=await supabaseClient.from("notifications").select("id,title,message,is_read,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(100);
+ if(error){console.error(error);box.innerHTML='<div class="empty">Could not load notifications. Check notification permissions.</div>';return}
+ const unread=(data||[]).filter(n=>!n.is_read).length;
+ $("notificationCount").textContent=unread;$("notificationCount").classList.toggle("hidden",unread===0);
+ box.innerHTML=data?.length?data.map(n=>`<article class="item-card"><h3>${esc(n.title)}</h3><p>${esc(n.message)}</p><p>${esc(dateText(n.created_at))} · ${n.is_read?"Read":"Unread"}</p>${!n.is_read?`<button class="btn btn-blue" onclick="markNotificationRead('${n.id}')">Mark as read</button>`:""}</article>`).join(""):'<div class="empty">You have no notifications.</div>';
+}
+async function markNotificationRead(id){
+ const {error}=await supabaseClient.from("notifications").update({is_read:true}).eq("id",id).eq("user_id",currentUser.id);
+ if(error)return alert("Could not update notification: "+error.message);
+ await loadNotifications();
 }
 
-/* VERIFY PAYMENT AFTER RETURN */
-async function handlePaystackReturn() {
-  if(!supabaseClient||!currentUser||paymentVerificationRunning)return;
-
-  const url=new URL(window.location.href);
-  if(url.searchParams.get("payment")!=="verify")return;
-
-  const reference=url.searchParams.get("reference")||url.searchParams.get("trxref");
-  if(!reference) {
-    alert("Payment reference is missing. Please contact support.");
-    return;
-  }
-
-  paymentVerificationRunning=true;
-
-  try {
-    const {data,error}=await supabaseClient.functions.invoke("verify-payment",{body:{reference}});
-    if(error)throw new Error(error.message||"Payment verification failed.");
-
-    if(data?.success&&(data?.status==="paid"||data?.verified===true)) {
-      cart=[];
-      saveCart();
-      renderCart();
-      url.searchParams.delete("payment");
-      url.searchParams.delete("reference");
-      url.searchParams.delete("trxref");
-      window.history.replaceState({},document.title,url.pathname+url.search+url.hash);
-      alert("Payment successfully verified. Thank you for shopping with Heaven's Mart!");
-      if(isAdmin())await loadAdminOrders();
-    } else {
-      alert(data?.message||"Your payment has not been confirmed yet. Your cart has been preserved.");
-    }
-  } catch(error) {
-    console.error("Payment verification error:",error);
-    alert("We could not verify your payment right now. Your cart has been preserved. Please contact support.");
-  } finally {
-    paymentVerificationRunning=false;
-  }
+/* CUSTOMER SUPPORT */
+$("supportForm").addEventListener("submit",async e=>{
+ e.preventDefault();const button=$("supportSubmitButton");button.disabled=true;
+ const {error}=await supabaseClient.from("support_tickets").insert({user_id:currentUser.id,subject:$("supportSubject").value.trim(),message:$("supportMessage").value.trim(),status:"open"});
+ button.disabled=false;
+ if(error)return msg("supportMsg",error.message);
+ $("supportForm").reset();msg("supportMsg","Your support request has been sent.","success");await loadMyTickets();
+});
+async function loadMyTickets(){
+ const box=$("myTickets");
+ const {data,error}=await supabaseClient.from("support_tickets").select("id,subject,message,status,admin_reply,created_at,updated_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){box.innerHTML='<div class="empty">Could not load support requests.</div>';return}
+ box.innerHTML=data?.length?data.map(t=>`<article class="item-card"><h3>${esc(t.subject)}</h3><p>${esc(t.message)}</p><p>Status: <span class="status ${statusClass(t.status)}">${esc(t.status)}</span></p><p>Support reply: ${esc(t.admin_reply||"Awaiting response.")}</p><p>${esc(dateText(t.created_at))}</p></article>`).join(""):'<div class="empty">You have not contacted support yet.</div>';
 }
 
-/* SEARCH */
-document.getElementById("searchInput").addEventListener("input",()=>renderProducts("catalogGrid"));
+/* SELLER APPLICATION */
+async function loadSellerApplicationStatus(){
+ if(isSeller()||isAdmin()){$("sellerApplicationArea").classList.add("hidden");return}
+ const {data,error}=await supabaseClient.from("seller_applications").select("status").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
+ if(error){console.error(error);return}
+ if(!data){$("sellerApplicationStatus").textContent="You have not applied yet.";return}
+ $("sellerApplicationStatus").textContent="Application status: "+String(data.status).toUpperCase();
+ $("applySellerButton").classList.toggle("hidden",data.status==="pending"||data.status==="approved");
+}
+$("sellerApplicationForm").addEventListener("submit",async e=>{
+ e.preventDefault();const whatsapp=$("sellerWhatsApp").value.trim();
+ if(whatsapp.replace(/\D/g,"").length<9)return msg("applicationMsg","Enter a valid WhatsApp number.");
+ const {error}=await supabaseClient.from("seller_applications").insert({user_id:currentUser.id,business_name:$("businessName").value.trim(),whatsapp_number:whatsapp,status:"pending"});
+ if(error)return msg("applicationMsg",error.message);
+ msg("applicationMsg","Application submitted successfully.","success");await loadSellerApplicationStatus();
+});
+
+/* SELLER PRODUCTS */
+async function loadSellerProducts(){
+ if(!isSeller())return;
+ const {data,error}=await supabaseClient.from("products").select("*").eq("seller_id",currentUser.id).order("created_at",{ascending:false});
+ if(error){$("sellerProductGrid").innerHTML='<div class="empty">Could not load products.</div>';return}
+ sellerProducts=data||[];
+ $("sellerProductGrid").innerHTML=sellerProducts.length?sellerProducts.map(p=>`<article class="product-card"><div class="product-info"><h3>${esc(p.name)}</h3><p>${esc(p.category)}</p><p>${money(p.price)}</p><span class="status ${p.is_active?"active":"inactive"}">${p.is_active?"ACTIVE":"INACTIVE"}</span><div class="product-management"><button class="btn btn-blue" onclick="editProduct('${p.id}')">Edit</button><button class="btn btn-primary" onclick="toggleProduct('${p.id}',${!p.is_active})">${p.is_active?"Deactivate":"Activate"}</button><button class="btn btn-danger" onclick="deleteProduct('${p.id}')">Delete</button></div></div></article>`).join(""):'<div class="empty">You have not listed products yet.</div>';
+ const {data:badge}=await supabaseClient.from("hm_seller_badges").select("is_verified").eq("seller_id",currentUser.id).maybeSingle();
+ $("sellerVerificationStatus").textContent=badge?.is_verified?"Your seller account is verified.":"Your seller account is not verified yet.";
+}
+$("productForm").addEventListener("submit",async e=>{
+ e.preventDefault();if(!isSeller())return;
+ const id=$("editProductId").value;
+ const payload={name:$("productName").value.trim(),category:$("productCategory").value,price:Number($("productPrice").value),description:$("productDescription").value.trim(),image_url:$("productImage").value.trim()||null};
+ if(!payload.name||!payload.category||!payload.description||!Number.isFinite(payload.price)||payload.price<=0)return msg("productMsg","Enter valid product details.");
+ if(payload.image_url&&!/^https:\/\//i.test(payload.image_url))return msg("productMsg","Image URL must use HTTPS.");
+ const result=id?await supabaseClient.from("products").update(payload).eq("id",id).eq("seller_id",currentUser.id):await supabaseClient.from("products").insert({...payload,seller_id:currentUser.id,is_active:true});
+ if(result.error)return msg("productMsg",result.error.message);
+ resetProductForm();msg("productMsg","Product saved successfully.","success");await loadSellerProducts();await loadProducts();
+});
+function editProduct(id){
+ const p=sellerProducts.find(x=>String(x.id)===String(id));if(!p)return;
+ $("editProductId").value=p.id;$("productName").value=p.name;$("productCategory").value=p.category;$("productPrice").value=p.price;$("productDescription").value=p.description;$("productImage").value=p.image_url||"";
+ $("productForm").scrollIntoView({behavior:"smooth"});
+}
+function resetProductForm(){$("productForm").reset();$("editProductId").value=""}
+async function toggleProduct(id,active){
+ const {error}=await supabaseClient.from("products").update({is_active:active}).eq("id",id).eq("seller_id",currentUser.id);
+ if(error)return alert(error.message);await loadSellerProducts();await loadProducts();
+}
+async function deleteProduct(id){
+ if(!confirm("Delete this product?"))return;
+ const {error}=await supabaseClient.from("products").delete().eq("id",id).eq("seller_id",currentUser.id);
+ if(error)return alert(error.message);await loadSellerProducts();await loadProducts();
+}
+
+/* ADMIN */
+function showAdminTab(tab){
+ if(!isAdmin())return;
+ document.querySelectorAll(".admin-tab").forEach(x=>x.classList.toggle("active",x.dataset.tab===tab));
+ document.querySelectorAll(".admin-panel").forEach(x=>x.classList.remove("active"));
+ $("admin-"+tab).classList.add("active");
+ const f={overview:refreshAdminDashboard,customers:loadAdminCustomers,sellers:loadAdminSellers,products:loadAdminProducts,applications:loadApplications,orders:loadAdminOrders,reviews:loadAdminReviews,tickets:loadAdminTickets};
+ if(f[tab])f[tab]();
+}
+async function refreshAdminDashboard(){
+ if(!isAdmin())return;
+ const results=await Promise.all([
+  supabaseClient.from("profiles").select("id,role,is_active,is_approved"),
+  supabaseClient.from("products").select("id"),
+  supabaseClient.from("orders").select("id,status"),
+  supabaseClient.from("seller_applications").select("id,status"),
+  supabaseClient.from("reviews").select("id,status")
+ ]);
+ if(results.some(x=>x.error)){msg("adminOverviewMsg","Some statistics could not be loaded.");return}
+ const [p,pr,o,a,r]=results.map(x=>x.data||[]);
+ $("statCustomers").textContent=p.filter(x=>x.role==="customer").length;
+ $("statSellers").textContent=p.filter(x=>x.role==="seller").length;
+ $("statProducts").textContent=pr.length;$("statOrders").textContent=o.length;
+ $("statApplications").textContent=a.filter(x=>x.status==="pending").length;
+ $("statReviews").textContent=r.filter(x=>x.status==="pending").length;
+ $("statPaidOrders").textContent=o.filter(x=>x.status==="paid").length;
+ $("statInactive").textContent=p.filter(x=>x.is_active===false).length;
+ msg("adminOverviewMsg","Dashboard updated.","success");
+}
+async function loadAdminCustomers(){
+ const box=$("customerTable");box.innerHTML="Loading...";
+ const {data,error}=await supabaseClient.from("profiles").select("id,display_name,role,is_active,created_at").eq("role","customer").order("created_at",{ascending:false});
+ if(error){box.textContent=error.message;return}
+ box.innerHTML=data?.length?`<div class="admin-table-wrap"><table class="admin-table"><tr><th>Name</th><th>User ID</th><th>Status</th><th>Action</th></tr>${data.map(p=>`<tr><td>${esc(p.display_name)}</td><td>${esc(p.id)}</td><td>${p.is_active?"Active":"Suspended"}</td><td><button class="btn ${p.is_active?"btn-danger":"btn-primary"}" onclick="setProfileActive('${p.id}',${!p.is_active})">${p.is_active?"Suspend":"Activate"}</button></td></tr>`).join("")}</table></div>`:'<div class="empty">No customers found.</div>';
+}
+async function loadAdminSellers(){
+ const box=$("sellerTable");box.innerHTML="Loading...";
+ const {data,error}=await supabaseClient.from("profiles").select("id,display_name,role,is_approved,is_active,is_verified").eq("role","seller").order("created_at",{ascending:false});
+ if(error){box.textContent=error.message;return}
+ box.innerHTML=data?.length?`<div class="admin-table-wrap"><table class="admin-table"><tr><th>Seller</th><th>Approval</th><th>Verification</th><th>Account</th><th>Actions</th></tr>${data.map(p=>`<tr><td>${esc(p.display_name||"Seller")}</td><td>${p.is_approved?"Approved":"Not approved"}</td><td>${p.is_verified?"Verified":"Not verified"}</td><td>${p.is_active?"Active":"Suspended"}</td><td><button class="btn btn-primary" onclick="setSellerVerified('${p.id}',${!p.is_verified})">${p.is_verified?"Remove badge":"Verify seller"}</button><button class="btn btn-blue" onclick="setProfileActive('${p.id}',${!p.is_active})">${p.is_active?"Suspend":"Activate"}</button></td></tr>`).join("")}</table></div>`:'<div class="empty">No sellers found.</div>';
+}
+async function setSellerVerified(id,verified){
+ if(!isAdmin())return;
+ const {data,error}=await supabaseClient.rpc("hm_set_seller_verified",{target_seller_id:id,verified});
+ if(error)return alert("Verification update failed: "+error.message);
+ alert(data?"Seller verification updated.":"Seller was not found.");await loadAdminSellers();
+}
+async function setProfileActive(id,active){
+ if(!isAdmin()||(id===currentUser.id&&!active))return alert("You cannot suspend your own administrator account.");
+ if(!confirm("Change this account's active status?"))return;
+ const {error}=await supabaseClient.from("profiles").update({is_active:active}).eq("id",id);
+ if(error)return alert(error.message);await loadAdminCustomers();await loadAdminSellers();await refreshAdminDashboard();
+}
+async function loadAdminProducts(){
+ const box=$("adminProductTable");box.innerHTML="Loading...";
+ const {data,error}=await supabaseClient.from("products").select("id,name,category,price,is_active").order("created_at",{ascending:false});
+ if(error){box.textContent=error.message;return}
+ box.innerHTML=data?.length?`<div class="admin-table-wrap"><table class="admin-table"><tr><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Action</th></tr>${data.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.category)}</td><td>${money(p.price)}</td><td>${p.is_active?"Active":"Inactive"}</td><td><button class="btn btn-primary" onclick="adminToggleProduct('${p.id}',${!p.is_active})">${p.is_active?"Deactivate":"Activate"}</button><button class="btn btn-danger" onclick="adminDeleteProduct('${p.id}')">Delete</button></td></tr>`).join("")}</table></div>`:'<div class="empty">No products found.</div>';
+}
+async function adminToggleProduct(id,active){
+ const {error}=await supabaseClient.from("products").update({is_active:active}).eq("id",id);
+ if(error)return alert(error.message);await loadAdminProducts();await loadProducts();
+}
+async function adminDeleteProduct(id){
+ if(!confirm("Permanently delete this product?"))return;
+ const {error}=await supabaseClient.from("products").delete().eq("id",id);
+ if(error)return alert(error.message);await loadAdminProducts();await loadProducts();
+}
+async function loadApplications(){
+ const box=$("applicationsList");box.innerHTML="Loading...";
+ const {data,error}=await supabaseClient.from("seller_applications").select("id,user_id,business_name,whatsapp_number,status,created_at").eq("status","pending").order("created_at");
+ if(error){box.textContent=error.message;return}
+ box.innerHTML=data?.length?data.map(a=>`<article class="application-card"><h3>${esc(a.business_name)}</h3><p>WhatsApp: ${esc(a.whatsapp_number)}</p><p>Applicant: ${esc(a.user_id)}</p><p>Submitted: ${esc(dateText(a.created_at))}</p><div class="application-actions"><button class="btn btn-primary" onclick="reviewApplication('${a.id}','approved')">Approve</button><button class="btn btn-danger" onclick="reviewApplication('${a.id}','rejected')">Reject</button></div></article>`).join(""):'<div class="empty">No pending applications.</div>';
+}
+async function reviewApplication(id,decision){
+ if(!confirm("Confirm "+decision+" this application?"))return;
+ const {data,error}=await supabaseClient.rpc("review_seller_application",{application_id:id,decision});
+ if(error)return alert(error.message);alert(data||"Application updated.");await loadApplications();await refreshAdminDashboard();
+}
+
+/* ADMIN ORDERS AND DELIVERY TRACKING */
+async function loadAdminOrders(){
+ const box=$("ordersList");box.innerHTML="Loading orders...";
+ const {data,error}=await supabaseClient.from("orders").select("id,user_id,reference,amount,currency,status,created_at,delivery_status,tracking_note").order("created_at",{ascending:false}).limit(200);
+ if(error){box.innerHTML='<div class="empty">Could not load orders. Check admin orders policies.</div>';return}
+ box.innerHTML=data?.length?data.map(o=>`<article class="item-card"><h3>Order ${esc(o.reference||o.id)}</h3><p>Customer: ${esc(o.user_id)}</p><p>Payment: ${esc(o.status)} · ${esc(o.currency||"")} ${esc(o.amount)}</p><p>Delivery: ${esc(o.delivery_status||"processing")}</p><p>Created: ${esc(dateText(o.created_at))}</p><div class="field"><label>Delivery status</label><select id="delivery-${o.id}"><option value="processing">Processing</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select></div><div class="field"><label>Tracking note</label><textarea id="tracking-${o.id}" rows="2">${esc(o.tracking_note||"")}</textarea></div><button class="btn btn-primary" onclick="updateTracking('${o.id}')">Save tracking update</button></article>`).join(""):'<div class="empty">No orders found.</div>';
+ data?.forEach(o=>{const s=$("delivery-"+o.id);if(s)s.value=o.delivery_status||"processing"});
+}
+async function updateTracking(id){
+ const delivery_status=$("delivery-"+id).value;
+ const tracking_note=$("tracking-"+id).value.trim();
+ const {error}=await supabaseClient.from("orders").update({delivery_status,tracking_note,updated_at:new Date().toISOString()}).eq("id",id);
+ if(error)return alert("Tracking update failed: "+error.message);
+ alert("Delivery tracking updated.");await loadAdminOrders();
+}
+
+/* ADMIN REVIEWS */
+async function loadAdminReviews(){
+ const box=$("reviewsList");box.innerHTML="Loading...";
+ const {data,error}=await supabaseClient.from("reviews").select("id,product_id,customer_name,rating,comment,status,created_at").order("created_at",{ascending:false});
+ if(error){box.textContent=error.message;return}
+ box.innerHTML=data?.length?data.map(r=>`<article class="item-card"><h3>${esc(r.customer_name)} · ${esc(r.rating)}/5</h3><p>${esc(r.comment)}</p><p>Status: ${esc(r.status)}</p><div class="inline-actions"><button class="btn btn-primary" onclick="moderateReview('${r.id}','approved')">Approve</button><button class="btn btn-danger" onclick="moderateReview('${r.id}','rejected')">Reject</button></div></article>`).join(""):'<div class="empty">No reviews found.</div>';
+}
+async function moderateReview(id,status){
+ const {error}=await supabaseClient.from("reviews").update({status}).eq("id",id);
+ if(error)return alert(error.message);await loadAdminReviews();await refreshAdminDashboard();
+}
+
+/* ADMIN SUPPORT TICKETS */
+async function loadAdminTickets(){
+ const box=$("adminTickets");box.innerHTML="Loading tickets...";
+ const {data,error}=await supabaseClient.from("support_tickets").select("id,user_id,subject,message,status,admin_reply,created_at").order("created_at",{ascending:false});
+ if(error){box.innerHTML='<div class="empty">Could not load support tickets. Check admin support policies.</div>';return}
+ box.innerHTML=data?.length?data.map(t=>`<article class="item-card"><h3>${esc(t.subject)}</h3><p>Customer ID: ${esc(t.user_id)}</p><p>${esc(t.message)}</p><p>Status: ${esc(t.status)}</p><div class="field"><label>Reply to customer</label><textarea id="reply-${t.id}" rows="2">${esc(t.admin_reply||"")}</textarea></div><div class="field"><label>Ticket status</label><select id="ticket-status-${t.id}"><option>open</option><option>in_progress</option><option>resolved</option><option>closed</option></select></div><button class="btn btn-primary" onclick="replyTicket('${t.id}')">Save reply</button></article>`).join(""):'<div class="empty">No support tickets.</div>';
+ data?.forEach(t=>{const s=$("ticket-status-"+t.id);if(s)s.value=t.status});
+}
+async function replyTicket(id){
+ const admin_reply=$("reply-"+id).value.trim(),status=$("ticket-status-"+id).value;
+ const {error}=await supabaseClient.from("support_tickets").update({admin_reply,status,updated_at:new Date().toISOString()}).eq("id",id);
+ if(error)return alert(error.message);alert("Support reply saved.");
+}
+
+/* ADMIN NOTIFICATIONS */
+$("adminNotificationForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const {error}=await supabaseClient.from("notifications").insert({user_id:$("notifyUserId").value.trim(),title:$("notifyTitle").value.trim(),message:$("notifyMessage").value.trim(),is_read:false});
+ if(error)return msg("notifyMsg",error.message);
+ $("adminNotificationForm").reset();msg("notifyMsg","Notification sent successfully.","success");
+});
 
 /* START */
 init();
 </script>
-
 </body>
 </html>
